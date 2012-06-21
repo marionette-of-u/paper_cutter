@@ -1,9 +1,20 @@
-template<class InputIter>
-std::pair<bool, InputIter> reg_test(InputIter first, InputIter last){
-    InputIter iter = first;
-    bool match = true;
-    if(iter == last){ match = false; }else{
-        InputIter iter_prime = iter;
+#ifndef PUT_PROTO_HPP_
+#define PUT_PROTO_HPP_
+
+#include <utility>
+
+namespace test{
+
+enum token{
+    token_reg_test
+};
+
+class lexer{
+public:
+    template<class InputIter>
+    static std::pair<bool, InputIter> reg_test(InputIter first, InputIter last){
+        InputIter iter = first;
+        bool match = true;
         if(iter == last){ match = false; }else{ 
             InputIter iter_prime = iter;
             do{
@@ -63,71 +74,83 @@ std::pair<bool, InputIter> reg_test(InputIter first, InputIter last){
                     }while(false);
                 }
                 if(match){ break; }else{ iter = iter_prime; }
+                if(iter == first){ match = true; }else{
+                    InputIter iter_prime = iter;
+                    --iter_prime;
+                    match = *iter_prime == '\n';
+                }
                 if(iter == last){ match = false; }else{
                     InputIter iter_prime = iter;
-                    do{
-                        if(iter != last && *iter == 'd'){
-                            ++iter;
-                            match = true;
-                        }else{ match = false; }
-                        if(!match){
-                            iter = iter_prime;
-                            break;
+                    if(iter == last){ match = false; }else{
+                        InputIter iter_prime = iter;
+                        do{
+                            if(iter != last && *iter == 'd'){
+                                ++iter;
+                                match = true;
+                            }else{ match = false; }
+                            if(!match){
+                                iter = iter_prime;
+                                break;
+                            }
+                            if(iter != last && *iter == 'e'){
+                                ++iter;
+                                match = true;
+                            }else{ match = false; }
+                            if(!match){
+                                iter = iter_prime;
+                                break;
+                            }
+                            if(iter != last && *iter == 'f'){
+                                ++iter;
+                                match = true;
+                            }else{ match = false; }
+                            if(!match){
+                                iter = iter_prime;
+                                break;
+                            }
+                        }while(false);
+                    }
+                    if(match){
+                        if(iter == last){ match = false; }else{
+                            InputIter iter_prime = iter;
+                            do{
+                                if(iter != last && *iter == 'g'){
+                                    ++iter;
+                                    match = true;
+                                }else{ match = false; }
+                                if(!match){
+                                    iter = iter_prime;
+                                    break;
+                                }
+                                if(iter != last && *iter == 'h'){
+                                    ++iter;
+                                    match = true;
+                                }else{ match = false; }
+                                if(!match){
+                                    iter = iter_prime;
+                                    break;
+                                }
+                                if(iter != last && *iter == 'i'){
+                                    ++iter;
+                                    match = true;
+                                }else{ match = false; }
+                                if(!match){
+                                    iter = iter_prime;
+                                    break;
+                                }
+                            }while(false);
                         }
-                        if(iter != last && *iter == 'e'){
-                            ++iter;
-                            match = true;
-                        }else{ match = false; }
-                        if(!match){
-                            iter = iter_prime;
-                            break;
-                        }
-                        if(iter != last && *iter == 'f'){
-                            ++iter;
-                            match = true;
-                        }else{ match = false; }
-                        if(!match){
-                            iter = iter_prime;
-                            break;
-                        }
-                    }while(false);
+                        InputIter iter_prime_prime = iter;
+                        if(match){ iter = iter_prime_prime; }else{ iter = iter_prime; }
+                    }
                 }
                 if(!match){ iter = iter_prime; }
             }while(false);
         }
-        if(match){
-            if(iter == last){ match = false; }else{
-                InputIter iter_prime = iter;
-                do{
-                    if(iter != last && *iter == 'g'){
-                        ++iter;
-                        match = true;
-                    }else{ match = false; }
-                    if(!match){
-                        iter = iter_prime;
-                        break;
-                    }
-                    if(iter != last && *iter == 'h'){
-                        ++iter;
-                        match = true;
-                    }else{ match = false; }
-                    if(!match){
-                        iter = iter_prime;
-                        break;
-                    }
-                    if(iter != last && *iter == 'i'){
-                        ++iter;
-                        match = true;
-                    }else{ match = false; }
-                    if(!match){
-                        iter = iter_prime;
-                        break;
-                    }
-                }while(false);
-            }
-            InputIter iter_prime_prime = iter;
-            if(match){ iter = iter_prime_prime; }else{ iter = iter_prime; }
-        }
+        return std::make_pair(match, iter);
     }
-    return std::make_pair(match, iter);
-}
+};
+} // test
+
+#endif // PUT_PROTO_HPP_
+

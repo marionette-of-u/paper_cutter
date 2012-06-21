@@ -16,7 +16,8 @@
     symbol_set_right_bracket<paper_cutter::regexp*>,
     symbol_minus<paper_cutter::regexp*>,
     symbol_comma<paper_cutter::regexp*>,
-    symbol_any_non_metacharacter<paper_cutter::regexp*>;
+    symbol_any_non_metacharacter<paper_cutter::regexp*>,
+    symbol_number<paper_cutter::regexp*>;
 }
 
 <grammar> reg_parser{
@@ -93,10 +94,12 @@
     char_seq<paper_cutter::regexp*>
         : [make_char_seq] char(0)
         | [make_char_seq] char_seq(0) char(1)
+        | [make_char_seq] char_seq(0) symbol_number(1)
         ;
 
     elementary_regexp<paper_cutter::regexp*>
         : [make_elementary_regexp] group(0)
+        | [make_elementary_regexp] other_rule(0)
         | [make_elementary_regexp] any(0)
         | [make_elementary_regexp] after_nline(0)
         | [make_elementary_regexp] eos(0)
@@ -106,6 +109,10 @@
 
     group<paper_cutter::regexp*>
         : [make_group] symbol_left_pare(1) regexp(0) symbol_right_pare(2)
+        ;
+
+    other_rule<paper_cutter::regexp*>
+        : [make_other_rule] symbol_left_brace(1) char_seq(0) symbol_right_brace(2)
         ;
 
     any<paper_cutter::regexp*>
@@ -144,6 +151,7 @@
         | [make_meta_char] symbol_minus(0)
         | [make_meta_char] symbol_comma(0)
         | [make_meta_char] symbol_any_non_metacharacter(0)
+        | [make_meta_char] symbol_number(0)
         ;
 
     set<paper_cutter::regexp*>

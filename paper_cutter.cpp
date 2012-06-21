@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <map>
+#include <list>
 #include <fstream>
 #include <functional>
 #include <string>
@@ -10,6 +12,13 @@
 #include <memory>
 #include <sstream>
 #include <cstring>
+#include <cctype>
+
+namespace paper_cutter{
+    class regexp;
+}
+
+#include "reg_parser.hpp"
 
 namespace paper_cutter{
     class exception : public std::runtime_error{
@@ -589,6 +598,39 @@ namespace paper_cutter{
         virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
             assert(false);
         }
+
+        std::string make_string() const{
+            std::string r;
+            if(v){
+                r = dynamic_cast<regexp_char_seq*>(u)->make_string();
+                r += v->c;
+            }else{
+                r += u->c;
+            }
+            return std::move(r);
+        }
+    };
+
+    class regexp_holder;
+
+    class regexp_other_rule : public regexp{
+    public:
+        regexp_other_rule(regexp_holder *regexp_holder_ptr_) : regexp_holder_ptr(regexp_holder_ptr_){}
+
+        virtual ~regexp_other_rule(){}
+
+        virtual regexp *clone() const{
+            regexp_other_rule *ptr = new regexp_other_rule(regexp_holder_ptr);
+            ptr->c = c;
+            ptr->u = u;
+            ptr->v = v;
+            return ptr;
+        }
+
+        virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const;
+
+    private:
+        regexp_holder *regexp_holder_ptr;
     };
 
     class regexp_range : public regexp{
@@ -719,14 +761,32 @@ namespace paper_cutter{
         }
     };
 
-    class reg_data_type{
+    class reg_data{
     public:
-        reg_data_type(const std::string &rule_name_) :
+        reg_data(regexp_holder *regexp_holder_ptr_, const std::string &rule_name_) :
+            regexp_holder_ptr(regexp_holder_ptr_),
             rule_name(rule_name_),
-            ast(nullptr)
+            ast(nullptr),
+            ref_rule_name(rule_name)
         {}
 
-        ~reg_data_type(){
+        reg_data(const reg_data &other) :
+            regexp_holder_ptr(other.regexp_holder_ptr),
+            rule_name(other.rule_name),
+            ast(other.ast->clone()),
+            ref_rule_name(rule_name)
+        {}
+
+        reg_data(reg_data &&other) :
+            regexp_holder_ptr(std::move(other.regexp_holder_ptr)),
+            rule_name(std::move(other.rule_name)),
+            ast(std::move(other.ast)),
+            ref_rule_name(rule_name)
+        {
+            other.ast = nullptr;
+        }
+            
+        ~reg_data(){
             delete ast;
         }
 
@@ -910,6 +970,15 @@ namespace paper_cutter{
             return ptr;
         }
 
+        regexp *make_other_rule(regexp *a, regexp *b, regexp *c){
+            delete b;
+            delete c;
+            regexp_other_rule *ptr = new regexp_other_rule(regexp_holder_ptr);
+            ptr->u = a;
+            ast = ptr;
+            return ptr;
+        }
+
         regexp *make_any(regexp *a){
             delete a;
             regexp_any *ptr = new regexp_any;
@@ -941,6 +1010,13 @@ namespace paper_cutter{
 
         regexp *make_char(regexp *a, regexp *b){
             delete b;
+            regexp_char *ptr = new regexp_char;
+            ptr->u = a;
+            ast = ptr;
+            return ptr;
+        }
+
+        regexp *make_number(regexp *a){
             regexp_char *ptr = new regexp_char;
             ptr->u = a;
             ast = ptr;
@@ -1004,29 +1080,144 @@ namespace paper_cutter{
             return ptr;
         }
 
-        void generate(std::ostream &os){
-            std::shared_ptr<const indent> ind(new indent_space(1));
-            os
-                << "template<class InputIter>\n"
-                << "std::pair<bool, InputIter> " << rule_name << "(InputIter first, InputIter last){\n"
-                << ind << "InputIter iter = first;\n"
-                << ind << "bool match = true;\n";
-            ast->generate(os, ind);
-            os
-                << ind << "return std::make_pair(match, iter);\n"
-                << "}\n";
+        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+            ast->generate(os, ind_0);
+            //std::shared_ptr<const indent> ind = ind_0->clone(1);
+            //std::shared_ptr<const indent>
+            //    ind_1 = ind_0->nested_clone(),
+            //    ind_2 = ind_1->nested_clone();
+            //os
+            //    << ind_0 << "template<class InputIter>\n"
+            //    << ind_0 << "std::pair<bool, InputIter> " << rule_name << "(InputIter first, InputIter last){\n"
+            //    << ind_0 << ind << "InputIter iter = first;\n"
+            //    << ind_0 << ind << "bool match = true;\n";
+            //ast->generate(os, ind_2);
+            //os
+            //    << ind_0 << ind << "return std::make_pair(match, iter);\n"
+            //    << ind_0 << "}\n";
         }
 
     private:
+        regexp_holder *regexp_holder_ptr;
         std::string rule_name;
         regexp *ast;
+
+    public:
+        const std::string &ref_rule_name;
     };
+
+    class regexp_holder{
+    public:
+        regexp_holder(
+            const std::string &file_name_,
+            const std::string &namespace_a
+        ) : file_name(file_name_), namespace_(namespace_a){}
+
+        template<class InputIter>
+        void add(std::string name, InputIter first, InputIter last){
+            reg_data data(this, name);
+            reg_parser::parser<regexp*, reg_data> parser(data);
+            for(InputIter iter = first; iter != last; ++iter){
+                parser.post(iter->first, iter->second);
+            }
+            parser.post(reg_parser::token_0, nullptr);
+            regexp *ptr;
+            if(!parser.accept(ptr)){
+                std::cout << "parsing error\n";
+            }
+            reg_data_list.push_back(std::move(data));
+            reg_data_map.insert(std::make_pair(name, &reg_data_list.back()));
+        }
+
+        const reg_data &get_other_reg_data(const std::string &str) const{
+            return *reg_data_map.find(str)->second;
+        }
+
+        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0){
+            std::shared_ptr<const indent> ind = ind_0->clone(1);
+            std::shared_ptr<const indent>
+                ind_1 = ind_0->nested_clone(),
+                ind_2 = ind_1->nested_clone();
+            std::string include_guard;
+            for(std::size_t i = 0; i < file_name.size(); ++i){
+                char c = file_name[i];
+                if(std::isalnum(c)){
+                    include_guard += static_cast<char>(std::toupper(c));
+                }else{
+                    include_guard += "_";
+                }
+            }
+            include_guard += "_";
+            os
+                << "#ifndef " << include_guard << "\n"
+                << "#define " << include_guard << "\n"
+                << "\n"
+                << "#include <utility>" << "\n"
+                << "\n";
+            if(namespace_.size() > 0){
+                os
+                    << "namespace " << namespace_ << "{" << "\n"
+                    << "\n";
+            }
+            os
+                << "enum token{" << "\n";
+            for(
+                std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
+                iter != end;
+                ++iter
+            ){
+                dummy = iter;
+                ++dummy;
+                os
+                    << ind << "token_" << iter->ref_rule_name << (dummy == end ? "" : ",") << "\n";
+            }
+            os
+                << "};" << "\n"
+                << "\n"
+                << "class lexer{" << "\n"
+                << "public:" << "\n";
+            for(
+                std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
+                iter != end;
+                ++iter
+            ){
+                os
+                    << ind_0 << "template<class InputIter>\n"
+                    << ind_0 << "static std::pair<bool, InputIter> " << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
+                    << ind_0 << ind << "InputIter iter = first;\n"
+                    << ind_0 << ind << "bool match = true;\n";
+                iter->generate(os, ind_1);
+                os
+                    << ind_0 << ind << "return std::make_pair(match, iter);\n"
+                    << ind_0 << "}\n\n";
+            }
+            os
+                << "};\n";
+            if(namespace_.size() > 0){
+                os
+                    << "} // " << namespace_ << "\n"
+                    << "\n";
+            }
+            os
+                << "#endif // " << include_guard << "\n"
+                << "\n";
+        }
+
+    private:
+        std::string
+            file_name,
+            namespace_;
+        std::list<reg_data> reg_data_list;
+        std::map<std::string, reg_data*> reg_data_map;
+    };
+
+    void regexp_other_rule::generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+        regexp_holder_ptr->get_other_reg_data(dynamic_cast<regexp_char_seq*>(u)->make_string());
+    }
 }
 
-#include "reg_parser.hpp"
-
 // !!
-#include "put_proto.hpp"
+//#include "put_proto.hpp"
 
 namespace paper_cutter{
     void test(){
@@ -1035,31 +1226,55 @@ namespace paper_cutter{
         //std::string str = "aaabbbcghi";
         //std::cout << reg_test(str.begin(), str.end()).first << "\n";
 
-        // !!
-        reg_data_type reg_data("reg_test");
-        reg_parser::parser<regexp*, reg_data_type> parser(reg_data);
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a'));
-        parser.post(reg_parser::token_symbol_star, new regexp_plain_char('*'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b'));
-        parser.post(reg_parser::token_symbol_plus, new regexp_plain_char('+'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('c'));
-        parser.post(reg_parser::token_symbol_question, new regexp_plain_char('?'));
-        parser.post(reg_parser::token_symbol_or, new regexp_plain_char('|'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('d'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('e'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f'));
-        parser.post(reg_parser::token_symbol_slash, new regexp_plain_char('/'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h'));
-        parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i'));
-        parser.post(reg_parser::token_0, nullptr);
-        regexp *ptr;
-        if(!parser.accept(ptr)){
-            std::cout << "parsing error\n";
-        }
+        std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_star, new regexp_plain_char('*')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_plus, new regexp_plain_char('+')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('c')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_question, new regexp_plain_char('?')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_hat, new regexp_plain_char('^')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('d')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('e')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_slash, new regexp_plain_char('/')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
+
+        regexp_holder holder("put_proto.hpp", "test");
+        holder.add("reg_test", token_vec.begin(), token_vec.end());
+        std::shared_ptr<const indent> indent(new indent_space(1));
         std::ofstream ofile("put_proto.hpp");
-        reg_data.generate(ofile);
-        //reg_data.generate(std::cout);
+        holder.generate(ofile, indent);
+
+        //// !!
+        //reg_data data("reg_test");
+        //reg_parser::parser<regexp*, reg_data> parser(data);
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a'));
+        //parser.post(reg_parser::token_symbol_star, new regexp_plain_char('*'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b'));
+        //parser.post(reg_parser::token_symbol_plus, new regexp_plain_char('+'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('c'));
+        //parser.post(reg_parser::token_symbol_question, new regexp_plain_char('?'));
+        //parser.post(reg_parser::token_symbol_or, new regexp_plain_char('|'));
+        //parser.post(reg_parser::token_symbol_hat, new regexp_plain_char('^'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('d'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('e'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f'));
+        //parser.post(reg_parser::token_symbol_slash, new regexp_plain_char('/'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h'));
+        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i'));
+        //parser.post(reg_parser::token_0, nullptr);
+        //regexp *ptr;
+        //if(!parser.accept(ptr)){
+        //    std::cout << "parsing error\n";
+        //}
+        //std::ofstream ofile("put_proto.hpp");
+        //data.generate(ofile);
+        ////reg_data.generate(std::cout);
     }
 }
 

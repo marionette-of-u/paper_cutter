@@ -26,6 +26,7 @@ enum token{
     token_symbol_minus,
     token_symbol_comma,
     token_symbol_any_non_metacharacter,
+    token_symbol_number,
     token_0
 };
 
@@ -323,6 +324,17 @@ private:
         return (this->*(stack_top()->gotof))(nonterminal_index, v);
     }
 
+    bool call_0_make_other_rule(int nonterminal_index, int base, int arg_index0, int arg_index1, int arg_index2)
+    {
+        paper_cutter::regexp* arg0; sa_.downcast(arg0, get_arg(base, arg_index0));
+        paper_cutter::regexp* arg1; sa_.downcast(arg1, get_arg(base, arg_index1));
+        paper_cutter::regexp* arg2; sa_.downcast(arg2, get_arg(base, arg_index2));
+        paper_cutter::regexp* r = sa_.make_other_rule(arg0, arg1, arg2);
+        value_type v; sa_.upcast(v, r);
+        pop_stack(base);
+        return (this->*(stack_top()->gotof))(nonterminal_index, v);
+    }
+
     bool call_0_make_group(int nonterminal_index, int base, int arg_index0, int arg_index1, int arg_index2)
     {
         paper_cutter::regexp* arg0; sa_.downcast(arg0, get_arg(base, arg_index0));
@@ -514,26 +526,27 @@ private:
     bool gotof_0(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
-        case 1: return push_stack(&parser::state_76, &parser::gotof_76, v);
-        case 2: return push_stack(&parser::state_78, &parser::gotof_78, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 3: return push_stack(&parser::state_75, &parser::gotof_75, v);
-        case 5: return push_stack(&parser::state_74, &parser::gotof_74, v);
-        case 6: return push_stack(&parser::state_77, &parser::gotof_77, v);
-        case 8: return push_stack(&parser::state_73, &parser::gotof_73, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_37, &parser::gotof_37, v);
+        case 1: return push_stack(&parser::state_82, &parser::gotof_82, v);
+        case 2: return push_stack(&parser::state_84, &parser::gotof_84, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 3: return push_stack(&parser::state_81, &parser::gotof_81, v);
+        case 5: return push_stack(&parser::state_80, &parser::gotof_80, v);
+        case 6: return push_stack(&parser::state_83, &parser::gotof_83, v);
+        case 8: return push_stack(&parser::state_79, &parser::gotof_79, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -543,15 +556,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -563,11 +580,11 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -580,9 +597,9 @@ private:
     {
         switch(nonterminal_index){
         case 4: return push_stack(&parser::state_3, &parser::gotof_3, v);
-        case 25: return push_stack(&parser::state_2, &parser::gotof_2, v);
-        case 26: return push_stack(&parser::state_7, &parser::gotof_7, v);
-        case 27: return push_stack(&parser::state_6, &parser::gotof_6, v);
+        case 26: return push_stack(&parser::state_2, &parser::gotof_2, v);
+        case 27: return push_stack(&parser::state_7, &parser::gotof_7, v);
+        case 28: return push_stack(&parser::state_6, &parser::gotof_6, v);
         default: assert(0); return false;
         }
     }
@@ -596,7 +613,7 @@ private:
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -609,8 +626,8 @@ private:
     {
         switch(nonterminal_index){
         case 4: return push_stack(&parser::state_3, &parser::gotof_3, v);
-        case 26: return push_stack(&parser::state_8, &parser::gotof_8, v);
-        case 27: return push_stack(&parser::state_6, &parser::gotof_6, v);
+        case 27: return push_stack(&parser::state_8, &parser::gotof_8, v);
+        case 28: return push_stack(&parser::state_6, &parser::gotof_6, v);
         default: assert(0); return false;
         }
     }
@@ -624,11 +641,11 @@ private:
             return false;
         case token_symbol_set_right_bracket:
             // shift
-            push_stack(&parser::state_37, &parser::gotof_37, value);
+            push_stack(&parser::state_38, &parser::gotof_38, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -653,7 +670,7 @@ private:
         case token_symbol_backslash:
         case token_symbol_set_right_bracket:
         case token_symbol_any_non_metacharacter:
-            return call_0_make_set_item(26, 1, 0);
+            return call_0_make_set_item(27, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -678,7 +695,7 @@ private:
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -699,7 +716,7 @@ private:
         case token_symbol_backslash:
         case token_symbol_set_right_bracket:
         case token_symbol_any_non_metacharacter:
-            return call_0_make_range(27, 3, 0, 2);
+            return call_0_make_range(28, 3, 0, 2);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -719,7 +736,7 @@ private:
         case token_symbol_backslash:
         case token_symbol_set_right_bracket:
         case token_symbol_any_non_metacharacter:
-            return call_0_make_set_item(26, 1, 0);
+            return call_0_make_set_item(27, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -739,7 +756,7 @@ private:
         case token_symbol_backslash:
         case token_symbol_set_right_bracket:
         case token_symbol_any_non_metacharacter:
-            return call_0_make_set_items(25, 1, 0);
+            return call_0_make_set_items(26, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -759,7 +776,7 @@ private:
         case token_symbol_backslash:
         case token_symbol_set_right_bracket:
         case token_symbol_any_non_metacharacter:
-            return call_1_make_set_items(25, 2, 0, 1);
+            return call_1_make_set_items(26, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -821,7 +838,7 @@ private:
     bool gotof_11(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 7: return push_stack(&parser::state_48, &parser::gotof_48, v);
+        case 7: return push_stack(&parser::state_52, &parser::gotof_52, v);
         default: assert(0); return false;
         }
     }
@@ -901,6 +918,10 @@ private:
             // shift
             push_stack(&parser::state_29, &parser::gotof_29, value);
             return false;
+        case token_symbol_number:
+            // shift
+            push_stack(&parser::state_30, &parser::gotof_30, value);
+            return false;
         default:
             sa_.syntax_error();
             error_ = true;
@@ -935,6 +956,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -971,6 +993,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1007,6 +1030,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1043,6 +1067,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1079,6 +1104,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1115,6 +1141,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1151,6 +1178,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1187,6 +1215,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1223,6 +1252,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1259,6 +1289,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1295,6 +1326,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1331,6 +1363,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1367,6 +1400,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1403,6 +1437,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1439,6 +1474,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1475,6 +1511,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1511,6 +1548,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1547,6 +1585,7 @@ private:
         case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
             return call_0_make_meta_char(7, 1, 0);
         default:
@@ -1558,62 +1597,34 @@ private:
 
     bool gotof_30(int nonterminal_index, const value_type& v)
     {
-        switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
-        case 1: return push_stack(&parser::state_76, &parser::gotof_76, v);
-        case 2: return push_stack(&parser::state_39, &parser::gotof_39, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 3: return push_stack(&parser::state_75, &parser::gotof_75, v);
-        case 5: return push_stack(&parser::state_74, &parser::gotof_74, v);
-        case 6: return push_stack(&parser::state_77, &parser::gotof_77, v);
-        case 8: return push_stack(&parser::state_73, &parser::gotof_73, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
-        default: assert(0); return false;
-        }
+        assert(0);
+        return true;
     }
 
     bool state_30(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
         case token_symbol_left_pare:
-            // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
-            return false;
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_right_brace:
         case token_symbol_dot:
-            // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
-            return false;
         case token_symbol_eos:
-            // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
-            return false;
+        case token_symbol_slash:
         case token_symbol_backslash:
-            // shift
-            push_stack(&parser::state_11, &parser::gotof_11, value);
-            return false;
         case token_symbol_set_left_bracket:
-            // shift
-            push_stack(&parser::state_9, &parser::gotof_9, value);
-            return false;
         case token_symbol_hat:
-            // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
-            return false;
+        case token_symbol_set_right_bracket:
+        case token_symbol_minus:
+        case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
-            // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
-            return false;
+        case token_symbol_number:
+        case token_0:
+            return call_0_make_meta_char(7, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -1624,26 +1635,27 @@ private:
     bool gotof_31(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
-        case 1: return push_stack(&parser::state_76, &parser::gotof_76, v);
-        case 2: return push_stack(&parser::state_41, &parser::gotof_41, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 3: return push_stack(&parser::state_75, &parser::gotof_75, v);
-        case 5: return push_stack(&parser::state_74, &parser::gotof_74, v);
-        case 6: return push_stack(&parser::state_77, &parser::gotof_77, v);
-        case 8: return push_stack(&parser::state_73, &parser::gotof_73, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_37, &parser::gotof_37, v);
+        case 1: return push_stack(&parser::state_82, &parser::gotof_82, v);
+        case 2: return push_stack(&parser::state_40, &parser::gotof_40, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 3: return push_stack(&parser::state_81, &parser::gotof_81, v);
+        case 5: return push_stack(&parser::state_80, &parser::gotof_80, v);
+        case 6: return push_stack(&parser::state_83, &parser::gotof_83, v);
+        case 8: return push_stack(&parser::state_79, &parser::gotof_79, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -1653,15 +1665,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1673,11 +1689,11 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -1689,22 +1705,27 @@ private:
     bool gotof_32(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 5: return push_stack(&parser::state_74, &parser::gotof_74, v);
-        case 8: return push_stack(&parser::state_71, &parser::gotof_71, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_37, &parser::gotof_37, v);
+        case 1: return push_stack(&parser::state_82, &parser::gotof_82, v);
+        case 2: return push_stack(&parser::state_45, &parser::gotof_45, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 3: return push_stack(&parser::state_81, &parser::gotof_81, v);
+        case 5: return push_stack(&parser::state_80, &parser::gotof_80, v);
+        case 6: return push_stack(&parser::state_83, &parser::gotof_83, v);
+        case 8: return push_stack(&parser::state_79, &parser::gotof_79, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -1714,15 +1735,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1734,11 +1759,11 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -1750,22 +1775,23 @@ private:
     bool gotof_33(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 5: return push_stack(&parser::state_74, &parser::gotof_74, v);
-        case 8: return push_stack(&parser::state_72, &parser::gotof_72, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_37, &parser::gotof_37, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 5: return push_stack(&parser::state_80, &parser::gotof_80, v);
+        case 8: return push_stack(&parser::state_77, &parser::gotof_77, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -1775,15 +1801,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1795,11 +1825,11 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -1811,20 +1841,23 @@ private:
     bool gotof_34(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 0: return push_stack(&parser::state_35, &parser::gotof_35, v);
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 9: return push_stack(&parser::state_69, &parser::gotof_69, v);
-        case 10: return push_stack(&parser::state_70, &parser::gotof_70, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_37, &parser::gotof_37, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 5: return push_stack(&parser::state_80, &parser::gotof_80, v);
+        case 8: return push_stack(&parser::state_78, &parser::gotof_78, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -1834,15 +1867,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1854,11 +1891,11 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -1870,18 +1907,21 @@ private:
     bool gotof_35(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 9: return push_stack(&parser::state_68, &parser::gotof_68, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 0: return push_stack(&parser::state_36, &parser::gotof_36, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 9: return push_stack(&parser::state_75, &parser::gotof_75, v);
+        case 10: return push_stack(&parser::state_76, &parser::gotof_76, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
@@ -1891,15 +1931,19 @@ private:
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1911,18 +1955,79 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_36(int nonterminal_index, const value_type& v)
+    {
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 9: return push_stack(&parser::state_74, &parser::gotof_74, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
+        default: assert(0); return false;
+        }
+    }
+
+    bool state_36(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_left_pare:
+            // shift
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
+            return false;
+        case token_symbol_dot:
+            // shift
+            push_stack(&parser::state_41, &parser::gotof_41, value);
+            return false;
+        case token_symbol_eos:
+            // shift
+            push_stack(&parser::state_39, &parser::gotof_39, value);
+            return false;
+        case token_symbol_backslash:
+            // shift
+            push_stack(&parser::state_11, &parser::gotof_11, value);
+            return false;
+        case token_symbol_set_left_bracket:
+            // shift
+            push_stack(&parser::state_9, &parser::gotof_9, value);
+            return false;
+        case token_symbol_hat:
+            // shift
+            push_stack(&parser::state_31, &parser::gotof_31, value);
+            return false;
+        case token_symbol_any_non_metacharacter:
+            // shift
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         case token_symbol_or:
         case token_symbol_star:
         case token_symbol_plus:
         case token_symbol_question:
         case token_symbol_right_pare:
-        case token_symbol_left_brace:
         case token_symbol_slash:
         case token_symbol_minus:
         case token_0:
@@ -1934,39 +2039,44 @@ private:
         }
     }
 
-    bool gotof_36(int nonterminal_index, const value_type& v)
+    bool gotof_37(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_57, &parser::gotof_57, v);
-        case 9: return push_stack(&parser::state_68, &parser::gotof_68, v);
-        case 11: return push_stack(&parser::state_52, &parser::gotof_52, v);
-        case 12: return push_stack(&parser::state_67, &parser::gotof_67, v);
-        case 13: return push_stack(&parser::state_66, &parser::gotof_66, v);
-        case 14: return push_stack(&parser::state_65, &parser::gotof_65, v);
-        case 15: return push_stack(&parser::state_64, &parser::gotof_64, v);
-        case 17: return push_stack(&parser::state_58, &parser::gotof_58, v);
-        case 21: return push_stack(&parser::state_56, &parser::gotof_56, v);
-        case 22: return push_stack(&parser::state_55, &parser::gotof_55, v);
-        case 23: return push_stack(&parser::state_54, &parser::gotof_54, v);
-        case 24: return push_stack(&parser::state_53, &parser::gotof_53, v);
+        case 4: return push_stack(&parser::state_63, &parser::gotof_63, v);
+        case 9: return push_stack(&parser::state_74, &parser::gotof_74, v);
+        case 11: return push_stack(&parser::state_57, &parser::gotof_57, v);
+        case 12: return push_stack(&parser::state_73, &parser::gotof_73, v);
+        case 13: return push_stack(&parser::state_72, &parser::gotof_72, v);
+        case 14: return push_stack(&parser::state_71, &parser::gotof_71, v);
+        case 15: return push_stack(&parser::state_70, &parser::gotof_70, v);
+        case 17: return push_stack(&parser::state_64, &parser::gotof_64, v);
+        case 21: return push_stack(&parser::state_62, &parser::gotof_62, v);
+        case 22: return push_stack(&parser::state_61, &parser::gotof_61, v);
+        case 23: return push_stack(&parser::state_60, &parser::gotof_60, v);
+        case 24: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 25: return push_stack(&parser::state_58, &parser::gotof_58, v);
         default: assert(0); return false;
         }
     }
 
-    bool state_36(token_type token, const value_type& value)
+    bool state_37(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_left_pare:
             // shift
-            push_stack(&parser::state_31, &parser::gotof_31, value);
+            push_stack(&parser::state_32, &parser::gotof_32, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_42, &parser::gotof_42, value);
             return false;
         case token_symbol_dot:
             // shift
-            push_stack(&parser::state_40, &parser::gotof_40, value);
+            push_stack(&parser::state_41, &parser::gotof_41, value);
             return false;
         case token_symbol_eos:
             // shift
-            push_stack(&parser::state_38, &parser::gotof_38, value);
+            push_stack(&parser::state_39, &parser::gotof_39, value);
             return false;
         case token_symbol_backslash:
             // shift
@@ -1978,55 +2088,21 @@ private:
             return false;
         case token_symbol_hat:
             // shift
-            push_stack(&parser::state_30, &parser::gotof_30, value);
+            push_stack(&parser::state_31, &parser::gotof_31, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         case token_symbol_or:
         case token_symbol_star:
         case token_symbol_plus:
         case token_symbol_question:
         case token_symbol_right_pare:
-        case token_symbol_left_brace:
         case token_symbol_slash:
         case token_symbol_minus:
         case token_0:
             return call_0_make_lv2_regexp(8, 1, 0);
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_37(int nonterminal_index, const value_type& v)
-    {
-        assert(0);
-        return true;
-    }
-
-    bool state_37(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
-        case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
-        case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_set(11, 4, 2, 1, 0, 3);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2059,7 +2135,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_eos(24, 1, 0);
+            return call_0_make_set(11, 4, 2, 1, 0, 3);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2092,7 +2168,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_after_nline(23, 2, 1, 0);
+            return call_0_make_eos(25, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2125,7 +2201,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_any(22, 1, 0);
+            return call_0_make_after_nline(24, 2, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2142,10 +2218,23 @@ private:
     bool state_41(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
         case token_symbol_right_pare:
-            // shift
-            push_stack(&parser::state_42, &parser::gotof_42, value);
-            return false;
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_any(23, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2155,11 +2244,125 @@ private:
 
     bool gotof_42(int nonterminal_index, const value_type& v)
     {
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_54, &parser::gotof_54, v);
+        case 18: return push_stack(&parser::state_43, &parser::gotof_43, v);
+        default: assert(0); return false;
+        }
+    }
+
+    bool state_42(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_backslash:
+            // shift
+            push_stack(&parser::state_11, &parser::gotof_11, value);
+            return false;
+        case token_symbol_any_non_metacharacter:
+            // shift
+            push_stack(&parser::state_51, &parser::gotof_51, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_43(int nonterminal_index, const value_type& v)
+    {
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_55, &parser::gotof_55, v);
+        default: assert(0); return false;
+        }
+    }
+
+    bool state_43(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_right_brace:
+            // shift
+            push_stack(&parser::state_44, &parser::gotof_44, value);
+            return false;
+        case token_symbol_backslash:
+            // shift
+            push_stack(&parser::state_11, &parser::gotof_11, value);
+            return false;
+        case token_symbol_any_non_metacharacter:
+            // shift
+            push_stack(&parser::state_51, &parser::gotof_51, value);
+            return false;
+        case token_symbol_number:
+            // shift
+            push_stack(&parser::state_56, &parser::gotof_56, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_44(int nonterminal_index, const value_type& v)
+    {
         assert(0);
         return true;
     }
 
-    bool state_42(token_type token, const value_type& value)
+    bool state_44(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_other_rule(22, 3, 1, 0, 2);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_45(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_45(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_right_pare:
+            // shift
+            push_stack(&parser::state_46, &parser::gotof_46, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_46(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_46(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_or:
@@ -2186,17 +2389,17 @@ private:
         }
     }
 
-    bool gotof_43(int nonterminal_index, const value_type& v)
+    bool gotof_47(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_50, &parser::gotof_50, v);
-        case 18: return push_stack(&parser::state_44, &parser::gotof_44, v);
-        case 20: return push_stack(&parser::state_59, &parser::gotof_59, v);
+        case 4: return push_stack(&parser::state_54, &parser::gotof_54, v);
+        case 18: return push_stack(&parser::state_48, &parser::gotof_48, v);
+        case 20: return push_stack(&parser::state_65, &parser::gotof_65, v);
         default: assert(0); return false;
         }
     }
 
-    bool state_43(token_type token, const value_type& value)
+    bool state_47(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_right_brace:
@@ -2210,7 +2413,7 @@ private:
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
         default:
             sa_.syntax_error();
@@ -2219,15 +2422,15 @@ private:
         }
     }
 
-    bool gotof_44(int nonterminal_index, const value_type& v)
+    bool gotof_48(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_51, &parser::gotof_51, v);
+        case 4: return push_stack(&parser::state_55, &parser::gotof_55, v);
         default: assert(0); return false;
         }
     }
 
-    bool state_44(token_type token, const value_type& value)
+    bool state_48(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_backslash:
@@ -2236,7 +2439,11 @@ private:
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
+            return false;
+        case token_symbol_number:
+            // shift
+            push_stack(&parser::state_56, &parser::gotof_56, value);
             return false;
         case token_symbol_right_brace:
             return call_0_make_char_seq_opt(20, 1, 0);
@@ -2247,16 +2454,16 @@ private:
         }
     }
 
-    bool gotof_45(int nonterminal_index, const value_type& v)
+    bool gotof_49(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_51, &parser::gotof_51, v);
-        case 19: return push_stack(&parser::state_43, &parser::gotof_43, v);
+        case 4: return push_stack(&parser::state_55, &parser::gotof_55, v);
+        case 19: return push_stack(&parser::state_47, &parser::gotof_47, v);
         default: assert(0); return false;
         }
     }
 
-    bool state_45(token_type token, const value_type& value)
+    bool state_49(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_right_brace:
@@ -2270,131 +2477,17 @@ private:
             return false;
         case token_symbol_comma:
             // shift
-            push_stack(&parser::state_49, &parser::gotof_49, value);
+            push_stack(&parser::state_53, &parser::gotof_53, value);
             return false;
         case token_symbol_any_non_metacharacter:
             // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
+            push_stack(&parser::state_51, &parser::gotof_51, value);
             return false;
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_46(int nonterminal_index, const value_type& v)
-    {
-        switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_50, &parser::gotof_50, v);
-        case 18: return push_stack(&parser::state_45, &parser::gotof_45, v);
-        default: assert(0); return false;
-        }
-    }
-
-    bool state_46(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_backslash:
-            // shift
-            push_stack(&parser::state_11, &parser::gotof_11, value);
-            return false;
-        case token_symbol_any_non_metacharacter:
-            // shift
-            push_stack(&parser::state_47, &parser::gotof_47, value);
-            return false;
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_47(int nonterminal_index, const value_type& v)
-    {
-        assert(0);
-        return true;
-    }
-
-    bool state_47(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_right_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
-        case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_set_right_bracket:
-        case token_symbol_minus:
-        case token_symbol_comma:
-        case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_char(4, 1, 0);
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_48(int nonterminal_index, const value_type& v)
-    {
-        assert(0);
-        return true;
-    }
-
-    bool state_48(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_right_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
-        case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_set_right_bracket:
-        case token_symbol_minus:
-        case token_symbol_comma:
-        case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_1_make_char(4, 2, 1, 0);
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_49(int nonterminal_index, const value_type& v)
-    {
-        assert(0);
-        return true;
-    }
-
-    bool state_49(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_right_brace:
-        case token_symbol_backslash:
-        case token_symbol_any_non_metacharacter:
-            return call_0_make_comma(19, 1, 0);
+        case token_symbol_number:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(19, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2404,18 +2497,24 @@ private:
 
     bool gotof_50(int nonterminal_index, const value_type& v)
     {
-        assert(0);
-        return true;
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_54, &parser::gotof_54, v);
+        case 18: return push_stack(&parser::state_49, &parser::gotof_49, v);
+        default: assert(0); return false;
+        }
     }
 
     bool state_50(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_right_brace:
         case token_symbol_backslash:
-        case token_symbol_comma:
+            // shift
+            push_stack(&parser::state_11, &parser::gotof_11, value);
+            return false;
         case token_symbol_any_non_metacharacter:
-            return call_0_make_char_seq(18, 1, 0);
+            // shift
+            push_stack(&parser::state_51, &parser::gotof_51, value);
+            return false;
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2432,11 +2531,27 @@ private:
     bool state_51(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
         case token_symbol_right_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
         case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_set_right_bracket:
+        case token_symbol_minus:
         case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
-            return call_1_make_char_seq(18, 2, 0, 1);
+        case token_symbol_number:
+        case token_0:
+            return call_0_make_char(4, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2460,16 +2575,20 @@ private:
         case token_symbol_left_pare:
         case token_symbol_right_pare:
         case token_symbol_left_brace:
+        case token_symbol_right_brace:
         case token_symbol_dot:
         case token_symbol_eos:
         case token_symbol_slash:
         case token_symbol_backslash:
         case token_symbol_set_left_bracket:
         case token_symbol_hat:
+        case token_symbol_set_right_bracket:
         case token_symbol_minus:
+        case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
+        case token_symbol_number:
         case token_0:
-            return call_0_make_elementary_regexp(17, 1, 0);
+            return call_1_make_char(4, 2, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2486,23 +2605,11 @@ private:
     bool state_53(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
+        case token_symbol_right_brace:
         case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_elementary_regexp(17, 1, 0);
+        case token_symbol_number:
+            return call_0_make_comma(19, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2519,23 +2626,12 @@ private:
     bool state_54(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
+        case token_symbol_right_brace:
         case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
+        case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_elementary_regexp(17, 1, 0);
+        case token_symbol_number:
+            return call_0_make_char_seq(18, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2552,23 +2648,12 @@ private:
     bool state_55(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
+        case token_symbol_right_brace:
         case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
+        case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_elementary_regexp(17, 1, 0);
+        case token_symbol_number:
+            return call_1_make_char_seq(18, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2585,23 +2670,12 @@ private:
     bool state_56(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
+        case token_symbol_right_brace:
         case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
+        case token_symbol_comma:
         case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_elementary_regexp(17, 1, 0);
+        case token_symbol_number:
+            return call_1_make_char_seq(18, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2651,25 +2725,13 @@ private:
     bool state_58(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_star:
-            // shift
-            push_stack(&parser::state_63, &parser::gotof_63, value);
-            return false;
-        case token_symbol_plus:
-            // shift
-            push_stack(&parser::state_62, &parser::gotof_62, value);
-            return false;
-        case token_symbol_question:
-            // shift
-            push_stack(&parser::state_61, &parser::gotof_61, value);
-            return false;
-        case token_symbol_left_brace:
-            // shift
-            push_stack(&parser::state_46, &parser::gotof_46, value);
-            return false;
         case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
         case token_symbol_left_pare:
         case token_symbol_right_pare:
+        case token_symbol_left_brace:
         case token_symbol_dot:
         case token_symbol_eos:
         case token_symbol_slash:
@@ -2679,7 +2741,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv0_regexp(9, 1, 0);
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2696,10 +2758,23 @@ private:
     bool state_59(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_right_brace:
-            // shift
-            push_stack(&parser::state_60, &parser::gotof_60, value);
-            return false;
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2732,7 +2807,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_n_to_m(15, 6, 0, 2, 4, 3, 1, 5);
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2765,7 +2840,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_question(14, 2, 0, 1);
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2798,7 +2873,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_plus(13, 2, 0, 1);
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2831,7 +2906,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_star(12, 2, 0, 1);
+            return call_0_make_elementary_regexp(17, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2848,13 +2923,25 @@ private:
     bool state_64(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
         case token_symbol_star:
+            // shift
+            push_stack(&parser::state_69, &parser::gotof_69, value);
+            return false;
         case token_symbol_plus:
+            // shift
+            push_stack(&parser::state_68, &parser::gotof_68, value);
+            return false;
         case token_symbol_question:
+            // shift
+            push_stack(&parser::state_67, &parser::gotof_67, value);
+            return false;
+        case token_symbol_left_brace:
+            // shift
+            push_stack(&parser::state_50, &parser::gotof_50, value);
+            return false;
+        case token_symbol_or:
         case token_symbol_left_pare:
         case token_symbol_right_pare:
-        case token_symbol_left_brace:
         case token_symbol_dot:
         case token_symbol_eos:
         case token_symbol_slash:
@@ -2881,23 +2968,10 @@ private:
     bool state_65(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_or:
-        case token_symbol_star:
-        case token_symbol_plus:
-        case token_symbol_question:
-        case token_symbol_left_pare:
-        case token_symbol_right_pare:
-        case token_symbol_left_brace:
-        case token_symbol_dot:
-        case token_symbol_eos:
-        case token_symbol_slash:
-        case token_symbol_backslash:
-        case token_symbol_set_left_bracket:
-        case token_symbol_hat:
-        case token_symbol_minus:
-        case token_symbol_any_non_metacharacter:
-        case token_0:
-            return call_0_make_lv0_regexp(9, 1, 0);
+        case token_symbol_right_brace:
+            // shift
+            push_stack(&parser::state_66, &parser::gotof_66, value);
+            return false;
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2930,7 +3004,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv0_regexp(9, 1, 0);
+            return call_0_make_n_to_m(15, 6, 0, 2, 4, 3, 1, 5);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2963,7 +3037,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv0_regexp(9, 1, 0);
+            return call_0_make_question(14, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2996,7 +3070,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_concatenation(10, 2, 0, 1);
+            return call_0_make_plus(13, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3029,7 +3103,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv1_regexp(0, 1, 0);
+            return call_0_make_star(12, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3062,7 +3136,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv1_regexp(0, 1, 0);
+            return call_0_make_lv0_regexp(9, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3080,9 +3154,6 @@ private:
     {
         switch(token){
         case token_symbol_or:
-            // shift
-            push_stack(&parser::state_34, &parser::gotof_34, value);
-            return false;
         case token_symbol_star:
         case token_symbol_plus:
         case token_symbol_question:
@@ -3098,7 +3169,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_trailing_context(1, 3, 0, 2, 1);
+            return call_0_make_lv0_regexp(9, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3116,9 +3187,6 @@ private:
     {
         switch(token){
         case token_symbol_or:
-            // shift
-            push_stack(&parser::state_34, &parser::gotof_34, value);
-            return false;
         case token_symbol_star:
         case token_symbol_plus:
         case token_symbol_question:
@@ -3134,7 +3202,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_complement(6, 3, 0, 2, 1);
+            return call_0_make_lv0_regexp(9, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3152,9 +3220,6 @@ private:
     {
         switch(token){
         case token_symbol_or:
-            // shift
-            push_stack(&parser::state_34, &parser::gotof_34, value);
-            return false;
         case token_symbol_star:
         case token_symbol_plus:
         case token_symbol_question:
@@ -3170,7 +3235,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv3_regexp(3, 1, 0);
+            return call_0_make_lv0_regexp(9, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3203,7 +3268,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv2_regexp(8, 1, 0);
+            return call_0_make_concatenation(10, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3220,14 +3285,6 @@ private:
     bool state_75(token_type token, const value_type& value)
     {
         switch(token){
-        case token_symbol_slash:
-            // shift
-            push_stack(&parser::state_32, &parser::gotof_32, value);
-            return false;
-        case token_symbol_minus:
-            // shift
-            push_stack(&parser::state_33, &parser::gotof_33, value);
-            return false;
         case token_symbol_or:
         case token_symbol_star:
         case token_symbol_plus:
@@ -3237,12 +3294,14 @@ private:
         case token_symbol_left_brace:
         case token_symbol_dot:
         case token_symbol_eos:
+        case token_symbol_slash:
         case token_symbol_backslash:
         case token_symbol_set_left_bracket:
         case token_symbol_hat:
+        case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_regexp(2, 1, 0);
+            return call_0_make_lv1_regexp(0, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3275,7 +3334,7 @@ private:
         case token_symbol_minus:
         case token_symbol_any_non_metacharacter:
         case token_0:
-            return call_0_make_lv3_regexp(3, 1, 0);
+            return call_0_make_lv1_regexp(0, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -3290,6 +3349,186 @@ private:
     }
 
     bool state_77(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+            // shift
+            push_stack(&parser::state_35, &parser::gotof_35, value);
+            return false;
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_trailing_context(1, 3, 0, 2, 1);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_78(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_78(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+            // shift
+            push_stack(&parser::state_35, &parser::gotof_35, value);
+            return false;
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_complement(6, 3, 0, 2, 1);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_79(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_79(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+            // shift
+            push_stack(&parser::state_35, &parser::gotof_35, value);
+            return false;
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_lv3_regexp(3, 1, 0);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_80(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_80(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_lv2_regexp(8, 1, 0);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_81(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_81(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_slash:
+            // shift
+            push_stack(&parser::state_33, &parser::gotof_33, value);
+            return false;
+        case token_symbol_minus:
+            // shift
+            push_stack(&parser::state_34, &parser::gotof_34, value);
+            return false;
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_regexp(2, 1, 0);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_82(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_82(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_or:
@@ -3316,13 +3555,46 @@ private:
         }
     }
 
-    bool gotof_78(int nonterminal_index, const value_type& v)
+    bool gotof_83(int nonterminal_index, const value_type& v)
     {
         assert(0);
         return true;
     }
 
-    bool state_78(token_type token, const value_type& value)
+    bool state_83(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_or:
+        case token_symbol_star:
+        case token_symbol_plus:
+        case token_symbol_question:
+        case token_symbol_left_pare:
+        case token_symbol_right_pare:
+        case token_symbol_left_brace:
+        case token_symbol_dot:
+        case token_symbol_eos:
+        case token_symbol_slash:
+        case token_symbol_backslash:
+        case token_symbol_set_left_bracket:
+        case token_symbol_hat:
+        case token_symbol_minus:
+        case token_symbol_any_non_metacharacter:
+        case token_0:
+            return call_0_make_lv3_regexp(3, 1, 0);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_84(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_84(token_type token, const value_type& value)
     {
         switch(token){
         case token_0:
