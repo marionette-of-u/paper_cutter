@@ -1,0 +1,249 @@
+--------I_0
+S' = .regexp : $
+
+--------I_1
+range    = char .symbol_minus char : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+set_item = char.                   : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_2
+range = char symbol_minus .char : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_3
+range = char symbol_minus char. : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_4
+set_item = range. : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_5
+set_items = set_item. : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_6
+set_items = set_items .set_item                                                 : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+set       = symbol_set_left_bracket hat_opt set_items .symbol_set_right_bracket : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_7
+set_items = set_items set_item. : symbol_backslash symbol_set_right_bracket symbol_any_non_metacharacter
+
+--------I_8
+hat_opt = symbol_hat. : symbol_backslash symbol_any_non_metacharacter
+
+--------I_9
+symbol_metacharacter = symbol_or. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_10
+symbol_metacharacter = symbol_star. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_11
+symbol_metacharacter = symbol_plus. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_12
+symbol_metacharacter = symbol_question. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_13
+symbol_metacharacter = symbol_left_pare. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_14
+symbol_metacharacter = symbol_right_pare. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_15
+symbol_metacharacter = symbol_left_brace. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_16
+symbol_metacharacter = symbol_right_brace. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_17
+symbol_metacharacter = symbol_dot. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_18
+symbol_metacharacter = symbol_eos. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_19
+symbol_metacharacter = symbol_slash. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_20
+symbol_metacharacter = symbol_backslash. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_21
+symbol_metacharacter = symbol_set_left_bracket. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_22
+symbol_metacharacter = symbol_hat. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_23
+symbol_metacharacter = symbol_set_right_bracket. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_24
+symbol_metacharacter = symbol_minus. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_25
+symbol_metacharacter = symbol_comma. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_26
+symbol_metacharacter = symbol_any_non_metacharacter. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_27
+set = symbol_set_left_bracket .hat_opt set_items symbol_set_right_bracket : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_28
+set = symbol_set_left_bracket hat_opt .set_items symbol_set_right_bracket : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_29
+set = symbol_set_left_bracket hat_opt set_items symbol_set_right_bracket. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_30
+eos = symbol_eos. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_31
+nline = symbol_hat. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_32
+any = symbol_dot. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_33
+group = symbol_left_pare .regexp symbol_right_pare : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_34
+group = symbol_left_pare regexp .symbol_right_pare : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_35
+group = symbol_left_pare regexp symbol_right_pare. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_36
+char = symbol_backslash .symbol_metacharacter : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_37
+char = symbol_any_non_metacharacter. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_38
+char = symbol_backslash symbol_metacharacter. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_right_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_set_right_bracket symbol_minus symbol_comma symbol_any_non_metacharacter $
+
+--------I_39
+char_seq_opt = char_seq.      : symbol_right_brace
+char_seq     = char_seq .char : symbol_right_brace symbol_backslash symbol_any_non_metacharacter
+
+--------I_40
+comma_opt = symbol_comma. : symbol_right_brace symbol_backslash symbol_any_non_metacharacter
+
+--------I_41
+char_seq = char. : symbol_right_brace symbol_backslash symbol_comma symbol_any_non_metacharacter
+
+--------I_42
+char_seq = char_seq .char                                                                          : symbol_right_brace symbol_backslash symbol_comma symbol_any_non_metacharacter
+n_to_m   = elementary_regexp symbol_left_brace char_seq .comma_opt char_seq_opt symbol_right_brace : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_43
+char_seq = char_seq char. : symbol_right_brace symbol_backslash symbol_comma symbol_any_non_metacharacter
+
+--------I_44
+elementary_regexp = set. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_45
+elementary_regexp = eos. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_46
+elementary_regexp = nline. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_47
+elementary_regexp = any. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_48
+elementary_regexp = group. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_49
+elementary_regexp = char. : symbol_or symbol_star symbol_plus symbol_question symbol_left_pare symbol_right_pare symbol_left_brace symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_50
+n_to_m     = elementary_regexp .symbol_left_brace char_seq comma_opt char_seq_opt symbol_right_brace : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+question   = elementary_regexp .symbol_question                                                      : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+plus       = elementary_regexp .symbol_plus                                                          : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+star       = elementary_regexp .symbol_star                                                          : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+lv0_regexp = elementary_regexp.                                                                      : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_51
+n_to_m = elementary_regexp symbol_left_brace .char_seq comma_opt char_seq_opt symbol_right_brace : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_52
+n_to_m = elementary_regexp symbol_left_brace char_seq comma_opt .char_seq_opt symbol_right_brace : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_53
+n_to_m = elementary_regexp symbol_left_brace char_seq comma_opt char_seq_opt .symbol_right_brace : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_54
+n_to_m = elementary_regexp symbol_left_brace char_seq comma_opt char_seq_opt symbol_right_brace. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_55
+question = elementary_regexp symbol_question. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_56
+plus = elementary_regexp symbol_plus. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_57
+star = elementary_regexp symbol_star. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_58
+lv0_regexp = n_to_m. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_59
+lv0_regexp = question. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_60
+lv0_regexp = plus. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_61
+lv0_regexp = star. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_62
+concatenation = lv1_regexp .lv0_regexp           : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+union         = lv2_regexp symbol_or lv1_regexp. : symbol_or symbol_right_pare symbol_slash symbol_minus $
+
+--------I_63
+concatenation = lv1_regexp .lv0_regexp : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+lv2_regexp    = lv1_regexp.            : symbol_or symbol_right_pare symbol_slash symbol_minus $
+
+--------I_64
+concatenation = lv1_regexp lv0_regexp. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_65
+lv1_regexp = lv0_regexp. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_66
+lv1_regexp = concatenation. : symbol_or symbol_left_pare symbol_right_pare symbol_dot symbol_eos symbol_slash symbol_backslash symbol_set_left_bracket symbol_hat symbol_minus symbol_any_non_metacharacter $
+
+--------I_67
+union            = lv2_regexp .symbol_or lv1_regexp    : symbol_or symbol_right_pare symbol_slash symbol_minus $
+trailing_context = lv3_regexp symbol_slash lv2_regexp. : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_68
+union             = lv2_regexp .symbol_or lv1_regexp    : symbol_or symbol_right_pare symbol_slash symbol_minus $
+complement_regexp = lv3_regexp symbol_minus lv2_regexp. : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_69
+union      = lv2_regexp .symbol_or lv1_regexp : symbol_or symbol_right_pare symbol_slash symbol_minus $
+lv3_regexp = lv2_regexp.                      : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_70
+union = lv2_regexp symbol_or .lv1_regexp : symbol_or symbol_right_pare symbol_slash symbol_minus $
+
+--------I_71
+lv2_regexp = union. : symbol_or symbol_right_pare symbol_slash symbol_minus $
+
+--------I_72
+trailing_context  = lv3_regexp .symbol_slash lv2_regexp : symbol_right_pare symbol_slash symbol_minus $
+complement_regexp = lv3_regexp .symbol_minus lv2_regexp : symbol_right_pare symbol_slash symbol_minus $
+regexp            = lv3_regexp.                         : symbol_right_pare $
+
+--------I_73
+trailing_context = lv3_regexp symbol_slash .lv2_regexp : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_74
+complement_regexp = lv3_regexp symbol_minus .lv2_regexp : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_75
+lv3_regexp = trailing_context. : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_76
+lv3_regexp = complement_regexp. : symbol_right_pare symbol_slash symbol_minus $
+
+--------I_77
+S' = regexp. : $
+

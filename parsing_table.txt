@@ -1,0 +1,1151 @@
+--------I_0
+symbol_left_pare             : shift 30
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_any_non_metacharacter : shift 46
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 68
+concatenation                : goto 69
+lv1_regexp                   : goto 35
+union                        : goto 73
+lv2_regexp                   : goto 72
+trailing_context             : goto 75
+complement_regexp            : goto 76
+lv3_regexp                   : goto 74
+regexp                       : goto 77
+
+--------I_1
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 46
+range                        : goto 6
+set_item                     : goto 7
+set_items                    : goto 2
+char                         : goto 3
+
+--------I_2
+symbol_backslash             : shift 11
+symbol_set_right_bracket     : shift 36
+symbol_any_non_metacharacter : shift 46
+range                        : goto 6
+set_item                     : goto 8
+char                         : goto 3
+
+--------I_3
+symbol_backslash             : reduce set_item
+symbol_set_right_bracket     : reduce set_item
+symbol_minus                 : shift 4
+symbol_any_non_metacharacter : reduce set_item
+
+--------I_4
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 46
+char                         : goto 5
+
+--------I_5
+symbol_backslash             : reduce range
+symbol_set_right_bracket     : reduce range
+symbol_any_non_metacharacter : reduce range
+
+--------I_6
+symbol_backslash             : reduce set_item
+symbol_set_right_bracket     : reduce set_item
+symbol_any_non_metacharacter : reduce set_item
+
+--------I_7
+symbol_backslash             : reduce set_items
+symbol_set_right_bracket     : reduce set_items
+symbol_any_non_metacharacter : reduce set_items
+
+--------I_8
+symbol_backslash             : reduce set_items
+symbol_set_right_bracket     : reduce set_items
+symbol_any_non_metacharacter : reduce set_items
+
+--------I_9
+symbol_backslash             : reduce hat_opt
+symbol_hat                   : shift 10
+symbol_any_non_metacharacter : reduce hat_opt
+hat_opt                      : goto 1
+
+--------I_10
+symbol_backslash             : reduce hat_opt
+symbol_any_non_metacharacter : reduce hat_opt
+
+--------I_11
+symbol_or                    : shift 12
+symbol_star                  : shift 13
+symbol_plus                  : shift 14
+symbol_question              : shift 15
+symbol_left_pare             : shift 16
+symbol_right_pare            : shift 17
+symbol_left_brace            : shift 18
+symbol_right_brace           : shift 19
+symbol_dot                   : shift 20
+symbol_eos                   : shift 21
+symbol_slash                 : shift 22
+symbol_backslash             : shift 23
+symbol_set_left_bracket      : shift 24
+symbol_hat                   : shift 25
+symbol_set_right_bracket     : shift 26
+symbol_minus                 : shift 27
+symbol_comma                 : shift 28
+symbol_any_non_metacharacter : shift 29
+symbol_metacharacter         : goto 47
+
+--------I_12
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_13
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_14
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_15
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_16
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_17
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_18
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_19
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_20
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_21
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_22
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_23
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_24
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_25
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_26
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_27
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_28
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_29
+symbol_or                    : reduce symbol_metacharacter
+symbol_star                  : reduce symbol_metacharacter
+symbol_plus                  : reduce symbol_metacharacter
+symbol_question              : reduce symbol_metacharacter
+symbol_left_pare             : reduce symbol_metacharacter
+symbol_right_pare            : reduce symbol_metacharacter
+symbol_left_brace            : reduce symbol_metacharacter
+symbol_right_brace           : reduce symbol_metacharacter
+symbol_dot                   : reduce symbol_metacharacter
+symbol_eos                   : reduce symbol_metacharacter
+symbol_slash                 : reduce symbol_metacharacter
+symbol_backslash             : reduce symbol_metacharacter
+symbol_set_left_bracket      : reduce symbol_metacharacter
+symbol_hat                   : reduce symbol_metacharacter
+symbol_set_right_bracket     : reduce symbol_metacharacter
+symbol_minus                 : reduce symbol_metacharacter
+symbol_comma                 : reduce symbol_metacharacter
+symbol_any_non_metacharacter : reduce symbol_metacharacter
+$                            : reduce symbol_metacharacter
+
+--------I_30
+symbol_left_pare             : shift 30
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_any_non_metacharacter : shift 46
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 68
+concatenation                : goto 69
+lv1_regexp                   : goto 35
+union                        : goto 73
+lv2_regexp                   : goto 72
+trailing_context             : goto 75
+complement_regexp            : goto 76
+lv3_regexp                   : goto 74
+regexp                       : goto 40
+
+--------I_31
+symbol_left_pare             : shift 30
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_any_non_metacharacter : shift 46
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 68
+concatenation                : goto 69
+lv1_regexp                   : goto 35
+union                        : goto 73
+lv2_regexp                   : goto 70
+
+--------I_32
+symbol_left_pare             : shift 30
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_any_non_metacharacter : shift 46
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 68
+concatenation                : goto 69
+lv1_regexp                   : goto 35
+union                        : goto 73
+lv2_regexp                   : goto 71
+
+--------I_33
+symbol_left_pare             : shift 30
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_any_non_metacharacter : shift 46
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 68
+concatenation                : goto 69
+lv1_regexp                   : goto 34
+
+--------I_34
+symbol_or                    : reduce union
+symbol_left_pare             : shift 30
+symbol_right_pare            : reduce union
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_slash                 : reduce union
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_minus                 : reduce union
+symbol_any_non_metacharacter : shift 46
+$                            : reduce union
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 67
+
+--------I_35
+symbol_or                    : reduce lv2_regexp
+symbol_left_pare             : shift 30
+symbol_right_pare            : reduce lv2_regexp
+symbol_dot                   : shift 39
+symbol_eos                   : shift 37
+symbol_slash                 : reduce lv2_regexp
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 38
+symbol_minus                 : reduce lv2_regexp
+symbol_any_non_metacharacter : shift 46
+$                            : reduce lv2_regexp
+set                          : goto 51
+eos                          : goto 52
+nline                        : goto 53
+any                          : goto 54
+group                        : goto 55
+char                         : goto 56
+elementary_regexp            : goto 57
+n_to_m                       : goto 63
+question                     : goto 64
+plus                         : goto 65
+star                         : goto 66
+lv0_regexp                   : goto 67
+
+--------I_36
+symbol_or                    : reduce set
+symbol_star                  : reduce set
+symbol_plus                  : reduce set
+symbol_question              : reduce set
+symbol_left_pare             : reduce set
+symbol_right_pare            : reduce set
+symbol_left_brace            : reduce set
+symbol_dot                   : reduce set
+symbol_eos                   : reduce set
+symbol_slash                 : reduce set
+symbol_backslash             : reduce set
+symbol_set_left_bracket      : reduce set
+symbol_hat                   : reduce set
+symbol_minus                 : reduce set
+symbol_any_non_metacharacter : reduce set
+$                            : reduce set
+
+--------I_37
+symbol_or                    : reduce eos
+symbol_star                  : reduce eos
+symbol_plus                  : reduce eos
+symbol_question              : reduce eos
+symbol_left_pare             : reduce eos
+symbol_right_pare            : reduce eos
+symbol_left_brace            : reduce eos
+symbol_dot                   : reduce eos
+symbol_eos                   : reduce eos
+symbol_slash                 : reduce eos
+symbol_backslash             : reduce eos
+symbol_set_left_bracket      : reduce eos
+symbol_hat                   : reduce eos
+symbol_minus                 : reduce eos
+symbol_any_non_metacharacter : reduce eos
+$                            : reduce eos
+
+--------I_38
+symbol_or                    : reduce nline
+symbol_star                  : reduce nline
+symbol_plus                  : reduce nline
+symbol_question              : reduce nline
+symbol_left_pare             : reduce nline
+symbol_right_pare            : reduce nline
+symbol_left_brace            : reduce nline
+symbol_dot                   : reduce nline
+symbol_eos                   : reduce nline
+symbol_slash                 : reduce nline
+symbol_backslash             : reduce nline
+symbol_set_left_bracket      : reduce nline
+symbol_hat                   : reduce nline
+symbol_minus                 : reduce nline
+symbol_any_non_metacharacter : reduce nline
+$                            : reduce nline
+
+--------I_39
+symbol_or                    : reduce any
+symbol_star                  : reduce any
+symbol_plus                  : reduce any
+symbol_question              : reduce any
+symbol_left_pare             : reduce any
+symbol_right_pare            : reduce any
+symbol_left_brace            : reduce any
+symbol_dot                   : reduce any
+symbol_eos                   : reduce any
+symbol_slash                 : reduce any
+symbol_backslash             : reduce any
+symbol_set_left_bracket      : reduce any
+symbol_hat                   : reduce any
+symbol_minus                 : reduce any
+symbol_any_non_metacharacter : reduce any
+$                            : reduce any
+
+--------I_40
+symbol_right_pare : shift 41
+
+--------I_41
+symbol_or                    : reduce group
+symbol_star                  : reduce group
+symbol_plus                  : reduce group
+symbol_question              : reduce group
+symbol_left_pare             : reduce group
+symbol_right_pare            : reduce group
+symbol_left_brace            : reduce group
+symbol_dot                   : reduce group
+symbol_eos                   : reduce group
+symbol_slash                 : reduce group
+symbol_backslash             : reduce group
+symbol_set_left_bracket      : reduce group
+symbol_hat                   : reduce group
+symbol_minus                 : reduce group
+symbol_any_non_metacharacter : reduce group
+$                            : reduce group
+
+--------I_42
+symbol_right_brace           : reduce char_seq_opt
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 46
+char                         : goto 49
+char_seq_opt                 : goto 58
+char_seq                     : goto 43
+
+--------I_43
+symbol_right_brace           : reduce char_seq_opt
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 46
+char                         : goto 50
+
+--------I_44
+symbol_right_brace           : reduce comma_opt
+symbol_backslash             : shift 11
+symbol_comma                 : shift 48
+symbol_any_non_metacharacter : shift 46
+char                         : goto 50
+comma_opt                    : goto 42
+
+--------I_45
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 46
+char                         : goto 49
+char_seq                     : goto 44
+
+--------I_46
+symbol_or                    : reduce char
+symbol_star                  : reduce char
+symbol_plus                  : reduce char
+symbol_question              : reduce char
+symbol_left_pare             : reduce char
+symbol_right_pare            : reduce char
+symbol_left_brace            : reduce char
+symbol_right_brace           : reduce char
+symbol_dot                   : reduce char
+symbol_eos                   : reduce char
+symbol_slash                 : reduce char
+symbol_backslash             : reduce char
+symbol_set_left_bracket      : reduce char
+symbol_hat                   : reduce char
+symbol_set_right_bracket     : reduce char
+symbol_minus                 : reduce char
+symbol_comma                 : reduce char
+symbol_any_non_metacharacter : reduce char
+$                            : reduce char
+
+--------I_47
+symbol_or                    : reduce char
+symbol_star                  : reduce char
+symbol_plus                  : reduce char
+symbol_question              : reduce char
+symbol_left_pare             : reduce char
+symbol_right_pare            : reduce char
+symbol_left_brace            : reduce char
+symbol_right_brace           : reduce char
+symbol_dot                   : reduce char
+symbol_eos                   : reduce char
+symbol_slash                 : reduce char
+symbol_backslash             : reduce char
+symbol_set_left_bracket      : reduce char
+symbol_hat                   : reduce char
+symbol_set_right_bracket     : reduce char
+symbol_minus                 : reduce char
+symbol_comma                 : reduce char
+symbol_any_non_metacharacter : reduce char
+$                            : reduce char
+
+--------I_48
+symbol_right_brace           : reduce comma_opt
+symbol_backslash             : reduce comma_opt
+symbol_any_non_metacharacter : reduce comma_opt
+
+--------I_49
+symbol_right_brace           : reduce char_seq
+symbol_backslash             : reduce char_seq
+symbol_comma                 : reduce char_seq
+symbol_any_non_metacharacter : reduce char_seq
+
+--------I_50
+symbol_right_brace           : reduce char_seq
+symbol_backslash             : reduce char_seq
+symbol_comma                 : reduce char_seq
+symbol_any_non_metacharacter : reduce char_seq
+
+--------I_51
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_52
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_53
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_54
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_55
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_56
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_57
+symbol_or                    : reduce lv0_regexp
+symbol_star                  : shift 62
+symbol_plus                  : shift 61
+symbol_question              : shift 60
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_left_brace            : shift 45
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_58
+symbol_right_brace : shift 59
+
+--------I_59
+symbol_or                    : reduce n_to_m
+symbol_left_pare             : reduce n_to_m
+symbol_right_pare            : reduce n_to_m
+symbol_dot                   : reduce n_to_m
+symbol_eos                   : reduce n_to_m
+symbol_slash                 : reduce n_to_m
+symbol_backslash             : reduce n_to_m
+symbol_set_left_bracket      : reduce n_to_m
+symbol_hat                   : reduce n_to_m
+symbol_minus                 : reduce n_to_m
+symbol_any_non_metacharacter : reduce n_to_m
+$                            : reduce n_to_m
+
+--------I_60
+symbol_or                    : reduce question
+symbol_left_pare             : reduce question
+symbol_right_pare            : reduce question
+symbol_dot                   : reduce question
+symbol_eos                   : reduce question
+symbol_slash                 : reduce question
+symbol_backslash             : reduce question
+symbol_set_left_bracket      : reduce question
+symbol_hat                   : reduce question
+symbol_minus                 : reduce question
+symbol_any_non_metacharacter : reduce question
+$                            : reduce question
+
+--------I_61
+symbol_or                    : reduce plus
+symbol_left_pare             : reduce plus
+symbol_right_pare            : reduce plus
+symbol_dot                   : reduce plus
+symbol_eos                   : reduce plus
+symbol_slash                 : reduce plus
+symbol_backslash             : reduce plus
+symbol_set_left_bracket      : reduce plus
+symbol_hat                   : reduce plus
+symbol_minus                 : reduce plus
+symbol_any_non_metacharacter : reduce plus
+$                            : reduce plus
+
+--------I_62
+symbol_or                    : reduce star
+symbol_left_pare             : reduce star
+symbol_right_pare            : reduce star
+symbol_dot                   : reduce star
+symbol_eos                   : reduce star
+symbol_slash                 : reduce star
+symbol_backslash             : reduce star
+symbol_set_left_bracket      : reduce star
+symbol_hat                   : reduce star
+symbol_minus                 : reduce star
+symbol_any_non_metacharacter : reduce star
+$                            : reduce star
+
+--------I_63
+symbol_or                    : reduce lv0_regexp
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_64
+symbol_or                    : reduce lv0_regexp
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_65
+symbol_or                    : reduce lv0_regexp
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_66
+symbol_or                    : reduce lv0_regexp
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_67
+symbol_or                    : reduce concatenation
+symbol_left_pare             : reduce concatenation
+symbol_right_pare            : reduce concatenation
+symbol_dot                   : reduce concatenation
+symbol_eos                   : reduce concatenation
+symbol_slash                 : reduce concatenation
+symbol_backslash             : reduce concatenation
+symbol_set_left_bracket      : reduce concatenation
+symbol_hat                   : reduce concatenation
+symbol_minus                 : reduce concatenation
+symbol_any_non_metacharacter : reduce concatenation
+$                            : reduce concatenation
+
+--------I_68
+symbol_or                    : reduce lv1_regexp
+symbol_left_pare             : reduce lv1_regexp
+symbol_right_pare            : reduce lv1_regexp
+symbol_dot                   : reduce lv1_regexp
+symbol_eos                   : reduce lv1_regexp
+symbol_slash                 : reduce lv1_regexp
+symbol_backslash             : reduce lv1_regexp
+symbol_set_left_bracket      : reduce lv1_regexp
+symbol_hat                   : reduce lv1_regexp
+symbol_minus                 : reduce lv1_regexp
+symbol_any_non_metacharacter : reduce lv1_regexp
+$                            : reduce lv1_regexp
+
+--------I_69
+symbol_or                    : reduce lv1_regexp
+symbol_left_pare             : reduce lv1_regexp
+symbol_right_pare            : reduce lv1_regexp
+symbol_dot                   : reduce lv1_regexp
+symbol_eos                   : reduce lv1_regexp
+symbol_slash                 : reduce lv1_regexp
+symbol_backslash             : reduce lv1_regexp
+symbol_set_left_bracket      : reduce lv1_regexp
+symbol_hat                   : reduce lv1_regexp
+symbol_minus                 : reduce lv1_regexp
+symbol_any_non_metacharacter : reduce lv1_regexp
+$                            : reduce lv1_regexp
+
+--------I_70
+symbol_or         : shift 33
+symbol_right_pare : reduce trailing_context
+symbol_slash      : reduce trailing_context
+symbol_minus      : reduce trailing_context
+$                 : reduce trailing_context
+
+--------I_71
+symbol_or         : shift 33
+symbol_right_pare : reduce complement_regexp
+symbol_slash      : reduce complement_regexp
+symbol_minus      : reduce complement_regexp
+$                 : reduce complement_regexp
+
+--------I_72
+symbol_or         : shift 33
+symbol_right_pare : reduce lv3_regexp
+symbol_slash      : reduce lv3_regexp
+symbol_minus      : reduce lv3_regexp
+$                 : reduce lv3_regexp
+
+--------I_73
+symbol_or         : reduce lv2_regexp
+symbol_right_pare : reduce lv2_regexp
+symbol_slash      : reduce lv2_regexp
+symbol_minus      : reduce lv2_regexp
+$                 : reduce lv2_regexp
+
+--------I_74
+symbol_right_pare : reduce regexp
+symbol_slash      : shift 31
+symbol_minus      : shift 32
+$                 : reduce regexp
+
+--------I_75
+symbol_right_pare : reduce lv3_regexp
+symbol_slash      : reduce lv3_regexp
+symbol_minus      : reduce lv3_regexp
+$                 : reduce lv3_regexp
+
+--------I_76
+symbol_right_pare : reduce lv3_regexp
+symbol_slash      : reduce lv3_regexp
+symbol_minus      : reduce lv3_regexp
+$                 : reduce lv3_regexp
+
+--------I_77
+$ : accept!!
+

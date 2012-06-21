@@ -1,0 +1,212 @@
+template<class InputIter>
+bool rule_name(InputIter first, InputIter last){
+    InputIter iter = first;
+    bool match = true;
+    // put
+    return match && iter == last;
+}
+
+::char
+if(iter != last && *iter == 'a'){
+    ++iter;
+    match = true;
+}else{ match = false; }
+
+::union
+if(iter == last){ match = false; }else{
+    InputIter iter_prime = iter;
+    do{
+        // other_reg_0
+        if(match){ break; }else{ iter = iter_prime; }
+        // other_reg_1
+        if(match){ break; }else{ iter = iter_prime; }
+        // other_reg_n
+        if(match){ break; }else{ iter = iter_prime; }
+        // other_reg_last
+        if(!match){ iter = iter_prime; }
+    }while(false);
+}
+
+::complement
+if(iter == last){ match = false; }else{
+    InputIter iter_prime = iter, iter_prime_prime;
+    // other_reg_positive
+    if(match){
+        iter_prime_prime = iter;
+        iter = iter_prime;
+        // other_reg_negative
+        if(match){
+            iter = iter_prime;
+            match = false;
+        }else{
+            iter = iter_prime_prime;
+            match = true;
+        }
+    }
+}
+
+::trailing_context
+if(iter == last){ match = false; }else{
+    InputIter iter_prime = iter;
+    // other_reg_lhs
+    InputIter iter_prime_prime = iter;
+    if(match){
+        // other_reg_rhs
+        if(match){ iter = iter_prime_prime; }else{ iter = iter_prime; }
+    }
+}
+
+::n_to_m
+{
+    InputIter iter_prime = iter, iter_prime_prime = iter;
+    std::size_t i = 0;
+    while(iter != last){
+        // other_reg
+        if(match){
+            iter_prime = iter;
+            ++i;
+        }else{
+            iter = iter_prime;
+            break;
+        }
+    }
+    if(i >= n && i <= m){ match = true; }else{
+        match = false;
+        iter = iter_prime_prime;
+    }
+}
+
+::n
+{
+    InputIter iter_prime = iter;
+    std::size_t i = 0;
+    while(iter != last){
+        // other_reg
+        if(match){
+            iter_prime = iter;
+            ++i;
+        }else{
+            iter = iter_prime;
+            break;
+        }
+    }
+    if(i >= n){ match = true; }else{
+        match = false;
+        iter = iter_prime_prime;
+    }
+}
+
+::m
+{
+    InputIter iter_prime = iter;
+    std::size_t i = 0;
+    while(iter != last){
+        // other_reg
+        if(match){
+            iter_prime = iter;
+            ++i;
+        }else{
+            iter = iter_prime;
+            break;
+        }
+    }
+    if(i <= m){ match = true; }else{
+        match = false;
+        iter = iter_prime_prime;
+    }
+}
+
+::concatenation
+if(iter == last){
+    match = false;
+}else{
+    InputIter iter_prime = iter;
+    do{
+        // other_reg_0
+        if(!match){
+            iter = iter_prime;
+            break;
+        }
+        // other_reg_1
+        if(!match){
+            iter = iter_prime;
+            break;
+        }
+        // other_reg_2
+        if(!match){
+            iter = iter_prime;
+            break;
+        }
+    }while(false);
+}
+
+::star
+{
+    InputIter iter_prime = iter;
+    while(iter != last){
+        // other_reg
+        if(match){ iter_prime = iter; }else{
+            iter = iter_prime;
+            match = true;
+            break;
+        }
+    }
+}
+
+::plus
+do{
+    // other_reg
+    if(!match){ break; }
+    InputIter iter_prime = iter;
+    while(iter != last){
+        // other_reg
+        if(match){ iter_prime = iter; }else{
+            iter = iter_prime;
+            match = true;
+            break;
+        }
+    }
+}while(false);
+
+::question
+// other_reg
+match = true;
+
+::any
+if(iter == last){ match = false; }else{ ++iter; }
+
+::eos
+if(iter == last){ match = true; }else{ match = false; }
+
+::set
+if(iter == last){
+    match = false;
+}else{
+    char c = *iter;
+    if(
+        (c == 'a') ||
+        (c == 'b') ||
+        (c == 'c') ||
+        ((c >= 'a') && (c <= 'z'))
+    ){
+        ++iter;
+        match = true;
+    }else{ match = false; }
+}
+
+::negative_set
+if(iter == last){
+    match = false;
+}else{
+    char c = *iter;
+    if(
+        (c != 'a') &&
+        (c != 'b') &&
+        (c != 'c') &&
+        ((c < 'a') || (c > 'z'))
+    ){
+        ++iter;
+        match = true;
+    }else{ match = false; }
+}
+

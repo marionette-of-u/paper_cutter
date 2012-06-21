@@ -1,0 +1,171 @@
+<token_desc>{
+    symbol_or<paper_cutter::regexp*>,
+    symbol_star<paper_cutter::regexp*>,
+    symbol_plus<paper_cutter::regexp*>,
+    symbol_question<paper_cutter::regexp*>,
+    symbol_left_pare<paper_cutter::regexp*>,
+    symbol_right_pare<paper_cutter::regexp*>,
+    symbol_left_brace<paper_cutter::regexp*>,
+    symbol_right_brace<paper_cutter::regexp*>,
+    symbol_dot<paper_cutter::regexp*>,
+    symbol_eos<paper_cutter::regexp*>,
+    symbol_slash<paper_cutter::regexp*>,
+    symbol_backslash<paper_cutter::regexp*>,
+    symbol_set_left_bracket<paper_cutter::regexp*>,
+    symbol_hat<paper_cutter::regexp*>,
+    symbol_set_right_bracket<paper_cutter::regexp*>,
+    symbol_minus<paper_cutter::regexp*>,
+    symbol_comma<paper_cutter::regexp*>,
+    symbol_any_non_metacharacter<paper_cutter::regexp*>;
+}
+
+<grammar> reg_parser{
+    regexp<paper_cutter::regexp*>
+        : [make_regexp] lv3_regexp(0)
+        ;
+
+    lv3_regexp<paper_cutter::regexp*>
+        : [make_lv3_regexp] complement_regexp(0)
+        | [make_lv3_regexp] trailing_context(0)
+        | [make_lv3_regexp] lv2_regexp(0)
+        ;
+
+    trailing_context<paper_cutter::regexp*>
+        : [make_trailing_context] lv3_regexp(0) symbol_slash(2) lv2_regexp(1)
+        ;
+
+    complement_regexp<paper_cutter::regexp*>
+        : [make_complement] lv3_regexp(0) symbol_minus(2) lv2_regexp(1)
+        ;
+
+    lv2_regexp<paper_cutter::regexp*>
+        : [make_lv2_regexp] union(0)
+        | [make_lv2_regexp] lv1_regexp(0)
+        ;
+
+    union<paper_cutter::regexp*>
+        : [make_union] lv2_regexp(0) symbol_or(2) lv1_regexp(1)
+        ;
+
+    lv1_regexp<paper_cutter::regexp*>
+        : [make_lv1_regexp] concatenation(0)
+        | [make_lv1_regexp] lv0_regexp(0)
+        ;
+
+    concatenation<paper_cutter::regexp*>
+        : [make_concatenation] lv1_regexp(0) lv0_regexp(1)
+        ;
+
+    lv0_regexp<paper_cutter::regexp*>
+        : [make_lv0_regexp] star(0)
+        | [make_lv0_regexp] plus(0)
+        | [make_lv0_regexp] question(0)
+        | [make_lv0_regexp] n_to_m(0)
+        | [make_lv0_regexp] elementary_regexp(0)
+        ;
+
+    star<paper_cutter::regexp*>
+        : [make_star] elementary_regexp(0) symbol_star(1)
+        ;
+
+    plus<paper_cutter::regexp*>
+        : [make_plus] elementary_regexp(0) symbol_plus(1)
+        ;
+
+    question<paper_cutter::regexp*>
+        : [make_question] elementary_regexp(0) symbol_question(1)
+        ;
+
+    n_to_m<paper_cutter::regexp*>
+        : [make_n_to_m] elementary_regexp(0) symbol_left_brace(4) char_seq(1) comma_opt(3) char_seq_opt(2) symbol_right_brace(5)
+        ;
+
+    comma_opt<paper_cutter::regexp*>
+        : [make_comma] symbol_comma(0)
+        | []
+        ;
+
+    char_seq_opt<paper_cutter::regexp*>
+        : [make_char_seq_opt] char_seq(0)
+        | []
+        ;
+
+    char_seq<paper_cutter::regexp*>
+        : [make_char_seq] char(0)
+        | [make_char_seq] char_seq(0) char(1)
+        ;
+
+    elementary_regexp<paper_cutter::regexp*>
+        : [make_elementary_regexp] group(0)
+        | [make_elementary_regexp] any(0)
+        | [make_elementary_regexp] nline(0)
+        | [make_elementary_regexp] eos(0)
+        | [make_elementary_regexp] char(0)
+        | [make_elementary_regexp] set(0)
+        ;
+
+    group<paper_cutter::regexp*>
+        : [make_group] symbol_left_pare(1) regexp(0) symbol_right_pare(2)
+        ;
+
+    any<paper_cutter::regexp*>
+        : [make_any] symbol_dot(0)
+        ;
+
+    nline<paper_cutter::regexp*>
+        : [make_nline] symbol_hat(0)
+        ;
+
+    eos<paper_cutter::regexp*>
+        : [make_eos] symbol_eos(0)
+        ;
+
+    char<paper_cutter::regexp*>
+        : [make_char] symbol_any_non_metacharacter(0)
+        | [make_char] symbol_backslash(1) symbol_metacharacter(0)
+        ;
+
+    symbol_metacharacter<paper_cutter::regexp*>
+        : [make_meta_char] symbol_or(0)
+        | [make_meta_char] symbol_star(0)
+        | [make_meta_char] symbol_plus(0)
+        | [make_meta_char] symbol_question(0)
+        | [make_meta_char] symbol_left_pare(0)
+        | [make_meta_char] symbol_right_pare(0)
+        | [make_meta_char] symbol_left_brace(0)
+        | [make_meta_char] symbol_right_brace(0)
+        | [make_meta_char] symbol_dot(0)
+        | [make_meta_char] symbol_eos(0)
+        | [make_meta_char] symbol_slash(0)
+        | [make_meta_char] symbol_backslash(0)
+        | [make_meta_char] symbol_set_left_bracket(0)
+        | [make_meta_char] symbol_hat(0)
+        | [make_meta_char] symbol_set_right_bracket(0)
+        | [make_meta_char] symbol_minus(0)
+        | [make_meta_char] symbol_comma(0)
+        | [make_meta_char] symbol_any_non_metacharacter(0)
+        ;
+
+    set<paper_cutter::regexp*>
+        : [make_set] symbol_set_left_bracket(2) hat_opt(1) set_items(0) symbol_set_right_bracket(3)
+        ;
+
+    hat_opt<paper_cutter::regexp*>
+        : [make_hat] symbol_hat(0)
+        | []
+        ;
+
+    set_items<paper_cutter::regexp*>
+        : [make_set_items] set_item(0)
+        | [make_set_items] set_items(0) set_item(1)
+        ;
+
+    set_item<paper_cutter::regexp*>
+        : [make_set_item] range(0)
+        | [make_set_item] char(0)
+        ;
+
+    range<paper_cutter::regexp*>
+        : [make_range] char(0) symbol_minus char(1)
+        ;
+}
