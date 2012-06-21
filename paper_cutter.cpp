@@ -92,6 +92,15 @@ namespace paper_cutter{
     class regexp{
     public:
         regexp() : c('\0'), u(nullptr), v(nullptr){}
+        regexp(const regexp &other) : c(other.c), u(nullptr), v(nullptr){
+            if(other.u){ u = u->clone(); }
+            if(other.v){ v = v->clone(); }
+        }
+
+        regexp(regexp &&other) : c(std::move(other.c)), u(std::move(other.u)), v(std::move(other.v)){
+            other.u = nullptr;
+            other.v = nullptr;
+        }
 
         virtual ~regexp(){
             delete u;
@@ -602,8 +611,13 @@ namespace paper_cutter{
         std::string make_string() const{
             std::string r;
             if(v){
-                r = dynamic_cast<regexp_char_seq*>(u)->make_string();
-                r += v->c;
+                regexp_char_seq *cast_result = dynamic_cast<regexp_char_seq*>(u);
+                if(cast_result){
+                    r = cast_result->make_string();
+                }else{
+                    r += u->u->c;
+                }
+                r += v->u->c;
             }else{
                 r += u->c;
             }
@@ -1212,21 +1226,27 @@ namespace paper_cutter{
     };
 
     void regexp_other_rule::generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
-        regexp_holder_ptr->get_other_reg_data(dynamic_cast<regexp_char_seq*>(u)->make_string());
+        regexp_char_seq *cast_result = dynamic_cast<regexp_char_seq*>(u);
+        if(cast_result){
+            regexp_holder_ptr->get_other_reg_data(cast_result->make_string()).generate(os, ind_0);
+        }else{
+            std::string other_name;
+            other_name += u->u->c;
+            regexp_holder_ptr->get_other_reg_data(other_name).generate(os, ind_0);
+        }
     }
 }
 
 // !!
-//#include "put_proto.hpp"
+#include "put_proto.hpp"
 
 namespace paper_cutter{
     void test(){
-        // !!
-        //std::string str = "defghi";
-        //std::string str = "aaabbbcghi";
-        //std::cout << reg_test(str.begin(), str.end()).first << "\n";
+        regexp_holder holder("put_proto.hpp", "test");
 
         std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
+
+        token_vec.clear();
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_star, new regexp_plain_char('*')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b')));
@@ -1242,39 +1262,22 @@ namespace paper_cutter{
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
+        holder.add("t", token_vec.begin(), token_vec.end());
+        
+        token_vec.clear();
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_brace, new regexp_plain_char('{')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('t')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_brace, new regexp_plain_char('}')));
+        holder.add("u", token_vec.begin(), token_vec.end());
 
-        regexp_holder holder("put_proto.hpp", "test");
-        holder.add("reg_test", token_vec.begin(), token_vec.end());
         std::shared_ptr<const indent> indent(new indent_space(1));
+        //holder.generate(std::cout, indent);
         std::ofstream ofile("put_proto.hpp");
         holder.generate(ofile, indent);
-
-        //// !!
-        //reg_data data("reg_test");
-        //reg_parser::parser<regexp*, reg_data> parser(data);
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a'));
-        //parser.post(reg_parser::token_symbol_star, new regexp_plain_char('*'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b'));
-        //parser.post(reg_parser::token_symbol_plus, new regexp_plain_char('+'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('c'));
-        //parser.post(reg_parser::token_symbol_question, new regexp_plain_char('?'));
-        //parser.post(reg_parser::token_symbol_or, new regexp_plain_char('|'));
-        //parser.post(reg_parser::token_symbol_hat, new regexp_plain_char('^'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('d'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('e'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f'));
-        //parser.post(reg_parser::token_symbol_slash, new regexp_plain_char('/'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h'));
-        //parser.post(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i'));
-        //parser.post(reg_parser::token_0, nullptr);
-        //regexp *ptr;
-        //if(!parser.accept(ptr)){
-        //    std::cout << "parsing error\n";
-        //}
-        //std::ofstream ofile("put_proto.hpp");
-        //data.generate(ofile);
-        ////reg_data.generate(std::cout);
     }
 }
 
