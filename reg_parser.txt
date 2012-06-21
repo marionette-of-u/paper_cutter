@@ -98,7 +98,7 @@
     elementary_regexp<paper_cutter::regexp*>
         : [make_elementary_regexp] group(0)
         | [make_elementary_regexp] any(0)
-        | [make_elementary_regexp] nline(0)
+        | [make_elementary_regexp] after_nline(0)
         | [make_elementary_regexp] eos(0)
         | [make_elementary_regexp] char(0)
         | [make_elementary_regexp] set(0)
@@ -112,8 +112,8 @@
         : [make_any] symbol_dot(0)
         ;
 
-    nline<paper_cutter::regexp*>
-        : [make_nline] symbol_hat(0)
+    after_nline<paper_cutter::regexp*>
+        : [make_after_nline] symbol_hat(1) regexp(0)
         ;
 
     eos<paper_cutter::regexp*>

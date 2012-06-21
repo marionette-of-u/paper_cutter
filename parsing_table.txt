@@ -1,35 +1,35 @@
 --------I_0
-symbol_left_pare             : shift 30
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
-symbol_any_non_metacharacter : shift 46
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 68
-concatenation                : goto 69
-lv1_regexp                   : goto 35
-union                        : goto 73
-lv2_regexp                   : goto 72
-trailing_context             : goto 75
-complement_regexp            : goto 76
-lv3_regexp                   : goto 74
-regexp                       : goto 77
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 36
+union                        : goto 74
+lv2_regexp                   : goto 73
+trailing_context             : goto 76
+complement_regexp            : goto 77
+lv3_regexp                   : goto 75
+regexp                       : goto 78
 
 --------I_1
 symbol_backslash             : shift 11
-symbol_any_non_metacharacter : shift 46
+symbol_any_non_metacharacter : shift 47
 range                        : goto 6
 set_item                     : goto 7
 set_items                    : goto 2
@@ -37,8 +37,8 @@ char                         : goto 3
 
 --------I_2
 symbol_backslash             : shift 11
-symbol_set_right_bracket     : shift 36
-symbol_any_non_metacharacter : shift 46
+symbol_set_right_bracket     : shift 37
+symbol_any_non_metacharacter : shift 47
 range                        : goto 6
 set_item                     : goto 8
 char                         : goto 3
@@ -51,7 +51,7 @@ symbol_any_non_metacharacter : reduce set_item
 
 --------I_4
 symbol_backslash             : shift 11
-symbol_any_non_metacharacter : shift 46
+symbol_any_non_metacharacter : shift 47
 char                         : goto 5
 
 --------I_5
@@ -103,7 +103,7 @@ symbol_set_right_bracket     : shift 26
 symbol_minus                 : shift 27
 symbol_comma                 : shift 28
 symbol_any_non_metacharacter : shift 29
-symbol_metacharacter         : goto 47
+symbol_metacharacter         : goto 48
 
 --------I_12
 symbol_or                    : reduce symbol_metacharacter
@@ -484,160 +484,197 @@ symbol_any_non_metacharacter : reduce symbol_metacharacter
 $                            : reduce symbol_metacharacter
 
 --------I_30
-symbol_left_pare             : shift 30
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
-symbol_any_non_metacharacter : shift 46
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 68
-concatenation                : goto 69
-lv1_regexp                   : goto 35
-union                        : goto 73
-lv2_regexp                   : goto 72
-trailing_context             : goto 75
-complement_regexp            : goto 76
-lv3_regexp                   : goto 74
-regexp                       : goto 40
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 36
+union                        : goto 74
+lv2_regexp                   : goto 73
+trailing_context             : goto 76
+complement_regexp            : goto 77
+lv3_regexp                   : goto 75
+regexp                       : goto 39
 
 --------I_31
-symbol_left_pare             : shift 30
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
-symbol_any_non_metacharacter : shift 46
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 68
-concatenation                : goto 69
-lv1_regexp                   : goto 35
-union                        : goto 73
-lv2_regexp                   : goto 70
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 36
+union                        : goto 74
+lv2_regexp                   : goto 73
+trailing_context             : goto 76
+complement_regexp            : goto 77
+lv3_regexp                   : goto 75
+regexp                       : goto 41
 
 --------I_32
-symbol_left_pare             : shift 30
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
-symbol_any_non_metacharacter : shift 46
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 68
-concatenation                : goto 69
-lv1_regexp                   : goto 35
-union                        : goto 73
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 36
+union                        : goto 74
 lv2_regexp                   : goto 71
 
 --------I_33
-symbol_left_pare             : shift 30
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
-symbol_any_non_metacharacter : shift 46
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 68
-concatenation                : goto 69
-lv1_regexp                   : goto 34
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 36
+union                        : goto 74
+lv2_regexp                   : goto 72
 
 --------I_34
+symbol_left_pare             : shift 31
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
+symbol_backslash             : shift 11
+symbol_set_left_bracket      : shift 9
+symbol_hat                   : shift 30
+symbol_any_non_metacharacter : shift 47
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 69
+concatenation                : goto 70
+lv1_regexp                   : goto 35
+
+--------I_35
 symbol_or                    : reduce union
-symbol_left_pare             : shift 30
+symbol_star                  : reduce union
+symbol_plus                  : reduce union
+symbol_question              : reduce union
+symbol_left_pare             : shift 31
 symbol_right_pare            : reduce union
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_brace            : reduce union
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_slash                 : reduce union
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
+symbol_hat                   : shift 30
 symbol_minus                 : reduce union
-symbol_any_non_metacharacter : shift 46
+symbol_any_non_metacharacter : shift 47
 $                            : reduce union
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 67
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 68
 
---------I_35
+--------I_36
 symbol_or                    : reduce lv2_regexp
-symbol_left_pare             : shift 30
+symbol_star                  : reduce lv2_regexp
+symbol_plus                  : reduce lv2_regexp
+symbol_question              : reduce lv2_regexp
+symbol_left_pare             : shift 31
 symbol_right_pare            : reduce lv2_regexp
-symbol_dot                   : shift 39
-symbol_eos                   : shift 37
+symbol_left_brace            : reduce lv2_regexp
+symbol_dot                   : shift 40
+symbol_eos                   : shift 38
 symbol_slash                 : reduce lv2_regexp
 symbol_backslash             : shift 11
 symbol_set_left_bracket      : shift 9
-symbol_hat                   : shift 38
+symbol_hat                   : shift 30
 symbol_minus                 : reduce lv2_regexp
-symbol_any_non_metacharacter : shift 46
+symbol_any_non_metacharacter : shift 47
 $                            : reduce lv2_regexp
-set                          : goto 51
-eos                          : goto 52
-nline                        : goto 53
-any                          : goto 54
-group                        : goto 55
-char                         : goto 56
-elementary_regexp            : goto 57
-n_to_m                       : goto 63
-question                     : goto 64
-plus                         : goto 65
-star                         : goto 66
-lv0_regexp                   : goto 67
+set                          : goto 52
+eos                          : goto 53
+after_nline                  : goto 54
+any                          : goto 55
+group                        : goto 56
+char                         : goto 57
+elementary_regexp            : goto 58
+n_to_m                       : goto 64
+question                     : goto 65
+plus                         : goto 66
+star                         : goto 67
+lv0_regexp                   : goto 68
 
---------I_36
+--------I_37
 symbol_or                    : reduce set
 symbol_star                  : reduce set
 symbol_plus                  : reduce set
@@ -655,7 +692,7 @@ symbol_minus                 : reduce set
 symbol_any_non_metacharacter : reduce set
 $                            : reduce set
 
---------I_37
+--------I_38
 symbol_or                    : reduce eos
 symbol_star                  : reduce eos
 symbol_plus                  : reduce eos
@@ -673,25 +710,25 @@ symbol_minus                 : reduce eos
 symbol_any_non_metacharacter : reduce eos
 $                            : reduce eos
 
---------I_38
-symbol_or                    : reduce nline
-symbol_star                  : reduce nline
-symbol_plus                  : reduce nline
-symbol_question              : reduce nline
-symbol_left_pare             : reduce nline
-symbol_right_pare            : reduce nline
-symbol_left_brace            : reduce nline
-symbol_dot                   : reduce nline
-symbol_eos                   : reduce nline
-symbol_slash                 : reduce nline
-symbol_backslash             : reduce nline
-symbol_set_left_bracket      : reduce nline
-symbol_hat                   : reduce nline
-symbol_minus                 : reduce nline
-symbol_any_non_metacharacter : reduce nline
-$                            : reduce nline
-
 --------I_39
+symbol_or                    : reduce after_nline
+symbol_star                  : reduce after_nline
+symbol_plus                  : reduce after_nline
+symbol_question              : reduce after_nline
+symbol_left_pare             : reduce after_nline
+symbol_right_pare            : reduce after_nline
+symbol_left_brace            : reduce after_nline
+symbol_dot                   : reduce after_nline
+symbol_eos                   : reduce after_nline
+symbol_slash                 : reduce after_nline
+symbol_backslash             : reduce after_nline
+symbol_set_left_bracket      : reduce after_nline
+symbol_hat                   : reduce after_nline
+symbol_minus                 : reduce after_nline
+symbol_any_non_metacharacter : reduce after_nline
+$                            : reduce after_nline
+
+--------I_40
 symbol_or                    : reduce any
 symbol_star                  : reduce any
 symbol_plus                  : reduce any
@@ -709,10 +746,10 @@ symbol_minus                 : reduce any
 symbol_any_non_metacharacter : reduce any
 $                            : reduce any
 
---------I_40
-symbol_right_pare : shift 41
-
 --------I_41
+symbol_right_pare : shift 42
+
+--------I_42
 symbol_or                    : reduce group
 symbol_star                  : reduce group
 symbol_plus                  : reduce group
@@ -730,54 +767,33 @@ symbol_minus                 : reduce group
 symbol_any_non_metacharacter : reduce group
 $                            : reduce group
 
---------I_42
-symbol_right_brace           : reduce char_seq_opt
-symbol_backslash             : shift 11
-symbol_any_non_metacharacter : shift 46
-char                         : goto 49
-char_seq_opt                 : goto 58
-char_seq                     : goto 43
-
 --------I_43
 symbol_right_brace           : reduce char_seq_opt
 symbol_backslash             : shift 11
-symbol_any_non_metacharacter : shift 46
+symbol_any_non_metacharacter : shift 47
 char                         : goto 50
-
---------I_44
-symbol_right_brace           : reduce comma_opt
-symbol_backslash             : shift 11
-symbol_comma                 : shift 48
-symbol_any_non_metacharacter : shift 46
-char                         : goto 50
-comma_opt                    : goto 42
-
---------I_45
-symbol_backslash             : shift 11
-symbol_any_non_metacharacter : shift 46
-char                         : goto 49
+char_seq_opt                 : goto 59
 char_seq                     : goto 44
 
+--------I_44
+symbol_right_brace           : reduce char_seq_opt
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 47
+char                         : goto 51
+
+--------I_45
+symbol_right_brace           : reduce comma_opt
+symbol_backslash             : shift 11
+symbol_comma                 : shift 49
+symbol_any_non_metacharacter : shift 47
+char                         : goto 51
+comma_opt                    : goto 43
+
 --------I_46
-symbol_or                    : reduce char
-symbol_star                  : reduce char
-symbol_plus                  : reduce char
-symbol_question              : reduce char
-symbol_left_pare             : reduce char
-symbol_right_pare            : reduce char
-symbol_left_brace            : reduce char
-symbol_right_brace           : reduce char
-symbol_dot                   : reduce char
-symbol_eos                   : reduce char
-symbol_slash                 : reduce char
-symbol_backslash             : reduce char
-symbol_set_left_bracket      : reduce char
-symbol_hat                   : reduce char
-symbol_set_right_bracket     : reduce char
-symbol_minus                 : reduce char
-symbol_comma                 : reduce char
-symbol_any_non_metacharacter : reduce char
-$                            : reduce char
+symbol_backslash             : shift 11
+symbol_any_non_metacharacter : shift 47
+char                         : goto 50
+char_seq                     : goto 45
 
 --------I_47
 symbol_or                    : reduce char
@@ -801,15 +817,30 @@ symbol_any_non_metacharacter : reduce char
 $                            : reduce char
 
 --------I_48
+symbol_or                    : reduce char
+symbol_star                  : reduce char
+symbol_plus                  : reduce char
+symbol_question              : reduce char
+symbol_left_pare             : reduce char
+symbol_right_pare            : reduce char
+symbol_left_brace            : reduce char
+symbol_right_brace           : reduce char
+symbol_dot                   : reduce char
+symbol_eos                   : reduce char
+symbol_slash                 : reduce char
+symbol_backslash             : reduce char
+symbol_set_left_bracket      : reduce char
+symbol_hat                   : reduce char
+symbol_set_right_bracket     : reduce char
+symbol_minus                 : reduce char
+symbol_comma                 : reduce char
+symbol_any_non_metacharacter : reduce char
+$                            : reduce char
+
+--------I_49
 symbol_right_brace           : reduce comma_opt
 symbol_backslash             : reduce comma_opt
 symbol_any_non_metacharacter : reduce comma_opt
-
---------I_49
-symbol_right_brace           : reduce char_seq
-symbol_backslash             : reduce char_seq
-symbol_comma                 : reduce char_seq
-symbol_any_non_metacharacter : reduce char_seq
 
 --------I_50
 symbol_right_brace           : reduce char_seq
@@ -818,22 +849,10 @@ symbol_comma                 : reduce char_seq
 symbol_any_non_metacharacter : reduce char_seq
 
 --------I_51
-symbol_or                    : reduce elementary_regexp
-symbol_star                  : reduce elementary_regexp
-symbol_plus                  : reduce elementary_regexp
-symbol_question              : reduce elementary_regexp
-symbol_left_pare             : reduce elementary_regexp
-symbol_right_pare            : reduce elementary_regexp
-symbol_left_brace            : reduce elementary_regexp
-symbol_dot                   : reduce elementary_regexp
-symbol_eos                   : reduce elementary_regexp
-symbol_slash                 : reduce elementary_regexp
-symbol_backslash             : reduce elementary_regexp
-symbol_set_left_bracket      : reduce elementary_regexp
-symbol_hat                   : reduce elementary_regexp
-symbol_minus                 : reduce elementary_regexp
-symbol_any_non_metacharacter : reduce elementary_regexp
-$                            : reduce elementary_regexp
+symbol_right_brace           : reduce char_seq
+symbol_backslash             : reduce char_seq
+symbol_comma                 : reduce char_seq
+symbol_any_non_metacharacter : reduce char_seq
 
 --------I_52
 symbol_or                    : reduce elementary_regexp
@@ -926,13 +945,31 @@ symbol_any_non_metacharacter : reduce elementary_regexp
 $                            : reduce elementary_regexp
 
 --------I_57
+symbol_or                    : reduce elementary_regexp
+symbol_star                  : reduce elementary_regexp
+symbol_plus                  : reduce elementary_regexp
+symbol_question              : reduce elementary_regexp
+symbol_left_pare             : reduce elementary_regexp
+symbol_right_pare            : reduce elementary_regexp
+symbol_left_brace            : reduce elementary_regexp
+symbol_dot                   : reduce elementary_regexp
+symbol_eos                   : reduce elementary_regexp
+symbol_slash                 : reduce elementary_regexp
+symbol_backslash             : reduce elementary_regexp
+symbol_set_left_bracket      : reduce elementary_regexp
+symbol_hat                   : reduce elementary_regexp
+symbol_minus                 : reduce elementary_regexp
+symbol_any_non_metacharacter : reduce elementary_regexp
+$                            : reduce elementary_regexp
+
+--------I_58
 symbol_or                    : reduce lv0_regexp
-symbol_star                  : shift 62
-symbol_plus                  : shift 61
-symbol_question              : shift 60
+symbol_star                  : shift 63
+symbol_plus                  : shift 62
+symbol_question              : shift 61
 symbol_left_pare             : reduce lv0_regexp
 symbol_right_pare            : reduce lv0_regexp
-symbol_left_brace            : shift 45
+symbol_left_brace            : shift 46
 symbol_dot                   : reduce lv0_regexp
 symbol_eos                   : reduce lv0_regexp
 symbol_slash                 : reduce lv0_regexp
@@ -943,13 +980,17 @@ symbol_minus                 : reduce lv0_regexp
 symbol_any_non_metacharacter : reduce lv0_regexp
 $                            : reduce lv0_regexp
 
---------I_58
-symbol_right_brace : shift 59
-
 --------I_59
+symbol_right_brace : shift 60
+
+--------I_60
 symbol_or                    : reduce n_to_m
+symbol_star                  : reduce n_to_m
+symbol_plus                  : reduce n_to_m
+symbol_question              : reduce n_to_m
 symbol_left_pare             : reduce n_to_m
 symbol_right_pare            : reduce n_to_m
+symbol_left_brace            : reduce n_to_m
 symbol_dot                   : reduce n_to_m
 symbol_eos                   : reduce n_to_m
 symbol_slash                 : reduce n_to_m
@@ -960,10 +1001,14 @@ symbol_minus                 : reduce n_to_m
 symbol_any_non_metacharacter : reduce n_to_m
 $                            : reduce n_to_m
 
---------I_60
+--------I_61
 symbol_or                    : reduce question
+symbol_star                  : reduce question
+symbol_plus                  : reduce question
+symbol_question              : reduce question
 symbol_left_pare             : reduce question
 symbol_right_pare            : reduce question
+symbol_left_brace            : reduce question
 symbol_dot                   : reduce question
 symbol_eos                   : reduce question
 symbol_slash                 : reduce question
@@ -974,10 +1019,14 @@ symbol_minus                 : reduce question
 symbol_any_non_metacharacter : reduce question
 $                            : reduce question
 
---------I_61
+--------I_62
 symbol_or                    : reduce plus
+symbol_star                  : reduce plus
+symbol_plus                  : reduce plus
+symbol_question              : reduce plus
 symbol_left_pare             : reduce plus
 symbol_right_pare            : reduce plus
+symbol_left_brace            : reduce plus
 symbol_dot                   : reduce plus
 symbol_eos                   : reduce plus
 symbol_slash                 : reduce plus
@@ -988,10 +1037,14 @@ symbol_minus                 : reduce plus
 symbol_any_non_metacharacter : reduce plus
 $                            : reduce plus
 
---------I_62
+--------I_63
 symbol_or                    : reduce star
+symbol_star                  : reduce star
+symbol_plus                  : reduce star
+symbol_question              : reduce star
 symbol_left_pare             : reduce star
 symbol_right_pare            : reduce star
+symbol_left_brace            : reduce star
 symbol_dot                   : reduce star
 symbol_eos                   : reduce star
 symbol_slash                 : reduce star
@@ -1002,24 +1055,14 @@ symbol_minus                 : reduce star
 symbol_any_non_metacharacter : reduce star
 $                            : reduce star
 
---------I_63
-symbol_or                    : reduce lv0_regexp
-symbol_left_pare             : reduce lv0_regexp
-symbol_right_pare            : reduce lv0_regexp
-symbol_dot                   : reduce lv0_regexp
-symbol_eos                   : reduce lv0_regexp
-symbol_slash                 : reduce lv0_regexp
-symbol_backslash             : reduce lv0_regexp
-symbol_set_left_bracket      : reduce lv0_regexp
-symbol_hat                   : reduce lv0_regexp
-symbol_minus                 : reduce lv0_regexp
-symbol_any_non_metacharacter : reduce lv0_regexp
-$                            : reduce lv0_regexp
-
 --------I_64
 symbol_or                    : reduce lv0_regexp
+symbol_star                  : reduce lv0_regexp
+symbol_plus                  : reduce lv0_regexp
+symbol_question              : reduce lv0_regexp
 symbol_left_pare             : reduce lv0_regexp
 symbol_right_pare            : reduce lv0_regexp
+symbol_left_brace            : reduce lv0_regexp
 symbol_dot                   : reduce lv0_regexp
 symbol_eos                   : reduce lv0_regexp
 symbol_slash                 : reduce lv0_regexp
@@ -1032,8 +1075,12 @@ $                            : reduce lv0_regexp
 
 --------I_65
 symbol_or                    : reduce lv0_regexp
+symbol_star                  : reduce lv0_regexp
+symbol_plus                  : reduce lv0_regexp
+symbol_question              : reduce lv0_regexp
 symbol_left_pare             : reduce lv0_regexp
 symbol_right_pare            : reduce lv0_regexp
+symbol_left_brace            : reduce lv0_regexp
 symbol_dot                   : reduce lv0_regexp
 symbol_eos                   : reduce lv0_regexp
 symbol_slash                 : reduce lv0_regexp
@@ -1046,8 +1093,12 @@ $                            : reduce lv0_regexp
 
 --------I_66
 symbol_or                    : reduce lv0_regexp
+symbol_star                  : reduce lv0_regexp
+symbol_plus                  : reduce lv0_regexp
+symbol_question              : reduce lv0_regexp
 symbol_left_pare             : reduce lv0_regexp
 symbol_right_pare            : reduce lv0_regexp
+symbol_left_brace            : reduce lv0_regexp
 symbol_dot                   : reduce lv0_regexp
 symbol_eos                   : reduce lv0_regexp
 symbol_slash                 : reduce lv0_regexp
@@ -1059,9 +1110,31 @@ symbol_any_non_metacharacter : reduce lv0_regexp
 $                            : reduce lv0_regexp
 
 --------I_67
+symbol_or                    : reduce lv0_regexp
+symbol_star                  : reduce lv0_regexp
+symbol_plus                  : reduce lv0_regexp
+symbol_question              : reduce lv0_regexp
+symbol_left_pare             : reduce lv0_regexp
+symbol_right_pare            : reduce lv0_regexp
+symbol_left_brace            : reduce lv0_regexp
+symbol_dot                   : reduce lv0_regexp
+symbol_eos                   : reduce lv0_regexp
+symbol_slash                 : reduce lv0_regexp
+symbol_backslash             : reduce lv0_regexp
+symbol_set_left_bracket      : reduce lv0_regexp
+symbol_hat                   : reduce lv0_regexp
+symbol_minus                 : reduce lv0_regexp
+symbol_any_non_metacharacter : reduce lv0_regexp
+$                            : reduce lv0_regexp
+
+--------I_68
 symbol_or                    : reduce concatenation
+symbol_star                  : reduce concatenation
+symbol_plus                  : reduce concatenation
+symbol_question              : reduce concatenation
 symbol_left_pare             : reduce concatenation
 symbol_right_pare            : reduce concatenation
+symbol_left_brace            : reduce concatenation
 symbol_dot                   : reduce concatenation
 symbol_eos                   : reduce concatenation
 symbol_slash                 : reduce concatenation
@@ -1072,24 +1145,14 @@ symbol_minus                 : reduce concatenation
 symbol_any_non_metacharacter : reduce concatenation
 $                            : reduce concatenation
 
---------I_68
-symbol_or                    : reduce lv1_regexp
-symbol_left_pare             : reduce lv1_regexp
-symbol_right_pare            : reduce lv1_regexp
-symbol_dot                   : reduce lv1_regexp
-symbol_eos                   : reduce lv1_regexp
-symbol_slash                 : reduce lv1_regexp
-symbol_backslash             : reduce lv1_regexp
-symbol_set_left_bracket      : reduce lv1_regexp
-symbol_hat                   : reduce lv1_regexp
-symbol_minus                 : reduce lv1_regexp
-symbol_any_non_metacharacter : reduce lv1_regexp
-$                            : reduce lv1_regexp
-
 --------I_69
 symbol_or                    : reduce lv1_regexp
+symbol_star                  : reduce lv1_regexp
+symbol_plus                  : reduce lv1_regexp
+symbol_question              : reduce lv1_regexp
 symbol_left_pare             : reduce lv1_regexp
 symbol_right_pare            : reduce lv1_regexp
+symbol_left_brace            : reduce lv1_regexp
 symbol_dot                   : reduce lv1_regexp
 symbol_eos                   : reduce lv1_regexp
 symbol_slash                 : reduce lv1_regexp
@@ -1101,51 +1164,149 @@ symbol_any_non_metacharacter : reduce lv1_regexp
 $                            : reduce lv1_regexp
 
 --------I_70
-symbol_or         : shift 33
-symbol_right_pare : reduce trailing_context
-symbol_slash      : reduce trailing_context
-symbol_minus      : reduce trailing_context
-$                 : reduce trailing_context
+symbol_or                    : reduce lv1_regexp
+symbol_star                  : reduce lv1_regexp
+symbol_plus                  : reduce lv1_regexp
+symbol_question              : reduce lv1_regexp
+symbol_left_pare             : reduce lv1_regexp
+symbol_right_pare            : reduce lv1_regexp
+symbol_left_brace            : reduce lv1_regexp
+symbol_dot                   : reduce lv1_regexp
+symbol_eos                   : reduce lv1_regexp
+symbol_slash                 : reduce lv1_regexp
+symbol_backslash             : reduce lv1_regexp
+symbol_set_left_bracket      : reduce lv1_regexp
+symbol_hat                   : reduce lv1_regexp
+symbol_minus                 : reduce lv1_regexp
+symbol_any_non_metacharacter : reduce lv1_regexp
+$                            : reduce lv1_regexp
 
 --------I_71
-symbol_or         : shift 33
-symbol_right_pare : reduce complement_regexp
-symbol_slash      : reduce complement_regexp
-symbol_minus      : reduce complement_regexp
-$                 : reduce complement_regexp
+symbol_or                    : shift 34
+symbol_star                  : reduce trailing_context
+symbol_plus                  : reduce trailing_context
+symbol_question              : reduce trailing_context
+symbol_left_pare             : reduce trailing_context
+symbol_right_pare            : reduce trailing_context
+symbol_left_brace            : reduce trailing_context
+symbol_dot                   : reduce trailing_context
+symbol_eos                   : reduce trailing_context
+symbol_slash                 : reduce trailing_context
+symbol_backslash             : reduce trailing_context
+symbol_set_left_bracket      : reduce trailing_context
+symbol_hat                   : reduce trailing_context
+symbol_minus                 : reduce trailing_context
+symbol_any_non_metacharacter : reduce trailing_context
+$                            : reduce trailing_context
 
 --------I_72
-symbol_or         : shift 33
-symbol_right_pare : reduce lv3_regexp
-symbol_slash      : reduce lv3_regexp
-symbol_minus      : reduce lv3_regexp
-$                 : reduce lv3_regexp
+symbol_or                    : shift 34
+symbol_star                  : reduce complement_regexp
+symbol_plus                  : reduce complement_regexp
+symbol_question              : reduce complement_regexp
+symbol_left_pare             : reduce complement_regexp
+symbol_right_pare            : reduce complement_regexp
+symbol_left_brace            : reduce complement_regexp
+symbol_dot                   : reduce complement_regexp
+symbol_eos                   : reduce complement_regexp
+symbol_slash                 : reduce complement_regexp
+symbol_backslash             : reduce complement_regexp
+symbol_set_left_bracket      : reduce complement_regexp
+symbol_hat                   : reduce complement_regexp
+symbol_minus                 : reduce complement_regexp
+symbol_any_non_metacharacter : reduce complement_regexp
+$                            : reduce complement_regexp
 
 --------I_73
-symbol_or         : reduce lv2_regexp
-symbol_right_pare : reduce lv2_regexp
-symbol_slash      : reduce lv2_regexp
-symbol_minus      : reduce lv2_regexp
-$                 : reduce lv2_regexp
+symbol_or                    : shift 34
+symbol_star                  : reduce lv3_regexp
+symbol_plus                  : reduce lv3_regexp
+symbol_question              : reduce lv3_regexp
+symbol_left_pare             : reduce lv3_regexp
+symbol_right_pare            : reduce lv3_regexp
+symbol_left_brace            : reduce lv3_regexp
+symbol_dot                   : reduce lv3_regexp
+symbol_eos                   : reduce lv3_regexp
+symbol_slash                 : reduce lv3_regexp
+symbol_backslash             : reduce lv3_regexp
+symbol_set_left_bracket      : reduce lv3_regexp
+symbol_hat                   : reduce lv3_regexp
+symbol_minus                 : reduce lv3_regexp
+symbol_any_non_metacharacter : reduce lv3_regexp
+$                            : reduce lv3_regexp
 
 --------I_74
-symbol_right_pare : reduce regexp
-symbol_slash      : shift 31
-symbol_minus      : shift 32
-$                 : reduce regexp
+symbol_or                    : reduce lv2_regexp
+symbol_star                  : reduce lv2_regexp
+symbol_plus                  : reduce lv2_regexp
+symbol_question              : reduce lv2_regexp
+symbol_left_pare             : reduce lv2_regexp
+symbol_right_pare            : reduce lv2_regexp
+symbol_left_brace            : reduce lv2_regexp
+symbol_dot                   : reduce lv2_regexp
+symbol_eos                   : reduce lv2_regexp
+symbol_slash                 : reduce lv2_regexp
+symbol_backslash             : reduce lv2_regexp
+symbol_set_left_bracket      : reduce lv2_regexp
+symbol_hat                   : reduce lv2_regexp
+symbol_minus                 : reduce lv2_regexp
+symbol_any_non_metacharacter : reduce lv2_regexp
+$                            : reduce lv2_regexp
 
 --------I_75
-symbol_right_pare : reduce lv3_regexp
-symbol_slash      : reduce lv3_regexp
-symbol_minus      : reduce lv3_regexp
-$                 : reduce lv3_regexp
+symbol_or                    : reduce regexp
+symbol_star                  : reduce regexp
+symbol_plus                  : reduce regexp
+symbol_question              : reduce regexp
+symbol_left_pare             : reduce regexp
+symbol_right_pare            : reduce regexp
+symbol_left_brace            : reduce regexp
+symbol_dot                   : reduce regexp
+symbol_eos                   : reduce regexp
+symbol_slash                 : shift 32
+symbol_backslash             : reduce regexp
+symbol_set_left_bracket      : reduce regexp
+symbol_hat                   : reduce regexp
+symbol_minus                 : shift 33
+symbol_any_non_metacharacter : reduce regexp
+$                            : reduce regexp
 
 --------I_76
-symbol_right_pare : reduce lv3_regexp
-symbol_slash      : reduce lv3_regexp
-symbol_minus      : reduce lv3_regexp
-$                 : reduce lv3_regexp
+symbol_or                    : reduce lv3_regexp
+symbol_star                  : reduce lv3_regexp
+symbol_plus                  : reduce lv3_regexp
+symbol_question              : reduce lv3_regexp
+symbol_left_pare             : reduce lv3_regexp
+symbol_right_pare            : reduce lv3_regexp
+symbol_left_brace            : reduce lv3_regexp
+symbol_dot                   : reduce lv3_regexp
+symbol_eos                   : reduce lv3_regexp
+symbol_slash                 : reduce lv3_regexp
+symbol_backslash             : reduce lv3_regexp
+symbol_set_left_bracket      : reduce lv3_regexp
+symbol_hat                   : reduce lv3_regexp
+symbol_minus                 : reduce lv3_regexp
+symbol_any_non_metacharacter : reduce lv3_regexp
+$                            : reduce lv3_regexp
 
 --------I_77
+symbol_or                    : reduce lv3_regexp
+symbol_star                  : reduce lv3_regexp
+symbol_plus                  : reduce lv3_regexp
+symbol_question              : reduce lv3_regexp
+symbol_left_pare             : reduce lv3_regexp
+symbol_right_pare            : reduce lv3_regexp
+symbol_left_brace            : reduce lv3_regexp
+symbol_dot                   : reduce lv3_regexp
+symbol_eos                   : reduce lv3_regexp
+symbol_slash                 : reduce lv3_regexp
+symbol_backslash             : reduce lv3_regexp
+symbol_set_left_bracket      : reduce lv3_regexp
+symbol_hat                   : reduce lv3_regexp
+symbol_minus                 : reduce lv3_regexp
+symbol_any_non_metacharacter : reduce lv3_regexp
+$                            : reduce lv3_regexp
+
+--------I_78
 $ : accept!!
 

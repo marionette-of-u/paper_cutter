@@ -493,12 +493,12 @@ namespace paper_cutter{
         }
     };
 
-    class regexp_nline : public regexp{
+    class regexp_after_nline : public regexp{
     public:
-        virtual ~regexp_nline(){}
+        virtual ~regexp_after_nline(){}
 
         virtual regexp *clone() const{
-            return clone_impl<regexp_nline>();
+            return clone_impl<regexp_after_nline>();
         }
 
         virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
@@ -510,6 +510,7 @@ namespace paper_cutter{
                 << ind_0 << ind << "--iter_prime;\n"
                 << ind_0 << ind << "match = *iter_prime == '\\n';\n"
                 << ind_0 << "}\n";
+            u->generate(os, ind_0);
         }
     };
 
@@ -916,9 +917,10 @@ namespace paper_cutter{
             return ptr;
         }
 
-        regexp *make_nline(regexp *a){
-            delete a;
-            regexp_nline *ptr = new regexp_nline;
+        regexp *make_after_nline(regexp *a, regexp *b){
+            delete b;
+            regexp_after_nline *ptr = new regexp_after_nline;
+            ptr->u = a;
             ast = ptr;
             return ptr;
         }
