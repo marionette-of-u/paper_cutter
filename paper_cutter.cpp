@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <map>
 #include <list>
+#include <set>
+#include <map>
 #include <fstream>
 #include <functional>
 #include <string>
@@ -34,6 +35,9 @@ namespace paper_cutter{
         is >> r;
         return r;
     }
+
+    class regexp_holder;
+    class reg_data;
 
     class indent{
     public:
@@ -625,11 +629,11 @@ namespace paper_cutter{
         }
     };
 
-    class regexp_holder;
-
     class regexp_other_rule : public regexp{
     public:
-        regexp_other_rule(regexp_holder *regexp_holder_ptr_) : regexp_holder_ptr(regexp_holder_ptr_){}
+        regexp_other_rule(regexp_holder *regexp_holder_ptr_) :
+            regexp_holder_ptr(regexp_holder_ptr_)
+        {}
 
         virtual ~regexp_other_rule(){}
 
@@ -1143,7 +1147,7 @@ namespace paper_cutter{
             return *find_result->second;
         }
 
-        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0){
+        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
             std::shared_ptr<const indent> ind = ind_0->clone(1);
             std::shared_ptr<const indent>
                 ind_1 = ind_0->nested_clone(),
@@ -1197,6 +1201,8 @@ namespace paper_cutter{
                     << ind_0 << "static std::pair<bool, InputIter> " << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
                     << ind_0 << ind << "InputIter iter = first;\n"
                     << ind_0 << ind << "bool match = true;\n";
+                recursive_check_cache.clear();
+                insert_recursive_cache(iter->ref_rule_name);
                 iter->generate(os, ind_1);
                 os
                     << ind_0 << ind << "return std::make_pair(match, iter);\n"
@@ -1234,12 +1240,20 @@ namespace paper_cutter{
                 << "\n";
         }
 
+        void insert_recursive_cache(const std::string &other_name) const{
+            if(recursive_check_cache.find(other_name) != recursive_check_cache.end()){
+                throw(exception("recursive was detected."));
+            }
+            recursive_check_cache.insert(other_name);
+        }
+
     private:
         std::string
             file_name,
             namespace_;
         std::list<reg_data> reg_data_list;
         std::map<std::string, reg_data*> reg_data_map;
+        mutable std::set<std::string> recursive_check_cache;
     };
 
     void regexp_other_rule::generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
@@ -1250,6 +1264,7 @@ namespace paper_cutter{
         }else{
             other_name += u->u->c;
         }
+        regexp_holder_ptr->insert_recursive_cache(other_name);
         regexp_holder_ptr->get_other_reg_data(other_name).generate(os, ind_0);
     }
 }
@@ -1267,7 +1282,6 @@ namespace paper_cutter{
 
         // !!
         regexp_holder holder("put_proto.hpp", "test");
-
         std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
 
         token_vec.clear();
@@ -1303,10 +1317,14 @@ namespace paper_cutter{
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_pare, new regexp_plain_char(')')));
         holder.add("u", token_vec.begin(), token_vec.end());
 
-        std::shared_ptr<const indent> indent(new indent_space(1));
-        //holder.generate(std::cout, indent);
-        std::ofstream ofile("put_proto.hpp");
-        holder.generate(ofile, indent);
+        try{
+            std::shared_ptr<const indent> indent(new indent_space(1));
+            std::ofstream ofile("put_proto.hpp");
+            holder.generate(ofile, indent);
+        }catch(exception e){
+            std::cout << e.what() << "\n";
+            return;
+        }
     }
 }
 
