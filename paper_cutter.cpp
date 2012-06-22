@@ -1096,19 +1096,6 @@ namespace paper_cutter{
 
         void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
             ast->generate(os, ind_0);
-            //std::shared_ptr<const indent> ind = ind_0->clone(1);
-            //std::shared_ptr<const indent>
-            //    ind_1 = ind_0->nested_clone(),
-            //    ind_2 = ind_1->nested_clone();
-            //os
-            //    << ind_0 << "template<class InputIter>\n"
-            //    << ind_0 << "std::pair<bool, InputIter> " << rule_name << "(InputIter first, InputIter last){\n"
-            //    << ind_0 << ind << "InputIter iter = first;\n"
-            //    << ind_0 << ind << "bool match = true;\n";
-            //ast->generate(os, ind_2);
-            //os
-            //    << ind_0 << ind << "return std::make_pair(match, iter);\n"
-            //    << ind_0 << "}\n";
         }
 
     private:
@@ -1129,22 +1116,31 @@ namespace paper_cutter{
 
         template<class InputIter>
         void add(std::string name, InputIter first, InputIter last){
+            auto throw_expcetion = [&]() -> void{
+                throw(exception("parsing error."));
+            };
             reg_data data(this, name);
             reg_parser::parser<regexp*, reg_data> parser(data);
             for(InputIter iter = first; iter != last; ++iter){
-                parser.post(iter->first, iter->second);
+                if(parser.post(iter->first, iter->second)){
+                    throw_expcetion();
+                }
             }
             parser.post(reg_parser::token_0, nullptr);
             regexp *ptr;
             if(!parser.accept(ptr)){
-                std::cout << "parsing error\n";
+                throw_expcetion();
             }
             reg_data_list.push_back(std::move(data));
             reg_data_map.insert(std::make_pair(name, &reg_data_list.back()));
         }
 
         const reg_data &get_other_reg_data(const std::string &str) const{
-            return *reg_data_map.find(str)->second;
+            std::map<std::string, reg_data*>::const_iterator find_result = reg_data_map.find(str);
+            if(find_result == reg_data_map.end()){
+                throw(exception("exp '" + str + "' is not found."));
+            }
+            return *find_result->second;
         }
 
         void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0){
@@ -1167,6 +1163,7 @@ namespace paper_cutter{
                 << "#define " << include_guard << "\n"
                 << "\n"
                 << "#include <utility>" << "\n"
+                << "#include <iterator>" << "\n"
                 << "\n";
             if(namespace_.size() > 0){
                 os
@@ -1206,10 +1203,30 @@ namespace paper_cutter{
                     << ind_0 << "}\n\n";
             }
             os
+                << ind_0 << "template<class InputIter, class InsertIter>" << "\n"
+                << ind_0 << "static std::pair<bool, InputIter> tokenize(InputIter first, InputIter last, InsertIter token_inserter){" << "\n"
+                << ind_0 << ind << "InputIter iter = first;" << "\n"
+                << ind_0 << ind << "std::pair<bool, InputIter> result;" << "\n"
+                << ind_0 << ind << "while(iter != last){"<< "\n";
+            for(
+                std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
+                iter != end;
+                ++iter
+            ){
+                os
+                    << ind_0 << ind << ind << "result = "<< iter->ref_rule_name << "(iter, last);" << "\n"
+                    << ind_0 << ind << ind << "if(result.first){ *token_inserter = token_" << iter->ref_rule_name << "; iter = result.second; continue; }" << "\n";
+            }
+            os
+                << ind_0 << ind << ind << "break;" << "\n"
+                << ind_0 << ind << "}" << "\n"
+                << ind_0 << ind << "return result;" << "\n"
+                << ind_0 << "}" << "\n";
+            os
                 << "};\n";
             if(namespace_.size() > 0){
                 os
-                    << "} // " << namespace_ << "\n"
+                    << "} // namespace " << namespace_ << "\n"
                     << "\n";
             }
             os
@@ -1227,21 +1244,28 @@ namespace paper_cutter{
 
     void regexp_other_rule::generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
         regexp_char_seq *cast_result = dynamic_cast<regexp_char_seq*>(u);
+        std::string other_name;
         if(cast_result){
-            regexp_holder_ptr->get_other_reg_data(cast_result->make_string()).generate(os, ind_0);
+            other_name = cast_result->make_string();
         }else{
-            std::string other_name;
             other_name += u->u->c;
-            regexp_holder_ptr->get_other_reg_data(other_name).generate(os, ind_0);
         }
+        regexp_holder_ptr->get_other_reg_data(other_name).generate(os, ind_0);
     }
 }
 
 // !!
-#include "put_proto.hpp"
+//#include "put_proto.hpp"
 
 namespace paper_cutter{
     void test(){
+        //// !!
+        //std::string str = "aaabbcghifoo";
+        //std::vector<test::token> tokenize_result;
+        //test::lexer::tokenize(str.begin(), str.end(), std::back_inserter(tokenize_result));
+        //return;
+
+        // !!
         regexp_holder holder("put_proto.hpp", "test");
 
         std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
@@ -1263,8 +1287,12 @@ namespace paper_cutter{
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
         holder.add("t", token_vec.begin(), token_vec.end());
-        
+
         token_vec.clear();
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_pare, new regexp_plain_char('(')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
@@ -1272,6 +1300,7 @@ namespace paper_cutter{
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_brace, new regexp_plain_char('{')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('t')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_brace, new regexp_plain_char('}')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_pare, new regexp_plain_char(')')));
         holder.add("u", token_vec.begin(), token_vec.end());
 
         std::shared_ptr<const indent> indent(new indent_space(1));
