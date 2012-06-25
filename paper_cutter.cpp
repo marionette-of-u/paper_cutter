@@ -392,10 +392,7 @@ namespace paper_cutter{
                     ptr->generate(os, ind_2);
                 }
                 os
-                    << ind_0 << ind << ind << "if(!match){\n"
-                    << ind_0 << ind << ind << ind << "iter = iter_prime;\n"
-                    << ind_0 << ind << ind << ind << "break;\n"
-                    << ind_0 << ind << ind << "}\n";
+                    << ind_0 << ind << ind << "if(!match){ iter = iter_prime; break; }\n";
             };
             recursive_put(this);
             os
@@ -629,6 +626,42 @@ namespace paper_cutter{
         }
     };
 
+    class regexp_str : public regexp{
+    public:
+        virtual ~regexp_str(){}
+
+        virtual regexp *clone() const{
+            return clone_impl<regexp_str>();
+        }
+
+        virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+            std::shared_ptr<const indent> ind = ind_0->clone(1);
+            std::shared_ptr<const indent>
+                ind_1 = ind_0->nested_clone(),
+                ind_2 = ind_1->nested_clone();
+            //os << ind_0 << "// str\n";
+            os
+                << ind_0 << "if(iter == last){ match = false; }else{\n"
+                << ind_0 << ind << "InputIter iter_prime = iter;\n"
+                << ind_0 << ind << "do{\n";
+            std::function<void(const regexp*)> recursive_put;
+            recursive_put = [&](const regexp *ptr){
+                if(ptr->v){
+                    recursive_put(ptr->u);
+                    ptr->v->generate(os, ind_2);
+                }else{
+                    ptr->generate(os, ind_2);
+                }
+                os
+                    << ind_0 << ind << ind << "if(!match){ iter = iter_prime; break; }\n";
+            };
+            recursive_put(u);
+            os
+                << ind_0 << ind << "}while(false);\n"
+                << ind_0 << "}\n";
+        }
+    };
+
     class regexp_other_rule : public regexp{
     public:
         regexp_other_rule(regexp_holder *regexp_holder_ptr_) :
@@ -660,6 +693,39 @@ namespace paper_cutter{
 
         virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
             assert(false);
+        }
+    };
+
+    class regexp_class : public regexp{
+    public:
+        virtual ~regexp_class(){}
+
+        virtual regexp *clone() const{
+            return clone_impl<regexp_class>();
+        }
+
+        virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+            std::shared_ptr<const indent> ind = ind_0->clone(1);
+            std::string str = dynamic_cast<regexp_char_seq*>(u)->make_string();
+            if(
+                str != "alnum" &&
+                str != "alpha" &&
+                str != "blank" &&
+                str != "cntrl" &&
+                str != "digit" &&
+                str != "graph" &&
+                str != "lower" &&
+                str != "print" &&
+                str != "punct" &&
+                str != "space" &&
+                str != "upper" &&
+                str != "xdigit"
+            ){ throw(exception("illegal class name.")); }
+            os
+                << ind_0 << "if(iter != last && std::is" << str << "(*iter)){\n"
+                << ind_0 << ind << "++iter;\n"
+                << ind_0 << ind << "match = true;\n"
+                << ind_0 << "}else{ match = false; }\n";
         }
     };
 
@@ -988,6 +1054,15 @@ namespace paper_cutter{
             return ptr;
         }
 
+        regexp *make_str(regexp *a, regexp *b, regexp *c){
+            delete b;
+            delete c;
+            regexp_str *ptr = new regexp_str;
+            ptr->u = a;
+            ast = ptr;
+            return ptr;
+        }
+
         regexp *make_other_rule(regexp *a, regexp *b, regexp *c){
             delete b;
             delete c;
@@ -1034,24 +1109,13 @@ namespace paper_cutter{
             return ptr;
         }
 
+        regexp *make_escape_char(regexp *a){
+            return a;
+        }
+
         regexp *make_number(regexp *a){
             regexp_char *ptr = new regexp_char;
             ptr->u = a;
-            ast = ptr;
-            return ptr;
-        }
-
-        regexp *make_set(regexp *a, regexp *b, regexp *c, regexp *d){
-            regexp *ptr;
-            if(!b){
-                ptr = new regexp_set;
-            }else{
-                ptr = new regexp_negative_set;
-            }
-            ptr->u = a;
-            delete b;
-            delete c;
-            delete d;
             ast = ptr;
             return ptr;
         }
@@ -1066,6 +1130,43 @@ namespace paper_cutter{
             ptr->c = a->c;
             ast = ptr;
             return ptr;
+        }
+
+        regexp *make_meta_char(regexp *a, regexp *b){
+            delete b;
+            return make_meta_char(a);
+        }
+
+        regexp *make_set_or_class(regexp *a, regexp *b, regexp *c){
+            delete b;
+            delete c;
+            return a;
+        }
+
+        regexp *make_class_content(regexp *a, regexp *b, regexp *c){
+            delete b;
+            delete c;
+            regexp *ptr = new regexp_class;
+            ptr->u = a;
+            ast = ptr;
+            return ptr;
+        }
+
+        regexp *make_set_content(regexp *a, regexp *b){
+            regexp *ptr;
+            if(!b){
+                ptr = new regexp_set;
+            }else{
+                ptr = new regexp_negative_set;
+            }
+            ptr->u = a;
+            delete b;
+            ast = ptr;
+            return ptr;
+        }
+
+        regexp *make_set_or_class_content(regexp *a){
+            return a;
         }
 
         regexp *make_set_items(regexp *a){
@@ -1168,6 +1269,7 @@ namespace paper_cutter{
                 << "\n"
                 << "#include <utility>" << "\n"
                 << "#include <iterator>" << "\n"
+                << "#include <cstring>" << "\n"
                 << "\n";
             if(namespace_.size() > 0){
                 os
@@ -1221,7 +1323,11 @@ namespace paper_cutter{
             ){
                 os
                     << ind_0 << ind << ind << "result = "<< iter->ref_rule_name << "(iter, last);" << "\n"
-                    << ind_0 << ind << ind << "if(result.first){ *token_inserter = token_" << iter->ref_rule_name << "; iter = result.second; continue; }" << "\n";
+                    << ind_0 << ind << ind << "if(result.first){" << "\n"
+                    << ind_0 << ind << ind << ind << "*token_inserter = std::make_pair(token_" << iter->ref_rule_name << ", std::make_pair(iter, result.second));" << "\n"
+                    << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
+                    << ind_0 << ind << ind << ind << "continue;\n"
+                    << ind_0 << ind << ind << "}\n";
             }
             os
                 << ind_0 << ind << ind << "break;" << "\n"
@@ -1270,13 +1376,18 @@ namespace paper_cutter{
 }
 
 // !!
-//#include "put_proto.hpp"
+#include "put_proto.hpp"
 
 namespace paper_cutter{
     void test(){
         //// !!
         //std::string str = "aaabbcghifoo";
-        //std::vector<test::token> tokenize_result;
+        //std::vector<
+        //    std::pair<
+        //        test::token,
+        //        std::pair<std::string::const_iterator, std::string::const_iterator>
+        //    >
+        //> tokenize_result;
         //test::lexer::tokenize(str.begin(), str.end(), std::back_inserter(tokenize_result));
         //return;
 
@@ -1310,6 +1421,16 @@ namespace paper_cutter{
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_left_bracket, new regexp_plain_char('[')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_colon, new regexp_plain_char(':')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('l')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('n')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('u')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('m')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_colon, new regexp_plain_char(':')));
+        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_right_bracket, new regexp_plain_char(']')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_brace, new regexp_plain_char('{')));
         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('t')));

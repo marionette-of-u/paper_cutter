@@ -16,6 +16,8 @@
     symbol_set_right_bracket<paper_cutter::regexp*>,
     symbol_minus<paper_cutter::regexp*>,
     symbol_comma<paper_cutter::regexp*>,
+    symbol_colon<paper_cutter::regexp*>,
+    symbol_double_quote<paper_cutter::regexp*>,
     symbol_any_non_metacharacter<paper_cutter::regexp*>,
     symbol_number<paper_cutter::regexp*>;
 }
@@ -99,16 +101,58 @@
 
     elementary_regexp<paper_cutter::regexp*>
         : [make_elementary_regexp] group(0)
+        | [make_elementary_regexp] str(0)
         | [make_elementary_regexp] other_rule(0)
+        | [make_elementary_regexp] set_or_class(0)
         | [make_elementary_regexp] any(0)
         | [make_elementary_regexp] after_nline(0)
         | [make_elementary_regexp] eos(0)
         | [make_elementary_regexp] char(0)
-        | [make_elementary_regexp] set(0)
         ;
 
     group<paper_cutter::regexp*>
         : [make_group] symbol_left_pare(1) regexp(0) symbol_right_pare(2)
+        ;
+
+    str<paper_cutter::regexp*>
+        : [make_str] symbol_double_quote(1) str_char_seq_opt(0) symbol_double_quote(2)
+        ;
+
+    str_char_seq_opt<paper_cutter::regexp*>
+        : [make_char_seq_opt] str_char_seq(0)
+        | []
+        ;
+
+    str_char_seq<paper_cutter::regexp*>
+        : [make_char_seq] str_char(0)
+        | [make_char_seq] str_char_seq(0) str_char(1)
+        ;
+
+    str_char<paper_cutter::regexp*>
+        : [make_char] symbol_or(0)
+        | [make_char] symbol_star(0)
+        | [make_char] symbol_plus(0)
+        | [make_char] symbol_question(0)
+        | [make_char] symbol_left_pare(0)
+        | [make_char] symbol_right_pare(0)
+        | [make_char] symbol_left_brace(0)
+        | [make_char] symbol_right_brace(0)
+        | [make_char] symbol_dot(0)
+        | [make_char] symbol_eos(0)
+        | [make_char] symbol_slash(0)
+        | [make_char] symbol_set_left_bracket(0)
+        | [make_char] symbol_hat(0)
+        | [make_char] symbol_set_right_bracket(0)
+        | [make_char] symbol_minus(0)
+        | [make_char] symbol_comma(0)
+        | [make_char] symbol_any_non_metacharacter(0)
+        | [make_char] symbol_number(0)
+        | [make_char] symbol_backslash(1) str_escape_char(0)
+        ;
+
+    str_escape_char<paper_cutter::regexp*>
+        : [make_escape_char] symbol_backslash(0)
+        | [make_escape_char] symbol_double_quote(0)
         ;
 
     other_rule<paper_cutter::regexp*>
@@ -129,10 +173,10 @@
 
     char<paper_cutter::regexp*>
         : [make_char] symbol_any_non_metacharacter(0)
-        | [make_char] symbol_backslash(1) symbol_metacharacter(0)
+        | [make_char] symbol_backslash(1) metacharacter(0)
         ;
 
-    symbol_metacharacter<paper_cutter::regexp*>
+    metacharacter<paper_cutter::regexp*>
         : [make_meta_char] symbol_or(0)
         | [make_meta_char] symbol_star(0)
         | [make_meta_char] symbol_plus(0)
@@ -150,12 +194,26 @@
         | [make_meta_char] symbol_set_right_bracket(0)
         | [make_meta_char] symbol_minus(0)
         | [make_meta_char] symbol_comma(0)
+        | [make_meta_char] symbol_double_quote(0)
         | [make_meta_char] symbol_any_non_metacharacter(0)
         | [make_meta_char] symbol_number(0)
         ;
 
-    set<paper_cutter::regexp*>
-        : [make_set] symbol_set_left_bracket(2) hat_opt(1) set_items(0) symbol_set_right_bracket(3)
+    set_or_class<paper_cutter::regexp*>
+        : [make_set_or_class] symbol_set_left_bracket(1) set_or_class_content(0) symbol_set_right_bracket(2)
+        ;
+
+    set_or_class_content<paper_cutter::regexp*>
+        : [make_set_or_class_content] class_content(0)
+        | [make_set_or_class_content] set_content(0)
+        ;
+
+    class_content<paper_cutter::regexp*>
+        : [make_class_content] symbol_colon(1) char_seq(0) symbol_colon(2) 
+        ;
+
+    set_content<paper_cutter::regexp*>
+        : [make_set_content] hat_opt(1) set_items(0)
         ;
 
     hat_opt<paper_cutter::regexp*>

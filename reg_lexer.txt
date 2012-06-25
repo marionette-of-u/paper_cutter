@@ -1,0 +1,13 @@
+<token_desc>{
+    symbol_set_left_bracket<paper_cutter::lexical_token*>,
+    symbol_set_right_bracket<paper_cutter::lexical_token*>,
+    symbol_colon<paper_cutter::lexical_token*>,
+    symbol_any<paper_cutter::lexical_token*>;
+}
+
+<grammar> reg_lexer{
+    char_seq<paper_cutter::lexical_token*>
+        : [make_char_seq] 
+        ;
+}
+

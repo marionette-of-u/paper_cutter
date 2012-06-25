@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <iterator>
+#include <cstring>
 
 namespace test{
 
@@ -37,10 +38,7 @@ public:
                                 }
                             }
                         }
-                        if(!match){
-                            iter = iter_prime;
-                            break;
-                        }
+                        if(!match){ iter = iter_prime; break; }
                         do{
                             if(iter != last && *iter == 'b'){
                                 ++iter;
@@ -60,19 +58,13 @@ public:
                                 }
                             }
                         }while(false);
-                        if(!match){
-                            iter = iter_prime;
-                            break;
-                        }
+                        if(!match){ iter = iter_prime; break; }
                         if(iter != last && *iter == 'c'){
                             ++iter;
                             match = true;
                         }else{ match = false; }
                         match = true;
-                        if(!match){
-                            iter = iter_prime;
-                            break;
-                        }
+                        if(!match){ iter = iter_prime; break; }
                     }while(false);
                 }
                 if(match){ break; }else{ iter = iter_prime; }
@@ -90,26 +82,17 @@ public:
                                 ++iter;
                                 match = true;
                             }else{ match = false; }
-                            if(!match){
-                                iter = iter_prime;
-                                break;
-                            }
+                            if(!match){ iter = iter_prime; break; }
                             if(iter != last && *iter == 'e'){
                                 ++iter;
                                 match = true;
                             }else{ match = false; }
-                            if(!match){
-                                iter = iter_prime;
-                                break;
-                            }
+                            if(!match){ iter = iter_prime; break; }
                             if(iter != last && *iter == 'f'){
                                 ++iter;
                                 match = true;
                             }else{ match = false; }
-                            if(!match){
-                                iter = iter_prime;
-                                break;
-                            }
+                            if(!match){ iter = iter_prime; break; }
                         }while(false);
                     }
                     if(match){
@@ -120,26 +103,17 @@ public:
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                                 if(iter != last && *iter == 'h'){
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                                 if(iter != last && *iter == 'i'){
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                             }while(false);
                         }
                         InputIter iter_prime_prime = iter;
@@ -163,26 +137,17 @@ public:
                     ++iter;
                     match = true;
                 }else{ match = false; }
-                if(!match){
-                    iter = iter_prime;
-                    break;
-                }
+                if(!match){ iter = iter_prime; break; }
                 if(iter != last && *iter == 'h'){
                     ++iter;
                     match = true;
                 }else{ match = false; }
-                if(!match){
-                    iter = iter_prime;
-                    break;
-                }
+                if(!match){ iter = iter_prime; break; }
                 if(iter != last && *iter == 'i'){
                     ++iter;
                     match = true;
                 }else{ match = false; }
-                if(!match){
-                    iter = iter_prime;
-                    break;
-                }
+                if(!match){ iter = iter_prime; break; }
                 if(iter == last){ match = false; }else{ 
                     InputIter iter_prime = iter;
                     do{
@@ -193,27 +158,32 @@ public:
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                                 if(iter != last && *iter == 'o'){
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                                 if(iter != last && *iter == 'o'){
                                     ++iter;
                                     match = true;
                                 }else{ match = false; }
-                                if(!match){
-                                    iter = iter_prime;
-                                    break;
-                                }
+                                if(!match){ iter = iter_prime; break; }
                             }while(false);
+                        }
+                        if(match){ break; }else{ iter = iter_prime; }
+                        if(iter == last){ match = false; }else{
+                            char c = *iter;
+                            if(
+                                (c != 'a') &&
+                                (c != 'l') &&
+                                (c != 'n') &&
+                                (c != 'u') &&
+                                (c != 'm')
+                            ){
+                                ++iter;
+                                match = true;
+                            }else{ match = false; }
                         }
                         if(match){ break; }else{ iter = iter_prime; }
                         if(iter == last){ match = false; }else{ 
@@ -236,10 +206,7 @@ public:
                                                 }
                                             }
                                         }
-                                        if(!match){
-                                            iter = iter_prime;
-                                            break;
-                                        }
+                                        if(!match){ iter = iter_prime; break; }
                                         do{
                                             if(iter != last && *iter == 'b'){
                                                 ++iter;
@@ -259,19 +226,13 @@ public:
                                                 }
                                             }
                                         }while(false);
-                                        if(!match){
-                                            iter = iter_prime;
-                                            break;
-                                        }
+                                        if(!match){ iter = iter_prime; break; }
                                         if(iter != last && *iter == 'c'){
                                             ++iter;
                                             match = true;
                                         }else{ match = false; }
                                         match = true;
-                                        if(!match){
-                                            iter = iter_prime;
-                                            break;
-                                        }
+                                        if(!match){ iter = iter_prime; break; }
                                     }while(false);
                                 }
                                 if(match){ break; }else{ iter = iter_prime; }
@@ -289,26 +250,17 @@ public:
                                                 ++iter;
                                                 match = true;
                                             }else{ match = false; }
-                                            if(!match){
-                                                iter = iter_prime;
-                                                break;
-                                            }
+                                            if(!match){ iter = iter_prime; break; }
                                             if(iter != last && *iter == 'e'){
                                                 ++iter;
                                                 match = true;
                                             }else{ match = false; }
-                                            if(!match){
-                                                iter = iter_prime;
-                                                break;
-                                            }
+                                            if(!match){ iter = iter_prime; break; }
                                             if(iter != last && *iter == 'f'){
                                                 ++iter;
                                                 match = true;
                                             }else{ match = false; }
-                                            if(!match){
-                                                iter = iter_prime;
-                                                break;
-                                            }
+                                            if(!match){ iter = iter_prime; break; }
                                         }while(false);
                                     }
                                     if(match){
@@ -319,26 +271,17 @@ public:
                                                     ++iter;
                                                     match = true;
                                                 }else{ match = false; }
-                                                if(!match){
-                                                    iter = iter_prime;
-                                                    break;
-                                                }
+                                                if(!match){ iter = iter_prime; break; }
                                                 if(iter != last && *iter == 'h'){
                                                     ++iter;
                                                     match = true;
                                                 }else{ match = false; }
-                                                if(!match){
-                                                    iter = iter_prime;
-                                                    break;
-                                                }
+                                                if(!match){ iter = iter_prime; break; }
                                                 if(iter != last && *iter == 'i'){
                                                     ++iter;
                                                     match = true;
                                                 }else{ match = false; }
-                                                if(!match){
-                                                    iter = iter_prime;
-                                                    break;
-                                                }
+                                                if(!match){ iter = iter_prime; break; }
                                             }while(false);
                                         }
                                         InputIter iter_prime_prime = iter;
@@ -351,10 +294,7 @@ public:
                         if(!match){ iter = iter_prime; }
                     }while(false);
                 }
-                if(!match){
-                    iter = iter_prime;
-                    break;
-                }
+                if(!match){ iter = iter_prime; break; }
             }while(false);
         }
         return std::make_pair(match, iter);
@@ -366,9 +306,17 @@ public:
         std::pair<bool, InputIter> result;
         while(iter != last){
             result = t(iter, last);
-            if(result.first){ *token_inserter = token_t; iter = result.second; continue; }
+            if(result.first){
+                *token_inserter = std::make_pair(token_t, std::make_pair(iter, result.second));
+                iter = result.second;
+                continue;
+            }
             result = u(iter, last);
-            if(result.first){ *token_inserter = token_u; iter = result.second; continue; }
+            if(result.first){
+                *token_inserter = std::make_pair(token_u, std::make_pair(iter, result.second));
+                iter = result.second;
+                continue;
+            }
             break;
         }
         return result;
