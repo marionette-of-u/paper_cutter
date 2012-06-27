@@ -15,7 +15,7 @@ enum token{
 class lexer{
 public:
     template<class InputIter>
-    static std::pair<bool, InputIter> t(InputIter first, InputIter last){
+    static std::pair<bool, InputIter> reg_t(InputIter first, InputIter last){
         InputIter iter = first;
         bool match = true;
         if(iter == last){ match = false; }else{ 
@@ -127,7 +127,7 @@ public:
     }
 
     template<class InputIter>
-    static std::pair<bool, InputIter> u(InputIter first, InputIter last){
+    static std::pair<bool, InputIter> reg_u(InputIter first, InputIter last){
         InputIter iter = first;
         bool match = true;
         if(iter == last){ match = false; }else{
@@ -172,19 +172,10 @@ public:
                             }while(false);
                         }
                         if(match){ break; }else{ iter = iter_prime; }
-                        if(iter == last){ match = false; }else{
-                            char c = *iter;
-                            if(
-                                (c != 'a') &&
-                                (c != 'l') &&
-                                (c != 'n') &&
-                                (c != 'u') &&
-                                (c != 'm')
-                            ){
-                                ++iter;
-                                match = true;
-                            }else{ match = false; }
-                        }
+                        if(iter != last && std::isalnum(*iter)){
+                            ++iter;
+                            match = true;
+                        }else{ match = false; }
                         if(match){ break; }else{ iter = iter_prime; }
                         if(iter == last){ match = false; }else{ 
                             InputIter iter_prime = iter;
@@ -305,13 +296,13 @@ public:
         InputIter iter = first;
         std::pair<bool, InputIter> result;
         while(iter != last){
-            result = t(iter, last);
+            result = reg_t(iter, last);
             if(result.first){
                 *token_inserter = std::make_pair(token_t, std::make_pair(iter, result.second));
                 iter = result.second;
                 continue;
             }
-            result = u(iter, last);
+            result = reg_u(iter, last);
             if(result.first){
                 *token_inserter = std::make_pair(token_u, std::make_pair(iter, result.second));
                 iter = result.second;

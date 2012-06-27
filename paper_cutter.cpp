@@ -11,6 +11,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <memory>
+#include <locale>
 #include <sstream>
 #include <cstring>
 #include <cctype>
@@ -29,11 +30,39 @@ namespace paper_cutter{
         {}
     };
 
+    bool escape(char ch){
+        switch(ch){
+        case '\\':
+        case 'a':
+        case 'b':
+        case 'f':
+        case 'n':
+        case 'r':
+        case 't':
+        case 'v':
+            return true;
+
+        default:
+            break;
+        }
+        return false;
+    }
+
     std::size_t lexical_cast(const std::string &value){
+        for(std::size_t i = 0; i < value.size(); ++i){
+            if(std::isdigit(value[i]) == 0){ throw(exception("'" + value + "' isn't digit.")); }
+        }
         std::size_t r;
         std::istringstream is(value);
         is >> r;
         return r;
+    }
+
+    std::string lexical_cast(std::size_t value){
+        std::string r;
+        std::stringstream ss;
+        ss << value;
+        return ss.str();
     }
 
     class regexp_holder;
@@ -70,6 +99,25 @@ namespace paper_cutter{
 
         virtual std::shared_ptr<const indent> nested_clone() const{
             indent_space *ptr = new indent_space(nest + 1);
+            return std::shared_ptr<const indent>(ptr);
+        }
+    };
+
+    class indent_space8 : public indent{
+    public:
+        indent_space8(std::size_t n){ nest = n; }
+
+        virtual const char *str() const{
+            return "        ";
+        }
+
+        virtual std::shared_ptr<const indent> clone(std::size_t n) const{
+            indent_space8 *ptr = new indent_space8(n);
+            return std::shared_ptr<const indent>(ptr);
+        }
+
+        virtual std::shared_ptr<const indent> nested_clone() const{
+            indent_space8 *ptr = new indent_space8(nest + 1);
             return std::shared_ptr<const indent>(ptr);
         }
     };
@@ -277,7 +325,7 @@ namespace paper_cutter{
                 << ind_0 << ind << ind << ind << "break;\n"
                 << ind_0 << ind << ind << "}\n"
                 << ind_0 << ind << "}\n"
-                << ind_0 << ind << "if(i >= " << n << " && i <= " << m << "){ match = true; }else{\n"
+                << ind_0 << ind << "if((i >= " << n << ") && (i <= " << m << ")){ match = true; }else{\n"
                 << ind_0 << ind << ind << "match = false;\n"
                 << ind_0 << ind << ind << "iter = iter_prime_prime;\n"
                 << ind_0 << ind << "}\n"
@@ -593,7 +641,13 @@ namespace paper_cutter{
         }
 
         virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
-            u->generate(os, ind_0);
+            std::shared_ptr<const indent> ind = ind_0->clone(1);
+            //os << ind_0 << "// meta_char\n";
+            os
+                << ind_0 << "if(iter != last && *iter == '" << (escape(c) ? "\\" : "") << c << "'){\n"
+                << ind_0 << ind << "++iter;\n"
+                << ind_0 << ind << "match = true;\n"
+                << ind_0 << "}else{ match = false; }\n";
         }
     };
 
@@ -710,7 +764,6 @@ namespace paper_cutter{
             if(
                 str != "alnum" &&
                 str != "alpha" &&
-                str != "blank" &&
                 str != "cntrl" &&
                 str != "digit" &&
                 str != "graph" &&
@@ -749,10 +802,17 @@ namespace paper_cutter{
                 regexp_char *p = dynamic_cast<regexp_char*>(tail);
                 regexp_meta_char *q = p == nullptr ? dynamic_cast<regexp_meta_char*>(tail) : nullptr;
                 regexp_range *r = p == nullptr && q == nullptr ? dynamic_cast<regexp_range*>(tail) : nullptr;
+                regexp_class *c = r == nullptr && p == nullptr && q == nullptr ? dynamic_cast<regexp_class*>(tail) : nullptr;
                 if(p || q){
-                    os << ind_0 << ind << ind << "(c == '" << tail->u->c << "')" << ext << "\n";
+                    char ch = tail->u->c;
+                    os << ind_0 << ind << ind << "(c == '" << (q || escape(tail->u->c) ? "\\" : "") << ch << "')" << ext << "\n";
                 }else if(r){
-                    os << ind_0 << ind << ind << "((c >= '" << tail->u->u->c << "') && (c <= '" << tail->v->u->c << "'))" << ext << "\n";
+                    char ch_a = tail->u->u->c, ch_b = tail->v->u->c;
+                    const char *escape_a = dynamic_cast<regexp_meta_char*>(tail->u->u) && escape(tail->u->u->c) ? "\\" : "";
+                    const char *escape_b = dynamic_cast<regexp_meta_char*>(tail->v->u) && escape(tail->v->u->c) ? "\\" : "";
+                    os << ind_0 << ind << ind << "((c >= '" << escape_b << ch_a << "') && (c <= '" << escape_b << ch_b << "'))" << ext << "\n";
+                }else if(c){
+                    os << ind_0 << ind << ind << "(std::is" << dynamic_cast<regexp_char_seq*>(c->u)->make_string() << "(c))" << ext << "\n";
                 }else{ assert(false); }
             };
             std::function<void(regexp*)> recursive_put;
@@ -794,10 +854,17 @@ namespace paper_cutter{
                 regexp_char *p = dynamic_cast<regexp_char*>(tail);
                 regexp_meta_char *q = p == nullptr ? dynamic_cast<regexp_meta_char*>(tail) : nullptr;
                 regexp_range *r = p == nullptr && q == nullptr ? dynamic_cast<regexp_range*>(tail) : nullptr;
+                regexp_class *c = r == nullptr && p == nullptr && q == nullptr ? dynamic_cast<regexp_class*>(tail) : nullptr;
                 if(p || q){
-                    os << ind_0 << ind << ind << "(c != '" << tail->u->c << "')" << ext << "\n";
+                    char ch = tail->u->c;
+                    os << ind_0 << ind << ind << "(c != '" << (q || escape(tail->u->c) ? "\\" : "") << ch << "')" << ext << "\n";
                 }else if(r){
-                    os << ind_0 << ind << ind << "((c < '" << tail->u->u->c << "') || (c > '" << tail->v->u->c << "'))" << ext << "\n";
+                    char ch_a = tail->u->u->c, ch_b = tail->v->u->c;
+                    const char *escape_a = dynamic_cast<regexp_meta_char*>(tail->u->u) && escape(tail->u->u->c) ? "\\" : "";
+                    const char *escape_b = dynamic_cast<regexp_meta_char*>(tail->v->u) && escape(tail->v->u->c) ? "\\" : "";
+                    os << ind_0 << ind << ind << "((c < '" << escape_a << ch_a << "') || (c > '" << escape_b << ch_b << "'))" << ext << "\n";
+                }else if(c){
+                    os << ind_0 << ind << ind << "(std::is" << dynamic_cast<regexp_char_seq*>(c->u)->make_string() << "(c) == 0)" << ext << "\n";
                 }else{ assert(false); }
             };
             std::function<void(regexp*)> recursive_put;
@@ -875,7 +942,7 @@ namespace paper_cutter{
         }
 
         void syntax_error(){
-            throw(exception(rule_name + std::string(" - syntax error. (regular expression parser.)")));
+            throw(exception(std::string("syntax error.")));
         }
 
         void stack_overflow(){}
@@ -1128,6 +1195,7 @@ namespace paper_cutter{
         regexp *make_meta_char(regexp *a){
             regexp_meta_char *ptr = new regexp_meta_char;
             ptr->c = a->c;
+            delete a;
             ast = ptr;
             return ptr;
         }
@@ -1191,7 +1259,8 @@ namespace paper_cutter{
             return ptr;
         }
 
-        regexp *make_range(regexp *a, regexp *b){
+        regexp *make_range(regexp *a, regexp *b, regexp *c){
+            delete c;
             regexp_range *ptr = new regexp_range;
             ptr->u = a;
             ptr->v = b;
@@ -1270,6 +1339,7 @@ namespace paper_cutter{
                 << "#include <utility>" << "\n"
                 << "#include <iterator>" << "\n"
                 << "#include <cstring>" << "\n"
+                << "#include <cctype>" << "\n"
                 << "\n";
             if(namespace_.size() > 0){
                 os
@@ -1300,7 +1370,7 @@ namespace paper_cutter{
             ){
                 os
                     << ind_0 << "template<class InputIter>\n"
-                    << ind_0 << "static std::pair<bool, InputIter> " << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
+                    << ind_0 << "static std::pair<bool, InputIter> reg_" << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
                     << ind_0 << ind << "InputIter iter = first;\n"
                     << ind_0 << ind << "bool match = true;\n";
                 recursive_check_cache.clear();
@@ -1322,7 +1392,7 @@ namespace paper_cutter{
                 ++iter
             ){
                 os
-                    << ind_0 << ind << ind << "result = "<< iter->ref_rule_name << "(iter, last);" << "\n"
+                    << ind_0 << ind << ind << "result = reg_"<< iter->ref_rule_name << "(iter, last);" << "\n"
                     << ind_0 << ind << ind << "if(result.first){" << "\n"
                     << ind_0 << ind << ind << ind << "*token_inserter = std::make_pair(token_" << iter->ref_rule_name << ", std::make_pair(iter, result.second));" << "\n"
                     << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
@@ -1375,81 +1445,426 @@ namespace paper_cutter{
     }
 }
 
-// !!
-#include "put_proto.hpp"
+#include "parser.hpp"
+//#include "lexer.hpp"
 
 namespace paper_cutter{
-    void test(){
-        //// !!
-        //std::string str = "aaabbcghifoo";
-        //std::vector<
-        //    std::pair<
-        //        test::token,
-        //        std::pair<std::string::const_iterator, std::string::const_iterator>
-        //    >
-        //> tokenize_result;
-        //test::lexer::tokenize(str.begin(), str.end(), std::back_inserter(tokenize_result));
-        //return;
+    struct plain_reg_data{
+        plain_reg_data() : name(), reg(){}
+        plain_reg_data(const plain_reg_data &other) : name(other.name), reg(other.reg){}
+        plain_reg_data(plain_reg_data &&other) : name(std::move(other.name)), reg(std::move(other.reg)){}
 
-        // !!
-        regexp_holder holder("put_proto.hpp", "test");
-        std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
+        std::string name, reg;
+    };
 
-        token_vec.clear();
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_star, new regexp_plain_char('*')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('b')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_plus, new regexp_plain_char('+')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('c')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_question, new regexp_plain_char('?')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_hat, new regexp_plain_char('^')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('d')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('e')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_slash, new regexp_plain_char('/')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
-        holder.add("t", token_vec.begin(), token_vec.end());
-
-        token_vec.clear();
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('g')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('h')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('i')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_pare, new regexp_plain_char('(')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('f')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('o')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_left_bracket, new regexp_plain_char('[')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_colon, new regexp_plain_char(':')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('a')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('l')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('n')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('u')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('m')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_colon, new regexp_plain_char(':')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_right_bracket, new regexp_plain_char(']')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_brace, new regexp_plain_char('{')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char('t')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_brace, new regexp_plain_char('}')));
-        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_pare, new regexp_plain_char(')')));
-        holder.add("u", token_vec.begin(), token_vec.end());
-
-        try{
-            std::shared_ptr<const indent> indent(new indent_space(1));
-            std::ofstream ofile("put_proto.hpp");
-            holder.generate(ofile, indent);
-        }catch(exception e){
-            std::cout << e.what() << "\n";
-            return;
+    class lexical_data{
+    public:
+        void syntax_error() const{
+            throw(exception("lexical error."));
         }
+
+        void stack_overflow() const{}
+
+        void upcast(std::string &x, const std::string &y) const{
+            x = y;
+        }
+
+        void downcast(std::string &x, const std::string &y) const{
+            x = y;
+        }
+
+        void downcast(std::string &x, const char y) const{
+            x = y;
+        }
+
+        void downcast(char &x, const std::string &y) const{
+            x = y[0];
+        }
+
+        std::string make_line(std::string name, std::string reg){
+            data.name = name;
+            data.reg = reg;
+            return "deadbeef";
+        }
+
+        std::string make_reg_name(char c){
+            std::string str;
+            str += c;
+            return std::move(str);
+        }
+
+        std::string make_reg_name(std::string str, char c){
+            str += c;
+            return std::move(str);
+        }
+
+        std::string make_reg_sequence(std::string str){
+            return std::move(str);
+        }
+
+        std::string make_reg_sequence(std::string str, std::string rts){
+            str += rts;
+            return std::move(str);
+        }
+
+        std::string make_reg_char(char c){
+            std::string str;
+            str += c;
+            return std::move(str);
+        }
+
+        plain_reg_data data;
+    };
+
+    namespace{
+        std::string str_to_upper(const char *str){
+            std::locale l;
+            std::string ret;
+            for(std::size_t i = 0; str[i]; ++i){
+                ret += std::toupper(str[i], l);
+            }
+            return ret;
+        }
+    }
+
+    class commandline_options{
+    public:
+        enum language_enum{
+            language_cpp
+            //language_csharp,
+            //language_d,
+            //language_java,
+            //language_javascript
+        };
+
+        enum indent_enum{
+            indent_space,
+            indent_space4,
+            indent_space8,
+            indent_tab
+        };
+
+        commandline_options() :
+            ifile_path_(), ofile_path_(), language_(language_cpp), indent_(indent_space4)
+        {}
+
+        bool get(int argc, char **argv){
+            int state = 0;
+            for(int index = 1; index < argc; ++index){
+                if(argv[index][0] == '-'){
+                    std::string str = str_to_upper(argv[index]);
+                    if(
+                        str == "-C++" ||
+                        str == "-CPP"
+                    ){
+                        language_ = language_cpp;
+                        continue;
+                    }
+                    if(str == "-INDENT=SPACE"){
+                        indent_ = indent_space;
+                        continue;
+                    }
+                    if(str == "-INDENT=SPACE4"){
+                        indent_ = indent_space4;
+                        continue;
+                    }
+                    if(str == "-INDENT=SPACE8"){
+                        indent_ = indent_space8;
+                        continue;
+                    }
+                    if(str == "-INDENT=TAB"){
+                        indent_ = indent_tab;
+                        continue;
+                    }
+                    std::cerr << "unknown options '" << argv[index] << "'.\n";
+                    return false;
+                }
+                switch(state){
+                case 0: ifile_path_ = argv[index]; ++state; break;
+                case 1: ofile_path_ = argv[index]; ++state; break;
+                default:
+                    std::cerr << "too many arguments.\n";
+                    return false;
+                }
+            }
+            if(state < 2){
+                std::cout << "paper_cutter usage: paper_cutter [ -c++ | -indent=space | -indent=space8 | -indent=tab ] ifile_name ofile_name\n";
+                return false;
+            }
+            return true;
+        }
+        const std::string &ifile_path() const{
+            return ifile_path_;
+        }
+
+        std::string ifile_name() const{
+            return file_name(ifile_path_);
+        }
+
+        const std::string &ofile_path() const{
+            return ofile_path_;
+        }
+
+        std::string ofile_name() const{
+            return file_name(ofile_path_);
+        }
+
+        language_enum language() const{
+            return language_;
+        }
+
+        indent_enum indent() const{
+            return indent_;
+        }
+
+    private:
+        std::string file_name(const std::string &str) const{
+            std::string ret;
+            for(std::size_t i = 0, length = str.size(); i < length; ++i){
+                char c = str[length - i - 1];
+                if(c == '/' || c == '\\'){ break; }
+                ret += c;
+            }
+            std::reverse(ret.begin(), ret.end());
+            return ret;
+        }
+
+        std::string ifile_path_, ofile_path_;
+        language_enum language_;
+        indent_enum indent_;
+    };
+
+    int main(int argc, char **argv){
+        paper_cutter::commandline_options co;
+        if(!co.get(argc, argv)){
+            return -1;
+        }
+        std::ifstream ifile(co.ifile_path().c_str());
+        if(!ifile){
+            std::cerr << "can't open ifile '" << co.ifile_path() << "'.\n";
+            return -1;
+        }
+        std::ofstream ofile(co.ofile_path().c_str());
+        if(!ofile){
+            std::cerr << "can't open ofile '" << co.ofile_path() << "'.\n";
+            return -1;
+        }
+        std::size_t error_line = 0;
+        try{
+            std::string line, namespace_;
+            if(!std::getline(ifile, line)){ throw(exception("lexical error.")); }
+            {
+                std::stringstream ss(line);
+                ss >> namespace_;
+            }
+            regexp_holder holder(co.ofile_name(), namespace_);
+            while(std::getline(ifile, line)){
+                lexical_data ld;
+                parser::parser<std::string, lexical_data> plexer(ld);
+                for(std::size_t i = 0; i < line.size(); ++i){
+                    std::string c;
+                    c += line[i];
+                    bool r = false;
+                    switch(c[0]){
+                    case '|':
+                        r = plexer.post(parser::token_symbol_or, c);
+                        break;
+
+                    case '*':
+                        r = plexer.post(parser::token_symbol_star, c);
+                        break;
+
+                    case '+':
+                        r = plexer.post(parser::token_symbol_plus, c);
+                        break;
+
+                    case '?':
+                        r = plexer.post(parser::token_symbol_question, c);
+                        break;
+
+                    case '(':
+                        r = plexer.post(parser::token_symbol_left_pare, c);
+                        break;
+
+                    case ')':
+                        r = plexer.post(parser::token_symbol_right_pare, c);
+                        break;
+
+                    case '{':
+                        r = plexer.post(parser::token_symbol_left_brace, c);
+                        break;
+
+                    case '}':
+                        r = plexer.post(parser::token_symbol_right_brace, c);
+                        break;
+
+                    case '.':
+                        r = plexer.post(parser::token_symbol_dot, c);
+                        break;
+
+                    case '$':
+                        r = plexer.post(parser::token_symbol_eos, c);
+                        break;
+
+                    case '\\':
+                        r = plexer.post(parser::token_symbol_backslash, c);
+                        break;
+
+                    case '[':
+                        r = plexer.post(parser::token_symbol_set_left_bracket, c);
+                        break;
+
+                    case '^':
+                        r = plexer.post(parser::token_symbol_hat, c);
+                        break;
+
+                    case ']':
+                        r = plexer.post(parser::token_symbol_set_right_bracket, c);
+                        break;
+
+                    case '-':
+                        r = plexer.post(parser::token_symbol_minus, c);
+                        break;
+
+                    case ',':
+                        r = plexer.post(parser::token_symbol_comma, c);
+                        break;
+
+                    case ':':
+                        r = plexer.post(parser::token_symbol_colon, c);
+                        break;
+
+                    case '"':
+                        r = plexer.post(parser::token_symbol_double_quote, c);
+                        break;
+
+                    case '=':
+                        r = plexer.post(parser::token_symbol_equal, c);
+                        break;
+
+                    default:
+                        if(std::isspace(c[0])){
+                            r = plexer.post(parser::token_symbol_space, c);
+                        }else{
+                            r = plexer.post(parser::token_symbol_any_non_metacharacter, c);
+                        }
+                    }
+                    if(r){
+                        throw(exception("lexical erorr."));
+                    }
+                }
+                {
+                    std::string str;
+                    plexer.post(parser::token_0, str);
+                }
+                std::vector<std::pair<reg_parser::token, regexp_plain_char*>> token_vec;
+                for(std::size_t i = 0; i < ld.data.reg.size(); ++i){
+                    char c = ld.data.reg[i];
+                    switch(c){
+                    case '|':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_or, new regexp_plain_char('|')));
+                        break;
+
+                    case '*':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_star, new regexp_plain_char('*')));
+                        break;
+
+                    case '+':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_plus, new regexp_plain_char('+')));
+                        break;
+
+                    case '?':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_question, new regexp_plain_char('?')));
+                        break;
+
+                    case '(':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_pare, new regexp_plain_char('(')));
+                        break;
+
+                    case ')':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_pare, new regexp_plain_char(')')));
+                        break;
+
+                    case '{':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_left_brace, new regexp_plain_char('{')));
+                        break;
+
+                    case '}':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_right_brace, new regexp_plain_char('}')));
+                        break;
+
+                    case '.':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_dot, new regexp_plain_char('.')));
+                        break;
+
+                    case '$':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_eos, new regexp_plain_char('$')));
+                        break;
+
+                    case '\\':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_backslash, new regexp_plain_char('\\')));
+                        break;
+
+                    case '[':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_left_bracket, new regexp_plain_char('[')));
+                        break;
+
+                    case '^':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_hat, new regexp_plain_char('^')));
+                        break;
+
+                    case ']':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_set_right_bracket, new regexp_plain_char(']')));
+                        break;
+
+                    case '-':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_minus, new regexp_plain_char('-')));
+                        break;
+
+                    case ',':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_comma, new regexp_plain_char(',')));
+                        break;
+
+                    case ':':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_colon, new regexp_plain_char(':')));
+                        break;
+
+                    case '"':
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_double_quote, new regexp_plain_char('"')));
+                        break;
+
+                    default:
+                        token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char(c)));;
+                    }
+                }
+                holder.add(ld.data.name, token_vec.begin(), token_vec.end());
+            }
+            std::shared_ptr<const indent> indent;
+            switch(co.indent()){
+            case commandline_options::indent_space:
+            case commandline_options::indent_space4:
+                indent.reset(new indent_space(1));
+                break;
+
+            case commandline_options::indent_space8:
+                indent.reset(new indent_space8(1));
+                break;
+
+            case commandline_options::indent_tab:
+                indent.reset(new indent_tab(1));
+            }
+            holder.generate(ofile, indent);
+        }catch(std::runtime_error e){
+            std::cerr << e.what() << "\n";
+            return -1;
+        }
+        return 0;
     }
 }
 
-int main(){
-    paper_cutter::test();
+int main(int argc, char **argv){
+    //int argc_ = 5;
+    //char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
+    return paper_cutter::main(argc, argv);
     return 0;
 }

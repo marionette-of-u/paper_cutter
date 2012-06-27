@@ -1,0 +1,99 @@
+<token_desc>{
+    symbol_or<char>,
+    symbol_star<char>,
+    symbol_plus<char>,
+    symbol_question<char>,
+    symbol_left_pare<char>,
+    symbol_right_pare<char>,
+    symbol_left_brace<char>,
+    symbol_right_brace<char>,
+    symbol_dot<char>,
+    symbol_eos<char>,
+    symbol_slash<char>,
+    symbol_backslash<char>,
+    symbol_set_left_bracket<char>,
+    symbol_hat<char>,
+    symbol_set_right_bracket<char>,
+    symbol_minus<char>,
+    symbol_comma<char>,
+    symbol_colon<char>,
+    symbol_double_quote<char>,
+    symbol_any_non_metacharacter<char>,
+    symbol_number<char>,
+    symbol_space<char>,
+    symbol_equal<char>;
+}
+
+<grammar> parser{
+    line<std::string>
+        : [make_line] whitecpace reg_name(0) whitecpace symbol_equal whitecpace reg_sequence(1)
+        ;
+
+    whitecpace<std::string>
+        : [] symbol_space
+        | [] whitecpace symbol_space
+        | []
+        ;
+
+    reg_name<std::string>
+        : [make_reg_name] symbol_any_non_metacharacter(0)
+        | [make_reg_name] reg_name(0) symbol_any_non_metacharacter(1)
+        | [make_reg_name] reg_name(0) symbol_number(1)
+        ;
+
+    reg_sequence<std::string>
+        : [make_reg_sequence] reg_char_non_space(0)
+        | [make_reg_sequence] reg_sequence(0) reg_char(1)
+        ;
+
+    reg_char_non_space<std::string>
+        : [make_reg_char] symbol_or(0)
+        | [make_reg_char] symbol_star(0)
+        | [make_reg_char] symbol_plus(0)
+        | [make_reg_char] symbol_question(0)
+        | [make_reg_char] symbol_left_pare(0)
+        | [make_reg_char] symbol_right_pare(0)
+        | [make_reg_char] symbol_left_brace(0)
+        | [make_reg_char] symbol_right_brace(0)
+        | [make_reg_char] symbol_dot(0)
+        | [make_reg_char] symbol_eos(0)
+        | [make_reg_char] symbol_slash(0)
+        | [make_reg_char] symbol_backslash(0)
+        | [make_reg_char] symbol_set_left_bracket(0)
+        | [make_reg_char] symbol_hat(0)
+        | [make_reg_char] symbol_set_right_bracket(0)
+        | [make_reg_char] symbol_minus(0)
+        | [make_reg_char] symbol_comma(0)
+        | [make_reg_char] symbol_colon(0)
+        | [make_reg_char] symbol_double_quote(0)
+        | [make_reg_char] symbol_any_non_metacharacter(0)
+        | [make_reg_char] symbol_number(0)
+        ;
+
+    reg_char<std::string>
+        : [make_reg_char] symbol_or(0)
+        | [make_reg_char] symbol_star(0)
+        | [make_reg_char] symbol_plus(0)
+        | [make_reg_char] symbol_question(0)
+        | [make_reg_char] symbol_left_pare(0)
+        | [make_reg_char] symbol_right_pare(0)
+        | [make_reg_char] symbol_left_brace(0)
+        | [make_reg_char] symbol_right_brace(0)
+        | [make_reg_char] symbol_dot(0)
+        | [make_reg_char] symbol_eos(0)
+        | [make_reg_char] symbol_slash(0)
+        | [make_reg_char] symbol_backslash(0)
+        | [make_reg_char] symbol_set_left_bracket(0)
+        | [make_reg_char] symbol_hat(0)
+        | [make_reg_char] symbol_set_right_bracket(0)
+        | [make_reg_char] symbol_minus(0)
+        | [make_reg_char] symbol_comma(0)
+        | [make_reg_char] symbol_colon(0)
+        | [make_reg_char] symbol_double_quote(0)
+        | [make_reg_char] symbol_any_non_metacharacter(0)
+        | [make_reg_char] symbol_number(0)
+        | [make_reg_char] symbol_space(0)
+        | [make_reg_char] symbol_equal(0)
+        ;
+}
+
