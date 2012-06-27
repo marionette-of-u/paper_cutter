@@ -296,6 +296,11 @@ private:
                 // run_semantic_action();
                 pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
+        case token_0:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(4, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2427,6 +2432,11 @@ private:
             // shift
             push_stack(&parser::state_57, &parser::gotof_57, value);
             return false;
+        case token_0:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(2, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2814,6 +2824,11 @@ private:
                 // run_semantic_action();
                 pop_stack(1);
                 return (this->*(stack_top()->gotof))(4, value_type());
+        case token_0:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -2941,6 +2956,11 @@ private:
                 pop_stack(2);
                 return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_0:
             // reduce
                 // run_semantic_action();
                 pop_stack(2);

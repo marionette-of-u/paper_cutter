@@ -27,6 +27,7 @@
 <grammar> parser{
     line<std::string>
         : [make_line] whitecpace reg_name(0) whitecpace symbol_equal whitecpace reg_sequence(1)
+        | [] whitecpace
         ;
 
     whitecpace<std::string>

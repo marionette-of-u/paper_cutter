@@ -914,35 +914,37 @@ namespace paper_cutter{
 
     class reg_data{
     public:
-        reg_data(regexp_holder *regexp_holder_ptr_, const std::string &rule_name_) :
+        reg_data(regexp_holder *regexp_holder_ptr_, const std::string &rule_name_, std::size_t line_num_) :
             regexp_holder_ptr(regexp_holder_ptr_),
             rule_name(rule_name_),
+            line_num(line_num_),
             ast(nullptr),
-            ref_rule_name(rule_name)
+            ref_rule_name(rule_name),
+            ref_line_num(line_num)
         {}
 
         reg_data(const reg_data &other) :
             regexp_holder_ptr(other.regexp_holder_ptr),
             rule_name(other.rule_name),
+            line_num(other.line_num),
             ast(other.ast->clone()),
-            ref_rule_name(rule_name)
+            ref_rule_name(rule_name),
+            ref_line_num(line_num)
         {}
 
         reg_data(reg_data &&other) :
             regexp_holder_ptr(std::move(other.regexp_holder_ptr)),
             rule_name(std::move(other.rule_name)),
+            line_num(other.line_num),
             ast(std::move(other.ast)),
-            ref_rule_name(rule_name)
-        {
-            other.ast = nullptr;
-        }
+            ref_rule_name(rule_name),
+            ref_line_num(line_num)
+        { other.ast = nullptr; }
             
-        ~reg_data(){
-            delete ast;
-        }
+        ~reg_data(){ delete ast; }
 
         void syntax_error(){
-            throw(exception(std::string("syntax error.")));
+            throw(exception("syntax error."));
         }
 
         void stack_overflow(){}
@@ -1275,10 +1277,12 @@ namespace paper_cutter{
     private:
         regexp_holder *regexp_holder_ptr;
         std::string rule_name;
+        std::size_t line_num;
         regexp *ast;
 
     public:
         const std::string &ref_rule_name;
+        const std::size_t &ref_line_num;
     };
 
     class regexp_holder{
@@ -1289,21 +1293,20 @@ namespace paper_cutter{
         ) : file_name(file_name_), namespace_(namespace_a){}
 
         template<class InputIter>
-        void add(std::string name, InputIter first, InputIter last){
-            auto throw_expcetion = [&]() -> void{
-                throw(exception("parsing error."));
-            };
-            reg_data data(this, name);
+        void add(std::string name, std::size_t line_num, InputIter first, InputIter last){
+            reg_data data(this, name, line_num);
             reg_parser::parser<regexp*, reg_data> parser(data);
-            for(InputIter iter = first; iter != last; ++iter){
-                if(parser.post(iter->first, iter->second)){
-                    throw_expcetion();
+            try{
+                for(InputIter iter = first; iter != last; ++iter){
+                    parser.post(iter->first, iter->second);
                 }
-            }
-            parser.post(reg_parser::token_0, nullptr);
-            regexp *ptr;
-            if(!parser.accept(ptr)){
-                throw_expcetion();
+                parser.post(reg_parser::token_0, nullptr);
+                regexp *ptr;
+                if(!parser.accept(ptr)){
+                    throw(exception("parsing error."));
+                }
+            }catch(std::runtime_error e){
+                throw(exception(lexical_cast(line_num) + ":" + e.what()));
             }
             reg_data_list.push_back(std::move(data));
             reg_data_map.insert(std::make_pair(name, &reg_data_list.back()));
@@ -1375,7 +1378,11 @@ namespace paper_cutter{
                     << ind_0 << ind << "bool match = true;\n";
                 recursive_check_cache.clear();
                 insert_recursive_cache(iter->ref_rule_name);
-                iter->generate(os, ind_1);
+                try{
+                    iter->generate(os, ind_1);
+                }catch(std::runtime_error e){
+                    throw(exception(lexical_cast(iter->ref_line_num) + ":" + e.what()));
+                }
                 os
                     << ind_0 << ind << "return std::make_pair(match, iter);\n"
                     << ind_0 << "}\n\n";
@@ -1649,109 +1656,113 @@ namespace paper_cutter{
             std::cerr << "can't open ofile '" << co.ofile_path() << "'.\n";
             return -1;
         }
-        std::size_t error_line = 0;
+        std::size_t line_num = 1;
         try{
             std::string line, namespace_;
-            if(!std::getline(ifile, line)){ throw(exception("lexical error.")); }
+            if(!std::getline(ifile, line)){ throw(exception(lexical_cast(line_num) + ":lexical error.")); }
+            ++line_num;
             {
                 std::stringstream ss(line);
                 ss >> namespace_;
             }
             regexp_holder holder(co.ofile_name(), namespace_);
-            while(std::getline(ifile, line)){
+            for(; std::getline(ifile, line); ++line_num){
+                if(line.empty()){ continue; }
                 lexical_data ld;
                 parser::parser<std::string, lexical_data> plexer(ld);
-                for(std::size_t i = 0; i < line.size(); ++i){
-                    std::string c;
-                    c += line[i];
-                    bool r = false;
-                    switch(c[0]){
-                    case '|':
-                        r = plexer.post(parser::token_symbol_or, c);
-                        break;
+                try{
+                    for(std::size_t i = 0; i < line.size(); ++i){
+                        std::string c;
+                        c += line[i];
+                        bool r = false;
+                        switch(c[0]){
+                        case '|':
+                            r = plexer.post(parser::token_symbol_or, c);
+                            break;
 
-                    case '*':
-                        r = plexer.post(parser::token_symbol_star, c);
-                        break;
+                        case '*':
+                            r = plexer.post(parser::token_symbol_star, c);
+                            break;
 
-                    case '+':
-                        r = plexer.post(parser::token_symbol_plus, c);
-                        break;
+                        case '+':
+                            r = plexer.post(parser::token_symbol_plus, c);
+                            break;
 
-                    case '?':
-                        r = plexer.post(parser::token_symbol_question, c);
-                        break;
+                        case '?':
+                            r = plexer.post(parser::token_symbol_question, c);
+                            break;
 
-                    case '(':
-                        r = plexer.post(parser::token_symbol_left_pare, c);
-                        break;
+                        case '(':
+                            r = plexer.post(parser::token_symbol_left_pare, c);
+                            break;
 
-                    case ')':
-                        r = plexer.post(parser::token_symbol_right_pare, c);
-                        break;
+                        case ')':
+                            r = plexer.post(parser::token_symbol_right_pare, c);
+                            break;
 
-                    case '{':
-                        r = plexer.post(parser::token_symbol_left_brace, c);
-                        break;
+                        case '{':
+                            r = plexer.post(parser::token_symbol_left_brace, c);
+                            break;
 
-                    case '}':
-                        r = plexer.post(parser::token_symbol_right_brace, c);
-                        break;
+                        case '}':
+                            r = plexer.post(parser::token_symbol_right_brace, c);
+                            break;
 
-                    case '.':
-                        r = plexer.post(parser::token_symbol_dot, c);
-                        break;
+                        case '.':
+                            r = plexer.post(parser::token_symbol_dot, c);
+                            break;
 
-                    case '$':
-                        r = plexer.post(parser::token_symbol_eos, c);
-                        break;
+                        case '$':
+                            r = plexer.post(parser::token_symbol_eos, c);
+                            break;
 
-                    case '\\':
-                        r = plexer.post(parser::token_symbol_backslash, c);
-                        break;
+                        case '\\':
+                            r = plexer.post(parser::token_symbol_backslash, c);
+                            break;
 
-                    case '[':
-                        r = plexer.post(parser::token_symbol_set_left_bracket, c);
-                        break;
+                        case '[':
+                            r = plexer.post(parser::token_symbol_set_left_bracket, c);
+                            break;
 
-                    case '^':
-                        r = plexer.post(parser::token_symbol_hat, c);
-                        break;
+                        case '^':
+                            r = plexer.post(parser::token_symbol_hat, c);
+                            break;
 
-                    case ']':
-                        r = plexer.post(parser::token_symbol_set_right_bracket, c);
-                        break;
+                        case ']':
+                            r = plexer.post(parser::token_symbol_set_right_bracket, c);
+                            break;
 
-                    case '-':
-                        r = plexer.post(parser::token_symbol_minus, c);
-                        break;
+                        case '-':
+                            r = plexer.post(parser::token_symbol_minus, c);
+                            break;
 
-                    case ',':
-                        r = plexer.post(parser::token_symbol_comma, c);
-                        break;
+                        case ',':
+                            r = plexer.post(parser::token_symbol_comma, c);
+                            break;
 
-                    case ':':
-                        r = plexer.post(parser::token_symbol_colon, c);
-                        break;
+                        case ':':
+                            r = plexer.post(parser::token_symbol_colon, c);
+                            break;
 
-                    case '"':
-                        r = plexer.post(parser::token_symbol_double_quote, c);
-                        break;
+                        case '"':
+                            r = plexer.post(parser::token_symbol_double_quote, c);
+                            break;
 
-                    case '=':
-                        r = plexer.post(parser::token_symbol_equal, c);
-                        break;
+                        case '=':
+                            r = plexer.post(parser::token_symbol_equal, c);
+                            break;
 
-                    default:
-                        if(std::isspace(c[0])){
-                            r = plexer.post(parser::token_symbol_space, c);
-                        }else{
-                            r = plexer.post(parser::token_symbol_any_non_metacharacter, c);
+                        default:
+                            if(std::isspace(c[0])){
+                                r = plexer.post(parser::token_symbol_space, c);
+                            }else{
+                                r = plexer.post(parser::token_symbol_any_non_metacharacter, c);
+                            }
                         }
+                        if(r){ throw(exception(lexical_cast(line_num) + ":lexical erorr.")); }
                     }
-                    if(r){
-                        throw(exception("lexical erorr."));
-                    }
+                }catch(std::runtime_error e){
+                    throw(exception(lexical_cast(line_num) + ":" + e.what()));
                 }
                 {
                     std::string str;
@@ -1837,7 +1848,7 @@ namespace paper_cutter{
                         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char(c)));;
                     }
                 }
-                holder.add(ld.data.name, token_vec.begin(), token_vec.end());
+                holder.add(ld.data.name, line_num, token_vec.begin(), token_vec.end());
             }
             std::shared_ptr<const indent> indent;
             switch(co.indent()){
@@ -1863,8 +1874,7 @@ namespace paper_cutter{
 }
 
 int main(int argc, char **argv){
-    //int argc_ = 5;
-    //char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
-    return paper_cutter::main(argc, argv);
-    return 0;
+    int argc_ = 5;
+    char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
+    return paper_cutter::main(argc_, argv_);
 }
