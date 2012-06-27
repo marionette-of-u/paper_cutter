@@ -1667,7 +1667,15 @@ namespace paper_cutter{
             }
             regexp_holder holder(co.ofile_name(), namespace_);
             for(; std::getline(ifile, line); ++line_num){
-                if(line.empty()){ continue; }
+                if(
+                    line.empty() ||
+                    [&]() -> bool{
+                        for(std::size_t i = 0; i < line.size(); ++i){
+                            if(std::isspace(line[i]) == 0){ return false; }
+                        }
+                        return true;
+                    }()
+                ){ continue; }
                 lexical_data ld;
                 parser::parser<std::string, lexical_data> plexer(ld);
                 try{
@@ -1874,7 +1882,7 @@ namespace paper_cutter{
 }
 
 int main(int argc, char **argv){
-    int argc_ = 5;
-    char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
-    return paper_cutter::main(argc_, argv_);
+    //int argc_ = 5;
+    //char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
+    return paper_cutter::main(argc, argv);
 }
