@@ -54,7 +54,7 @@
 <tr><td>a{n,m}</td><td>n個以上m個以下のaにマッチ。n、mは数値。</td></tr>
 <tr><td>a{n,}</td><td>n個以上のaにマッチ。</td></tr>
 <tr><td>a{m}</td><td>m個のaにマッチ。</td></tr>
-<tr><td>{<i>other-regular-expression</i>}</td><td>m個のaにマッチ。</td></tr>
+<tr><td>{<i>other-regular-expression</i>}</td><td>他の正規表現規則`other-regular-expression`にマッチ。</td></tr>
 <tr><td>"abc\\xyz\"pqr"</td><td>文字列abc\xyz"pqrにマッチ。</td></tr>
 <tr><td>\N</td><td>Nが"a"、'b"、"f"、"n"、"r"、"t"、"v", "\\"の時、"\a"、'\b"、"\f"、"\n"、"\r"、"\t"、"\v"、"\\"に変換されマッチします。<br/>Nがパターン中の演算子の場合、その文字そのものの効果を無効にし、マッチします。</td></tr>
 <tr><td>(a)</td><td>aにマッチ。優先順位が1位に変更されます。</td></tr>
