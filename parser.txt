@@ -1,5 +1,6 @@
 <token_desc>{
     symbol_any_char<char>,
+    symbol_any_meta_char<char>,
     symbol_number<char>,
     symbol_space<char>,
     symbol_equal<char>,
@@ -36,12 +37,14 @@
 
     reg_char_non_space<std::string>
         : [make_reg_char] symbol_any_char(0)
+        | [make_reg_char] symbol_any_meta_char(0)
         | [make_reg_char] symbol_number(0)
         | [make_reg_char] symbol_exclamation(0)
         ;
 
     reg_char<std::string>
         : [make_reg_char] symbol_any_char(0)
+        | [make_reg_char] symbol_any_meta_char(0)
         | [make_reg_char] symbol_number(0)
         | [make_reg_char] symbol_space(0)
         | [make_reg_char] symbol_equal(0)

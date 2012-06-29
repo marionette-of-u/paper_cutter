@@ -9,6 +9,7 @@ namespace parser{
 
 enum token{
     token_symbol_any_char,
+    token_symbol_any_meta_char,
     token_symbol_number,
     token_symbol_space,
     token_symbol_equal,
@@ -263,8 +264,8 @@ private:
     bool gotof_0(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 2: return push_stack(&parser::state_24, &parser::gotof_24, v);
-        case 4: return push_stack(&parser::state_15, &parser::gotof_15, v);
+        case 2: return push_stack(&parser::state_26, &parser::gotof_26, v);
+        case 4: return push_stack(&parser::state_17, &parser::gotof_17, v);
         default: assert(0); return false;
         }
     }
@@ -302,7 +303,7 @@ private:
     bool gotof_1(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 7: return push_stack(&parser::state_12, &parser::gotof_12, v);
+        case 7: return push_stack(&parser::state_14, &parser::gotof_14, v);
         default: assert(0); return false;
         }
     }
@@ -314,21 +315,25 @@ private:
             // shift
             push_stack(&parser::state_2, &parser::gotof_2, value);
             return false;
-        case token_symbol_number:
+        case token_symbol_any_meta_char:
             // shift
             push_stack(&parser::state_3, &parser::gotof_3, value);
             return false;
-        case token_symbol_space:
+        case token_symbol_number:
             // shift
             push_stack(&parser::state_4, &parser::gotof_4, value);
             return false;
-        case token_symbol_equal:
+        case token_symbol_space:
             // shift
             push_stack(&parser::state_5, &parser::gotof_5, value);
             return false;
-        case token_symbol_exclamation:
+        case token_symbol_equal:
             // shift
             push_stack(&parser::state_6, &parser::gotof_6, value);
+            return false;
+        case token_symbol_exclamation:
+            // shift
+            push_stack(&parser::state_7, &parser::gotof_7, value);
             return false;
         case token_0:
             return call_0_make_line(2, 7, 1, 3, 6);
@@ -349,6 +354,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -372,6 +378,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -395,6 +402,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -418,6 +426,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -441,6 +450,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -456,32 +466,21 @@ private:
 
     bool gotof_7(int nonterminal_index, const value_type& v)
     {
-        switch(nonterminal_index){
-        case 3: return push_stack(&parser::state_11, &parser::gotof_11, v);
-        case 6: return push_stack(&parser::state_1, &parser::gotof_1, v);
-        default: assert(0); return false;
-        }
+        assert(0);
+        return true;
     }
 
     bool state_7(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_any_char:
-            // shift
-            push_stack(&parser::state_8, &parser::gotof_8, value);
-            return false;
+        case token_symbol_any_meta_char:
         case token_symbol_number:
-            // shift
-            push_stack(&parser::state_9, &parser::gotof_9, value);
-            return false;
         case token_symbol_space:
-            // shift
-            push_stack(&parser::state_22, &parser::gotof_22, value);
-            return false;
+        case token_symbol_equal:
         case token_symbol_exclamation:
-            // shift
-            push_stack(&parser::state_10, &parser::gotof_10, value);
-            return false;
+        case token_0:
+            return call_0_make_reg_char(7, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -491,20 +490,36 @@ private:
 
     bool gotof_8(int nonterminal_index, const value_type& v)
     {
-        assert(0);
-        return true;
+        switch(nonterminal_index){
+        case 3: return push_stack(&parser::state_13, &parser::gotof_13, v);
+        case 6: return push_stack(&parser::state_1, &parser::gotof_1, v);
+        default: assert(0); return false;
+        }
     }
 
     bool state_8(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_any_char:
+            // shift
+            push_stack(&parser::state_9, &parser::gotof_9, value);
+            return false;
+        case token_symbol_any_meta_char:
+            // shift
+            push_stack(&parser::state_10, &parser::gotof_10, value);
+            return false;
         case token_symbol_number:
+            // shift
+            push_stack(&parser::state_11, &parser::gotof_11, value);
+            return false;
         case token_symbol_space:
-        case token_symbol_equal:
+            // shift
+            push_stack(&parser::state_24, &parser::gotof_24, value);
+            return false;
         case token_symbol_exclamation:
-        case token_0:
-            return call_0_make_reg_char(3, 1, 0);
+            // shift
+            push_stack(&parser::state_12, &parser::gotof_12, value);
+            return false;
         default:
             sa_.syntax_error();
             error_ = true;
@@ -522,6 +537,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -545,6 +561,7 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
@@ -568,12 +585,13 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
         case token_symbol_exclamation:
         case token_0:
-            return call_0_make_reg_sequence(6, 1, 0);
+            return call_0_make_reg_char(3, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -591,12 +609,13 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
+        case token_symbol_any_meta_char:
         case token_symbol_number:
         case token_symbol_space:
         case token_symbol_equal:
         case token_symbol_exclamation:
         case token_0:
-            return call_1_make_reg_sequence(6, 2, 0, 1);
+            return call_0_make_reg_char(3, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -606,28 +625,21 @@ private:
 
     bool gotof_13(int nonterminal_index, const value_type& v)
     {
-        switch(nonterminal_index){
-        case 5: return push_stack(&parser::state_23, &parser::gotof_23, v);
-        default: assert(0); return false;
-        }
+        assert(0);
+        return true;
     }
 
     bool state_13(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_any_char:
+        case token_symbol_any_meta_char:
+        case token_symbol_number:
         case token_symbol_space:
-            // shift
-            push_stack(&parser::state_22, &parser::gotof_22, value);
-            return false;
         case token_symbol_equal:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(5, value_type());
         case token_symbol_exclamation:
-            // shift
-            push_stack(&parser::state_14, &parser::gotof_14, value);
-            return false;
+        case token_0:
+            return call_0_make_reg_sequence(6, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -644,8 +656,14 @@ private:
     bool state_14(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_any_char:
+        case token_symbol_any_meta_char:
+        case token_symbol_number:
+        case token_symbol_space:
         case token_symbol_equal:
-            return call_0_make_dispose_rule(5, 1);
+        case token_symbol_exclamation:
+        case token_0:
+            return call_1_make_reg_sequence(6, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -656,7 +674,7 @@ private:
     bool gotof_15(int nonterminal_index, const value_type& v)
     {
         switch(nonterminal_index){
-        case 1: return push_stack(&parser::state_16, &parser::gotof_16, v);
+        case 5: return push_stack(&parser::state_25, &parser::gotof_25, v);
         default: assert(0); return false;
         }
     }
@@ -664,13 +682,62 @@ private:
     bool state_15(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_space:
+            // shift
+            push_stack(&parser::state_24, &parser::gotof_24, value);
+            return false;
+        case token_symbol_equal:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(5, value_type());
+        case token_symbol_exclamation:
+            // shift
+            push_stack(&parser::state_16, &parser::gotof_16, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_16(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_16(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_equal:
+            return call_0_make_dispose_rule(5, 1);
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_17(int nonterminal_index, const value_type& v)
+    {
+        switch(nonterminal_index){
+        case 1: return push_stack(&parser::state_18, &parser::gotof_18, v);
+        default: assert(0); return false;
+        }
+    }
+
+    bool state_17(token_type token, const value_type& value)
+    {
+        switch(token){
         case token_symbol_any_char:
             // shift
-            push_stack(&parser::state_17, &parser::gotof_17, value);
+            push_stack(&parser::state_19, &parser::gotof_19, value);
             return false;
         case token_symbol_space:
             // shift
-            push_stack(&parser::state_22, &parser::gotof_22, value);
+            push_stack(&parser::state_24, &parser::gotof_24, value);
             return false;
         case token_0:
             // reduce
@@ -684,84 +751,40 @@ private:
         }
     }
 
-    bool gotof_16(int nonterminal_index, const value_type& v)
-    {
-        switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_13, &parser::gotof_13, v);
-        default: assert(0); return false;
-        }
-    }
-
-    bool state_16(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_any_char:
-            // shift
-            push_stack(&parser::state_18, &parser::gotof_18, value);
-            return false;
-        case token_symbol_number:
-            // shift
-            push_stack(&parser::state_19, &parser::gotof_19, value);
-            return false;
-        case token_symbol_space:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
-        case token_symbol_equal:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
-        case token_symbol_exclamation:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
-    bool gotof_17(int nonterminal_index, const value_type& v)
-    {
-        assert(0);
-        return true;
-    }
-
-    bool state_17(token_type token, const value_type& value)
-    {
-        switch(token){
-        case token_symbol_any_char:
-        case token_symbol_number:
-        case token_symbol_space:
-        case token_symbol_equal:
-        case token_symbol_exclamation:
-            return call_0_make_reg_name(1, 1, 0);
-        default:
-            sa_.syntax_error();
-            error_ = true;
-            return false;
-        }
-    }
-
     bool gotof_18(int nonterminal_index, const value_type& v)
     {
-        assert(0);
-        return true;
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_15, &parser::gotof_15, v);
+        default: assert(0); return false;
+        }
     }
 
     bool state_18(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_any_char:
+            // shift
+            push_stack(&parser::state_20, &parser::gotof_20, value);
+            return false;
         case token_symbol_number:
+            // shift
+            push_stack(&parser::state_21, &parser::gotof_21, value);
+            return false;
         case token_symbol_space:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_exclamation:
-            return call_1_make_reg_name(1, 2, 0, 1);
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(4, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -783,7 +806,7 @@ private:
         case token_symbol_space:
         case token_symbol_equal:
         case token_symbol_exclamation:
-            return call_1_make_reg_name(1, 2, 0, 1);
+            return call_0_make_reg_name(1, 1, 0);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -793,40 +816,19 @@ private:
 
     bool gotof_20(int nonterminal_index, const value_type& v)
     {
-        switch(nonterminal_index){
-        case 4: return push_stack(&parser::state_7, &parser::gotof_7, v);
-        default: assert(0); return false;
-        }
+        assert(0);
+        return true;
     }
 
     bool state_20(token_type token, const value_type& value)
     {
         switch(token){
         case token_symbol_any_char:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_number:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_space:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_exclamation:
-            // reduce
-                // run_semantic_action();
-                pop_stack(0);
-                return (this->*(stack_top()->gotof))(4, value_type());
+            return call_1_make_reg_name(1, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -844,35 +846,11 @@ private:
     {
         switch(token){
         case token_symbol_any_char:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_number:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_space:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_exclamation:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
-        case token_0:
-            // reduce
-                // run_semantic_action();
-                pop_stack(1);
-                return (this->*(stack_top()->gotof))(4, value_type());
+            return call_1_make_reg_name(1, 2, 0, 1);
         default:
             sa_.syntax_error();
             error_ = true;
@@ -882,8 +860,10 @@ private:
 
     bool gotof_22(int nonterminal_index, const value_type& v)
     {
-        assert(0);
-        return true;
+        switch(nonterminal_index){
+        case 4: return push_stack(&parser::state_8, &parser::gotof_8, v);
+        default: assert(0); return false;
+        }
     }
 
     bool state_22(token_type token, const value_type& value)
@@ -892,32 +872,32 @@ private:
         case token_symbol_any_char:
             // reduce
                 // run_semantic_action();
-                pop_stack(2);
+                pop_stack(0);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_any_meta_char:
+            // reduce
+                // run_semantic_action();
+                pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_number:
             // reduce
                 // run_semantic_action();
-                pop_stack(2);
+                pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_space:
             // reduce
                 // run_semantic_action();
-                pop_stack(2);
+                pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
             // reduce
                 // run_semantic_action();
-                pop_stack(2);
+                pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_exclamation:
             // reduce
                 // run_semantic_action();
-                pop_stack(2);
-                return (this->*(stack_top()->gotof))(4, value_type());
-        case token_0:
-            // reduce
-                // run_semantic_action();
-                pop_stack(2);
+                pop_stack(0);
                 return (this->*(stack_top()->gotof))(4, value_type());
         default:
             sa_.syntax_error();
@@ -935,10 +915,41 @@ private:
     bool state_23(token_type token, const value_type& value)
     {
         switch(token){
+        case token_symbol_any_char:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_any_meta_char:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_number:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_space:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
         case token_symbol_equal:
-            // shift
-            push_stack(&parser::state_20, &parser::gotof_20, value);
-            return false;
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_exclamation:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_0:
+            // reduce
+                // run_semantic_action();
+                pop_stack(1);
+                return (this->*(stack_top()->gotof))(4, value_type());
         default:
             sa_.syntax_error();
             error_ = true;
@@ -953,6 +964,77 @@ private:
     }
 
     bool state_24(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_any_char:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_any_meta_char:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_number:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_space:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_equal:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_symbol_exclamation:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        case token_0:
+            // reduce
+                // run_semantic_action();
+                pop_stack(2);
+                return (this->*(stack_top()->gotof))(4, value_type());
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_25(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_25(token_type token, const value_type& value)
+    {
+        switch(token){
+        case token_symbol_equal:
+            // shift
+            push_stack(&parser::state_22, &parser::gotof_22, value);
+            return false;
+        default:
+            sa_.syntax_error();
+            error_ = true;
+            return false;
+        }
+    }
+
+    bool gotof_26(int nonterminal_index, const value_type& v)
+    {
+        assert(0);
+        return true;
+    }
+
+    bool state_26(token_type token, const value_type& value)
     {
         switch(token){
         case token_0:

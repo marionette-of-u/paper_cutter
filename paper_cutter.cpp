@@ -1730,7 +1730,7 @@ namespace paper_cutter{
                         case '$': case '\\': case '[':
                         case '^': case ']': case '-':
                         case ',': case ':': case '"':
-                            r = plexer.post(parser::token_symbol_any_char, c);
+                            r = plexer.post(parser::token_symbol_any_meta_char, c);
                             break;
 
                         case '=':
