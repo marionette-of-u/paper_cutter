@@ -15,6 +15,7 @@
 #include <sstream>
 #include <cstring>
 #include <cctype>
+#include <ctype.h>
 
 namespace paper_cutter{
     class regexp;
@@ -784,6 +785,7 @@ namespace paper_cutter{
             if(
                 str != "alnum" &&
                 str != "alpha" &&
+                str != "blank" &&
                 str != "cntrl" &&
                 str != "digit" &&
                 str != "graph" &&
@@ -794,11 +796,17 @@ namespace paper_cutter{
                 str != "upper" &&
                 str != "xdigit"
             ){ throw(exception("illegal class name.")); }
+            if(str == "blank"){
+                os
+                    << ind_0 << "if(iter != last && isblank(*iter)){\n";
+            }else{
+                os
+                    << ind_0 << "if(iter != last && std::is" << str << "(*iter)){\n";
+            }
             os
-                << ind_0 << "if(iter != last && std::is" << str << "(*iter)){\n"
-                << ind_0 << ind << "++iter;\n"
-                << ind_0 << ind << "match = true;\n"
-                << ind_0 << "}else{ match = false; }\n";
+                    << ind_0 << ind << "++iter;\n"
+                    << ind_0 << ind << "match = true;\n"
+                    << ind_0 << "}else{ match = false; }\n";
         }
     };
 
@@ -1374,6 +1382,7 @@ namespace paper_cutter{
                 << "#include <iterator>" << "\n"
                 << "#include <cstring>" << "\n"
                 << "#include <cctype>" << "\n"
+                << "#include <ctype.h>" << "\n"
                 << "\n";
             if(namespace_.size() > 0){
                 os
@@ -1865,7 +1874,7 @@ namespace paper_cutter{
 }
 
 int main(int argc, char **argv){
-    //int argc_ = 5;
-    //char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
-    return paper_cutter::main(argc, argv);
+    int argc_ = 5;
+    char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
+    return paper_cutter::main(argc_, argv_);
 }
