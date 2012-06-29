@@ -48,6 +48,26 @@ namespace paper_cutter{
         return false;
     }
 
+    bool isndigit(char ch){
+        switch(ch){
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            break;
+
+        default:
+            return false;
+        }
+        return true;
+    }
+
     std::size_t lexical_cast(const std::string &value){
         for(std::size_t i = 0; i < value.size(); ++i){
             if(std::isdigit(value[i]) == 0){ throw(exception("'" + value + "' isn't digit.")); }
@@ -914,10 +934,11 @@ namespace paper_cutter{
 
     class reg_data{
     public:
-        reg_data(regexp_holder *regexp_holder_ptr_, const std::string &rule_name_, std::size_t line_num_) :
+        reg_data(regexp_holder *regexp_holder_ptr_, const std::string &rule_name_, std::size_t line_num_, bool dispose_) :
             regexp_holder_ptr(regexp_holder_ptr_),
             rule_name(rule_name_),
             line_num(line_num_),
+            dispose(dispose_),
             ast(nullptr),
             ref_rule_name(rule_name),
             ref_line_num(line_num)
@@ -927,6 +948,7 @@ namespace paper_cutter{
             regexp_holder_ptr(other.regexp_holder_ptr),
             rule_name(other.rule_name),
             line_num(other.line_num),
+            dispose(other.dispose),
             ast(other.ast->clone()),
             ref_rule_name(rule_name),
             ref_line_num(line_num)
@@ -935,7 +957,8 @@ namespace paper_cutter{
         reg_data(reg_data &&other) :
             regexp_holder_ptr(std::move(other.regexp_holder_ptr)),
             rule_name(std::move(other.rule_name)),
-            line_num(other.line_num),
+            line_num(std::move(other.line_num)),
+            dispose(std::move(other.dispose)),
             ast(std::move(other.ast)),
             ref_rule_name(rule_name),
             ref_line_num(line_num)
@@ -1274,10 +1297,15 @@ namespace paper_cutter{
             ast->generate(os, ind_0);
         }
 
+        bool dispose_flag() const{
+            return dispose;
+        }
+
     private:
         regexp_holder *regexp_holder_ptr;
         std::string rule_name;
         std::size_t line_num;
+        bool dispose;
         regexp *ast;
 
     public:
@@ -1293,8 +1321,11 @@ namespace paper_cutter{
         ) : file_name(file_name_), namespace_(namespace_a){}
 
         template<class InputIter>
-        void add(std::string name, std::size_t line_num, InputIter first, InputIter last){
-            reg_data data(this, name, line_num);
+        void add(const std::string &name, std::size_t line_num, bool dispose_flag, InputIter first, InputIter last){
+            if(reg_data_map.find(name) != reg_data_map.end()){
+                throw(exception(lexical_cast(line_num) + ":'" + name + "' was detected."));
+            }
+            reg_data data(this, name, line_num, dispose_flag);
             reg_parser::parser<regexp*, reg_data> parser(data);
             try{
                 for(InputIter iter = first; iter != last; ++iter){
@@ -1400,8 +1431,12 @@ namespace paper_cutter{
             ){
                 os
                     << ind_0 << ind << ind << "result = reg_"<< iter->ref_rule_name << "(iter, last);" << "\n"
-                    << ind_0 << ind << ind << "if(result.first){" << "\n"
-                    << ind_0 << ind << ind << ind << "*token_inserter = std::make_pair(token_" << iter->ref_rule_name << ", std::make_pair(iter, result.second));" << "\n"
+                    << ind_0 << ind << ind << "if(result.first){" << "\n";
+                if(!iter->dispose_flag()){
+                    os
+                        << ind_0 << ind << ind << ind << "*token_inserter = std::make_pair(token_" << iter->ref_rule_name << ", std::make_pair(iter, result.second));" << "\n";
+                }
+                os
                     << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
                     << ind_0 << ind << ind << ind << "continue;\n"
                     << ind_0 << ind << ind << "}\n";
@@ -1453,7 +1488,6 @@ namespace paper_cutter{
 }
 
 #include "parser.hpp"
-//#include "lexer.hpp"
 
 namespace paper_cutter{
     struct plain_reg_data{
@@ -1462,6 +1496,7 @@ namespace paper_cutter{
         plain_reg_data(plain_reg_data &&other) : name(std::move(other.name)), reg(std::move(other.reg)){}
 
         std::string name, reg;
+        bool dispose;
     };
 
     class lexical_data{
@@ -1488,10 +1523,15 @@ namespace paper_cutter{
             x = y[0];
         }
 
-        std::string make_line(std::string name, std::string reg){
+        std::string make_line(std::string name, std::string ex_opt, std::string reg){
             data.name = name;
             data.reg = reg;
-            return "deadbeef";
+            data.dispose = !ex_opt.empty();
+            return "";
+        }
+
+        std::string make_dispose_rule(){
+            return "dispose";
         }
 
         std::string make_reg_name(char c){
@@ -1684,87 +1724,30 @@ namespace paper_cutter{
                         c += line[i];
                         bool r = false;
                         switch(c[0]){
-                        case '|':
-                            r = plexer.post(parser::token_symbol_or, c);
-                            break;
-
-                        case '*':
-                            r = plexer.post(parser::token_symbol_star, c);
-                            break;
-
-                        case '+':
-                            r = plexer.post(parser::token_symbol_plus, c);
-                            break;
-
-                        case '?':
-                            r = plexer.post(parser::token_symbol_question, c);
-                            break;
-
-                        case '(':
-                            r = plexer.post(parser::token_symbol_left_pare, c);
-                            break;
-
-                        case ')':
-                            r = plexer.post(parser::token_symbol_right_pare, c);
-                            break;
-
-                        case '{':
-                            r = plexer.post(parser::token_symbol_left_brace, c);
-                            break;
-
-                        case '}':
-                            r = plexer.post(parser::token_symbol_right_brace, c);
-                            break;
-
-                        case '.':
-                            r = plexer.post(parser::token_symbol_dot, c);
-                            break;
-
-                        case '$':
-                            r = plexer.post(parser::token_symbol_eos, c);
-                            break;
-
-                        case '\\':
-                            r = plexer.post(parser::token_symbol_backslash, c);
-                            break;
-
-                        case '[':
-                            r = plexer.post(parser::token_symbol_set_left_bracket, c);
-                            break;
-
-                        case '^':
-                            r = plexer.post(parser::token_symbol_hat, c);
-                            break;
-
-                        case ']':
-                            r = plexer.post(parser::token_symbol_set_right_bracket, c);
-                            break;
-
-                        case '-':
-                            r = plexer.post(parser::token_symbol_minus, c);
-                            break;
-
-                        case ',':
-                            r = plexer.post(parser::token_symbol_comma, c);
-                            break;
-
-                        case ':':
-                            r = plexer.post(parser::token_symbol_colon, c);
-                            break;
-
-                        case '"':
-                            r = plexer.post(parser::token_symbol_double_quote, c);
+                        case '|': case '*': case '+':
+                        case '?': case '(': case ')':
+                        case '{': case '}': case '.':
+                        case '$': case '\\': case '[':
+                        case '^': case ']': case '-':
+                        case ',': case ':': case '"':
+                            r = plexer.post(parser::token_symbol_any_char, c);
                             break;
 
                         case '=':
                             r = plexer.post(parser::token_symbol_equal, c);
                             break;
 
+                        case '!':
+                            r = plexer.post(parser::token_symbol_exclamation, c);
+                            break;
+
                         default:
                             if(std::isspace(c[0])){
                                 r = plexer.post(parser::token_symbol_space, c);
+                            }else if(isndigit(c[0])){
+                                r = plexer.post(parser::token_symbol_number, c);
                             }else{
-                                r = plexer.post(parser::token_symbol_any_non_metacharacter, c);
+                                r = plexer.post(parser::token_symbol_any_char, c);
                             }
                         }
                         if(r){ throw(exception(lexical_cast(line_num) + ":lexical erorr.")); }
@@ -1856,7 +1839,7 @@ namespace paper_cutter{
                         token_vec.push_back(std::make_pair(reg_parser::token_symbol_any_non_metacharacter, new regexp_plain_char(c)));;
                     }
                 }
-                holder.add(ld.data.name, line_num, token_vec.begin(), token_vec.end());
+                holder.add(ld.data.name, line_num, ld.data.dispose, token_vec.begin(), token_vec.end());
             }
             std::shared_ptr<const indent> indent;
             switch(co.indent()){
