@@ -45,6 +45,7 @@
         | [make_reg_char] symbol_number(0)
         | [make_reg_char] symbol_space(0)
         | [make_reg_char] symbol_equal(0)
+        | [make_reg_char] symbol_exclamation(0)
         ;
 }
 
