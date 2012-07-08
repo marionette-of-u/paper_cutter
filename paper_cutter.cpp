@@ -1876,5 +1876,5 @@ namespace paper_cutter{
 int main(int argc, char **argv){
     int argc_ = 5;
     char *argv_[] = { "dummy", "-c++", "-indent=space", "ifile.txt", "ofile.hpp" };
-    return paper_cutter::main(argc_, argv_);
+    return paper_cutter::main(argc, argv);
 }
