@@ -1397,7 +1397,8 @@ namespace paper_cutter{
                     << "\n";
             }
             os
-                << "enum token{" << "\n";
+                << "enum token{" << "\n"
+                << ind_0 << "token_0,\n";
             for(
                 std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
                 iter != end;
@@ -1488,7 +1489,7 @@ namespace paper_cutter{
             }
             os
                 << ind_0 << "template<class InputIter>\n"
-                << ind_0 << "static InputIter apply(InputIter first, InputIter last){\n"
+                << ind_0 << "static std::pair<token, InputIter> apply(InputIter first, InputIter last){\n"
                 << ind_0 << ind << "InputIter iter;\n"
                 << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;\n";
             for(
@@ -1500,11 +1501,11 @@ namespace paper_cutter{
                     << ind_0 << ind << "result = reg_" << iter->ref_rule_name << "(iter, last);" << "\n"
                     << ind_0 << ind << "if(result.first){" << "\n"
                     << ind_0 << ind << ind << "iter = result.second;" << "\n"
-                    << ind_0 << ind << ind << "return iter;\n"
+                    << ind_0 << ind << ind << "return std::make_pair(token_" << iter->ref_rule_name << ", iter);\n"
                     << ind_0 << ind << "}\n";
             }
             os
-                << ind_0 << ind << "return iter;\n"
+                << ind_0 << ind << "return std::make_pair(token_0, iter);\n"
                 << ind_0 << "}\n"
                 << "\n";
             os
