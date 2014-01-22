@@ -1,28 +1,28 @@
-# �T�v
-���K�\���ŋL�q���ꂽ�K������ɒ��ڃR�[�h�����ꂽ�����͊���o�͂��鎚���͊퐶���n�ł��B
+# 概要
+正規表現で記述された規則を基に直接コード化された字句解析器を出力する字句解析器生成系です。
 
-# �J����
-1. �G���W���i�ρj
-2. �o�͌`���̋K��i�ρj
-3. ���͌`���̋K��i�ρj
-4. �G���[�����i�ρj
-5. ����Ń����[�X�Ɍ������ŏI����
+# 開発状況
+1. エンジン（済）
+2. 出力形式の規定（済）
+3. 入力形式の規定（済）
+4. エラー処理（済）
+5. 安定版リリースに向けた最終調整
 
-# �g�p����E�c�[���Ɠ���m�F
+# 使用言語・ツールと動作確認
 <table>
 <tr><td>Language</td><td>C++11 (Clang++ 3.2 / VC++ 10.0)</td></tr>
 <tr><td>Tool</td><td>kp19pp Ver. Jun 03, 2012 (<a href="https://github.com/uwanosora/kp19pp">https://github.com/uwanosora/kp19pp</a>)</td></tr>
 </table>
 
-# �g����
-## ���s�t�@�C���̐���
-"paper_cutter.cpp"����L�̃R���p�C���������͏�L�ƌ݊����̂���R���p�C���ŃR���p�C�����܂��B
+# 使い方
+## 実行ファイルの生成
+"paper_cutter.cpp"を上記のコンパイラもしくは上記と互換性のあるコンパイラでコンパイルします。
 
-## lexer�̐���
+## lexerの生成
     paper_cutter -c++ [-indent=space | -indent=space4 | -indent=space8 | -indent=tab] ifile.txt ofile.hpp
 
-## ���̓t�@�C��
-�ȉ��̗l�Ȍ`�ɂȂ�܂��B
+## 入力ファイル
+以下の様な形になります。
 
     namespace_lexer
     reg_1 = regular-expression
@@ -33,46 +33,46 @@
     skip_2 != regular-expression
     ...
     skip_n != regular-expression
-`namespace_lexer`�́A�o�͂����lexer�̖��O��ԂɂȂ�܂��B  
-�擪���A���t�@�x�b�g�����̓A���_�[�X�R�A�Ŏn�܂�A����ȍ~���A���t�@�x�b�g�A�A���_�[�X�R�A�A�����Ő��藧���Ă��镶����ł���Ή��ł��\���܂���B�܂��A���O��Ԃ��L�q�����O�ɋ󔒕����i�X�y�[�X�A�^�u�j����ȏ㑶�݂��Ă������̓X�L�b�v����܂��B�X�ɁA���O��Ԃ̌�ɋ󔒂�����ŔC�ӂ̕�������L�q���Ă������͖�������邽�߁A���̖͂��ɂȂ�܂���B  
-`reg_1`����`reg_n`�A`skip_1`����`skip_n`�͂��ꂼ�ꐳ�K�\���Ɋ֘A�t����ꂽ���O������������ł��B�����Ɋւ��Ă��A`namespace_lexer`�Ɠ��l�̏����ŋL�q���s���܂��B  
-`regular-expression`�ɂ͐��K�\�����L�q���܂��B�}�b�`���O�͏�̐��K�\�����珇�ɕ]������܂��B�}�b�`���ʂ��ۑ������`=`�̎��ƃ}�b�`���ʂ��ۑ�����Ȃ�`!=`�̎��͂ǂ̗l�ȏ����ŋL�q���Ă��\���܂���B
-`=`�Ō��ѕt����ꂽ���K�\����tokenize�����o�֐��i��q�F�w�o�̓t�@�C���x�j�ł̎��s���Ƀ}�b�`�����ꍇ�A���ʂ͕ۑ�����܂����A`!=`�Ō��ѕt����ꂽ���K�\���̓}�b�`���O�݂̂��s�����ʂ͕ۑ����ꂸ���Ƀ}�b�`��������ւƃX�L�b�v����܂��B
+`namespace_lexer`は、出力されるlexerの名前空間になります。  
+先頭がアルファベット或いはアンダースコアで始まり、それ以降がアルファベット、アンダースコア、数字で成り立っている文字列であれば何でも構いません。また、名前空間が記述される前に空白文字（スペース、タブ）が一つ以上存在してもそれらはスキップされます。更に、名前空間の後に空白を挟んで任意の文字列を記述してもそれらは無視されるため、入力の問題になりません。  
+`reg_1`から`reg_n`、`skip_1`から`skip_n`はそれぞれ正規表現に関連付けられた名前を示す文字列です。これらに関しても、`namespace_lexer`と同様の書式で記述を行います。  
+`regular-expression`には正規表現を記述します。マッチングは上の正規表現から順に評価されます。マッチ結果が保存される`=`の式とマッチ結果が保存されない`!=`の式はどの様な順序で記述しても構いません。
+`=`で結び付けられた正規表現はtokenizeメンバ関数（後述：『出力ファイル』）での試行時にマッチした場合、結果は保存されますが、`!=`で結び付けられた正規表現はマッチングのみを行い結果は保存されず次にマッチする条件へとスキップされます。
 
-## ���K�\��
+## 正規表現
 <table>
-<tr><td>�i�D�揇��1�ʁj</td><td><hr/></td></tr>
-<tr><td>a</td><td>����"a"�Ƀ}�b�`�B</td></tr>
-<tr><td>.</td><td>�h�b�g�B�C�ӂ̕����Ƀ}�b�`�B</td></tr>
-<tr><td>[abc]</td><td>�Z�b�g�B"a"�A"b"�A"c"�̂����ꂩ�̈ꕶ���Ƀ}�b�`�B</td></tr>
-<tr><td>[a-z]</td><td>�Z�b�g�i�͈́j�B�����R�[�h"a"����"z"�̊Ԃɂ��邢���ꂩ�̈ꕶ���Ƀ}�b�`�B�Z�b�g�ƍ��݉\�B<br/>�R���p�C�����ꂽ���ɂ���Ă�"a", "b", "c", ..., "z"�ƘA�����Ă��Ȃ��_�ɒ��ӁB</td></tr>
-<tr><td>[^abc]</td><td>�l�K�e�B�u�Z�b�g�B"a"�A"b"�A"c"�̂����ꂩ�łȂ��ꕶ���Ƀ}�b�`�B</td></tr>
-<tr><td>[^a-z]</td><td>�l�K�e�B�u�Z�b�g�i�͈́j�B"a"����"z"�̂����ꂩ�łȂ��ꕶ���Ƀ}�b�`�B�l�K�e�B�u�Z�b�g�ƍ��݉\�B</td></tr>
-<tr><td>a*</td><td>�A�X�^���X�N�B0�ȏ��a�Ƀ}�b�`�Ba�͉��炩�̐��K�\���B</td></tr>
-<tr><td>a+</td><td>�v���X�B1�ȏ��a�Ƀ}�b�`�B</td></tr>
-<tr><td>a?</td><td>�N�G�X�`�����B0��������1��a�Ƀ}�b�`�B</td></tr>
-<tr><td>a{n,m}</td><td>n�ȏ�m�ȉ���a�Ƀ}�b�`�Bn�Am�͐��l�B</td></tr>
-<tr><td>a{n,}</td><td>n�ȏ��a�Ƀ}�b�`�B</td></tr>
-<tr><td>a{m}</td><td>m��a�Ƀ}�b�`�B</td></tr>
-<tr><td>{<i>other-regular-expression</i>}</td><td>���̐��K�\���K��`other-regular-expression`�Ƀ}�b�`�B</td></tr>
-<tr><td>"abc\\xyz\"pqr"</td><td>������abc\xyz"pqr�Ƀ}�b�`�B</td></tr>
-<tr><td>\N</td><td>N��"a"�A'b"�A"f"�A"n"�A"r"�A"t"�A"v", "\\"�̎��A"\a"�A'\b"�A"\f"�A"\n"�A"\r"�A"\t"�A"\v"�A"\\"�ɕϊ�����}�b�`���܂��B<br/>N���p�^�[�����̉��Z�q�̏ꍇ�A���̕������̂��̂̌��ʂ𖳌��ɂ��A�}�b�`���܂��B</td></tr>
-<tr><td>(a)</td><td>a�Ƀ}�b�`�B�D�揇�ʂ�1�ʂɕύX����܂��B</td></tr>
-<tr><td>�i�D�揇��2�ʁj</td><td><hr/></td></tr>
-<tr><td>ab</td><td>���K�\��a��b�̘A���Ƀ}�b�`�B</td></tr>
-<tr><td>�i�D�揇��3�ʁj</td><td><hr/></td></tr>
-<tr><td>a|b</td><td>���j�I���Ba��������b�Ƀ}�b�`�B</td></tr>
-<tr><td>�i�D�揇��4�ʁj</td><td><hr/></td></tr>
-<tr><td>a/b</td><td>�E�����B����b����������a�Ƀ}�b�`�i�Q�ƁF�E�����Œ�`�s�\�ȃp�^�[���j�B</td></tr>
-<tr><td>^a</td><td>�n�b�g�Ba���s���i���s�̒���������̓}�b�`���O�Ώۂ̃V�[�P���X�̐擪�j�ɂ���ꍇ�}�b�`�B</td></tr>
-<tr><td>a$</td><td>�G���h�I�u���C���Ba�̎����s�[�i���s�̒��O�������̓}�b�`���O�Ώۂ̃V�[�P���X�̏I�[�j�ɂ���ꍇ�Ƀ}�b�`�B</td></tr>
+<tr><td>（優先順位1位）</td><td><hr/></td></tr>
+<tr><td>a</td><td>文字"a"にマッチ。</td></tr>
+<tr><td>.</td><td>ドット。任意の文字にマッチ。</td></tr>
+<tr><td>[abc]</td><td>セット。"a"、"b"、"c"のいずれかの一文字にマッチ。</td></tr>
+<tr><td>[a-z]</td><td>セット（範囲）。文字コード"a"から"z"の間にあるいずれかの一文字にマッチ。セットと混在可能。<br/>コンパイルされた環境によっては"a", "b", "c", ..., "z"と連続していない点に注意。</td></tr>
+<tr><td>[^abc]</td><td>ネガティブセット。"a"、"b"、"c"のいずれかでない一文字にマッチ。</td></tr>
+<tr><td>[^a-z]</td><td>ネガティブセット（範囲）。"a"から"z"のいずれかでない一文字にマッチ。ネガティブセットと混在可能。</td></tr>
+<tr><td>a*</td><td>アスタリスク。0個以上のaにマッチ。aは何らかの正規表現。</td></tr>
+<tr><td>a+</td><td>プラス。1個以上のaにマッチ。</td></tr>
+<tr><td>a?</td><td>クエスチョン。0個もしくは1個のaにマッチ。</td></tr>
+<tr><td>a{n,m}</td><td>n個以上m個以下のaにマッチ。n、mは数値。</td></tr>
+<tr><td>a{n,}</td><td>n個以上のaにマッチ。</td></tr>
+<tr><td>a{m}</td><td>m個のaにマッチ。</td></tr>
+<tr><td>{<i>other-regular-expression</i>}</td><td>他の正規表現規則`other-regular-expression`にマッチ。</td></tr>
+<tr><td>"abc\\xyz\"pqr"</td><td>文字列abc\xyz"pqrにマッチ。</td></tr>
+<tr><td>\N</td><td>Nが"a"、'b"、"f"、"n"、"r"、"t"、"v", "\\"の時、"\a"、'\b"、"\f"、"\n"、"\r"、"\t"、"\v"、"\\"に変換されマッチします。<br/>Nがパターン中の演算子の場合、その文字そのものの効果を無効にし、マッチします。</td></tr>
+<tr><td>(a)</td><td>aにマッチ。優先順位が1位に変更されます。</td></tr>
+<tr><td>（優先順位2位）</td><td><hr/></td></tr>
+<tr><td>ab</td><td>正規表現aとbの連結にマッチ。</td></tr>
+<tr><td>（優先順位3位）</td><td><hr/></td></tr>
+<tr><td>a|b</td><td>ユニオン。aもしくはbにマッチ。</td></tr>
+<tr><td>（優先順位4位）</td><td><hr/></td></tr>
+<tr><td>a/b</td><td>右文脈。後ろにbが続く時のaにマッチ（参照：右文脈で定義不可能なパターン）。</td></tr>
+<tr><td>^a</td><td>ハット。aが行頭（改行の直後もしくはマッチング対象のシーケンスの先頭）にある場合マッチ。</td></tr>
+<tr><td>a$</td><td>エンドオブライン。aの次が行端（改行の直前もしくはマッチング対象のシーケンスの終端）にある場合にマッチ。</td></tr>
 </table>
 
-## �G�X�P�[�v�ɂ����钍�ӎ���
-��\�I�Ȏ����̓v���O����Flex�ȂǂƈႢ�A���̃v���O�����ł͑S�Ẳ��Z�q�ɑ΂��Ă��̂��̂��}�b�`������ꍇ�A�ǂ̏ꏊ�ɂ��낤�Ƃ�"\"�ɂ��G�X�P�[�v���K�v�ƂȂ�܂��B
+## エスケープにおける注意事項
+代表的な字句解析プログラムFlexなどと違い、このプログラムでは全ての演算子に対してそのものをマッチさせる場合、どの場所にあろうとも"\"によるエスケープが必要となります。
 
-## �����N���X
-���̃v���O�����ł́A�ȉ��̕����N���X���g�p�\�ł��B
+## 文字クラス
+このプログラムでは、以下の文字クラスが使用可能です。
 
     [:alnum:]
     [:alpha:]
@@ -86,24 +86,24 @@
     [:space:]
     [:upper:]
     [:xdigit:]
-���ꂼ��C�����isXXX�֐��ɑ������镶���N���X�Ƀ}�b�`���܂��B
+それぞれC言語のisXXX関数に相当する文字クラスにマッチします。
 
-## �o�̓t�@�C��
-�o�͂��ꂽ�t�@�C���͈ȉ��̃w�b�_��include���܂��B  
+## 出力ファイル
+出力されたファイルは以下のヘッダをincludeします。  
 
     <utility>
     <iterator>
     <cstring>
     <cctype>
     <ctype.h>
-cctype��ctype�̗�����include���Ă���̂�MSVC 10.0�ɂ�����`std::isblank`�����p�ł��Ȃ����߂ł��B  
-�܂��͗�̓��͂����Ă݂܂��傤�B
+cctypeとctypeの両方をincludeしているのはMSVC 10.0において`std::isblank`が利用できないためです。  
+まずは例の入力を見てみましょう。
 
     aaa
       whitespace   != " "*
       token        =  [a-zA-Z][a-zA-Z0-9]*
       value        =  ([1-9][0-9]*)|0
-namespace aaa���Ɉȉ��̃R�[�h����������܂��B  
+namespace aaa内に以下のコードが生成されます。  
 
     namespace aaa{
         enum token{
@@ -115,13 +115,13 @@ namespace aaa���Ɉȉ��̃R�[�h����������܂��B
         class lexer{
         public:
             template<class InputIter>
-            static std::pair<bool, InputIter> reg_whitespace(InputIter first, InputIter last){ /* �ȗ� */ }
+            static std::pair<bool, InputIter> reg_whitespace(InputIter first, InputIter last){ /* 省略 */ }
 
             template<class InputIter>
-            static std::pair<bool, InputIter> reg_token(InputIter first, InputIter last){ /* �ȗ� */ }
+            static std::pair<bool, InputIter> reg_token(InputIter first, InputIter last){ /* 省略 */ }
 
             template<class InputIter>
-            static std::pair<bool, InputIter> reg_value(InputIter first, InputIter last){ /* �ȗ� */ }
+            static std::pair<bool, InputIter> reg_value(InputIter first, InputIter last){ /* 省略 */ }
 
             template<class InputIter, class InsertIter>
             static std::pair<bool, InputIter> tokenize(InputIter first, InputIter last, InsertIter token_inserter){
@@ -151,12 +151,12 @@ namespace aaa���Ɉȉ��̃R�[�h����������܂��B
             }
         };
     }
-`aaa::token`�́A���K�\���Ƀ}�b�`��������tokenizer�����o�֐�����insert\_iterator����ďo�͂����g�[�N����enum�ł��B  
-`aaa::lexer::reg_whitespace`�A`aaa::lexer::reg_token`�A`aaa::lexer::reg_value`�͂��ꂼ����̓t�@�C���̐��K�\�����琶�����ꂽ�����o�֐��ł��B  
-input\_iterator�̓��͂���}�b�`���邩�ǂ����𔻒肵�A�}�b�`�����ꍇ��first��true���Asecond�Ƀ}�b�`���������iterator��Ԃ��܂��B  
-`aaa::lexer::tokenize`�����o�֐����Ŏg�p����Ă��܂����Apublic��static�ȃ����o�֐��Ȃ̂ŒP�̂Ŏg�p���鎖���\�ł��B  
-`aaa::lexer::tokenize`�����o�֐���input\_iterator�̎n�[�ƏI�[����A���ݑ��݂��鐳�K�\���S�Ăɑ΂��ă}�b�`���邩�ǂ��������s���܂��B�g�[�N���𕪊��������ʂ́A��3������insert\_iterator��`std::make_pair(aaa::token, std::make_pair(first, last))`�Ƃ��Ēǉ�����܂��B�߂�l��`aaa::lexer::reg_XXX`�Ɠ����ŁA���炩�̐��K�\���Ƀ}�b�`�����ꍇfirst��true���A�����łȂ��ꍇ��false���������Asecond�ł͑����̏I�������ʒu��iterator���Ԃ���܂��B
+`aaa::token`は、正規表現にマッチした時にtokenizerメンバ関数からinsert\_iteratorを介して出力されるトークンのenumです。  
+`aaa::lexer::reg_whitespace`、`aaa::lexer::reg_token`、`aaa::lexer::reg_value`はそれぞれ入力ファイルの正規表現から生成されたメンバ関数です。  
+input\_iteratorの入力からマッチするかどうかを判定し、マッチした場合はfirstにtrueを、secondにマッチした直後のiteratorを返します。  
+`aaa::lexer::tokenize`メンバ関数内で使用されていますが、publicでstaticなメンバ関数なので単体で使用する事も可能です。  
+`aaa::lexer::tokenize`メンバ関数はinput\_iteratorの始端と終端から、現在存在する正規表現全てに対してマッチするかどうかを試行します。トークンを分割した結果は、第3引数のinsert\_iteratorに`std::make_pair(aaa::token, std::make_pair(first, last))`として追加されます。戻り値は`aaa::lexer::reg_XXX`と同じで、何らかの正規表現にマッチした場合firstにtrueが、そうでない場合はfalseが代入され、secondでは走査の終了した位置のiteratorが返されます。
 
-# ���̑�
-�o�͂��ꂽ�f�[�^�͂��̃f�[�^�̊�ƂȂ������̓f�[�^���쐬�����{�l�̂��̂ƂȂ�܂��B  
+# その他
+出力されたデータはそのデータの基となった入力データを作成した本人のものとなります。  
 Copyright (c) 2012 uwanosora All Rights Reserved.
