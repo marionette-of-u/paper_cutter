@@ -734,7 +734,8 @@ namespace paper_cutter{
                 << ind_0 << ind << "}\n"
                 << ind_0 << ind << "if(str[i] == '\\0'){\n"
                 << ind_0 << ind << ind << "match = true;\n"
-                << ind_0 << ind << "}";
+                << ind_0 << ind << "}\n"
+                << ind_0 << "}\n";
         }
     };
 
@@ -1486,8 +1487,29 @@ namespace paper_cutter{
                     << ind_0 << "}\n\n";
             }
             os
+                << ind_0 << "template<class InputIter>\n"
+                << ind_0 << "static InputIter apply(InputIter first, InputIter last){\n"
+                << ind_0 << ind << "InputIter iter;\n"
+                << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;\n";
+            for(
+                std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
+                iter != end;
+                ++iter
+            ){
+                os
+                    << ind_0 << ind << "result = reg_" << iter->ref_rule_name << "(iter, last);" << "\n"
+                    << ind_0 << ind << "if(result.first){" << "\n"
+                    << ind_0 << ind << ind << "iter = result.second;" << "\n"
+                    << ind_0 << ind << ind << "return iter;\n"
+                    << ind_0 << ind << "}\n";
+            }
+            os
+                << ind_0 << ind << "return iter;\n"
+                << ind_0 << "}\n"
+                << "\n";
+            os
                 << ind_0 << "template<class InputIter, class InsertFunctor>" << "\n"
-                << ind_0 << "inline static std::pair<bool, iterator<InputIter>> tokenize(InputIter first, InputIter last, const InsertFunctor &f){" << "\n"
+                << ind_0 << "static std::pair<bool, iterator<InputIter>> tokenize(InputIter first, InputIter last, const InsertFunctor &f){" << "\n"
                 << ind_0 << ind << "InputIter iter = first;" << "\n"
                 << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;" << "\n"
                 << ind_0 << ind << "while(iter != last){"<< "\n";
