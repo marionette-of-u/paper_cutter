@@ -701,7 +701,7 @@ namespace paper_cutter{
         }
     };
 
-    class regexp_str : public regexp{
+    class regexp_str : public regexp_char_seq{
     public:
         virtual ~regexp_str(){}
 
@@ -716,24 +716,25 @@ namespace paper_cutter{
                 ind_2 = ind_1->nested_clone();
             //os << ind_0 << "// str\n";
             os
-                << ind_0 << "if(iter == last){ match = false; }else{\n"
+                << ind_0 << "if(iter == last){\n"
+                << ind_0 << ind << "match = false;\n"
+                << ind_0 << "}else{\n"
                 << ind_0 << ind << "InputIter iter_prime = iter;\n"
-                << ind_0 << ind << "do{\n";
-            std::function<void(const regexp*)> recursive_put;
-            recursive_put = [&](const regexp *ptr){
-                if(ptr->v){
-                    recursive_put(ptr->u);
-                    ptr->v->generate(os, ind_2);
-                }else{
-                    ptr->generate(os, ind_2);
-                }
-                os
-                    << ind_0 << ind << ind << "if(!match){ iter = iter_prime; break; }\n";
-            };
-            recursive_put(u);
-            os
-                << ind_0 << ind << "}while(false);\n"
-                << ind_0 << "}\n";
+                << ind_0 << ind << "const char *str = \"" << make_string() << "\";\n"
+                << ind_0 << ind << "std::size_t n = sizeof(\"" << make_string() << "\") / sizeof(char);\n"
+                << ind_0 << ind << "std::size_t = 0;\n"
+                << ind_0 << ind << "while(str[i]){\n"
+                << ind_0 << ind << ind << "if(iter == last){\n"
+                << ind_0 << ind << ind << ind << "match = false;\n"
+                << ind_0 << ind << ind << ind << "iter = iter_prime;\n"
+                << ind_0 << ind << ind << ind << "break;\n"
+                << ind_0 << ind << ind << "}\n"
+                << ind_0 << ind << ind << "str[i] == *iter;\n"
+                << ind_0 << ind << ind << "++i, ++iter;\n"
+                << ind_0 << ind << "}\n"
+                << ind_0 << ind << "if(str[i] == '\\0'){\n"
+                << ind_0 << ind << ind << "match = true;\n"
+                << ind_0 << ind << "}";
         }
     };
 
@@ -1359,25 +1360,30 @@ namespace paper_cutter{
             return *find_result->second;
         }
 
-        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+        void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0, bool kp19pp = false) const{
             std::shared_ptr<const indent> ind = ind_0->clone(1);
             std::shared_ptr<const indent>
                 ind_1 = ind_0->nested_clone(),
                 ind_2 = ind_1->nested_clone();
             std::string include_guard;
-            for(std::size_t i = 0; i < file_name.size(); ++i){
-                char c = file_name[i];
-                if(std::isalnum(c)){
-                    include_guard += static_cast<char>(std::toupper(c));
-                }else{
-                    include_guard += "_";
+            if(!kp19pp){
+                for(std::size_t i = 0; i < file_name.size(); ++i){
+                    char c = file_name[i];
+                    if(std::isalnum(c)){
+                        include_guard += static_cast<char>(std::toupper(c));
+                    } else{
+                        include_guard += "_";
+                    }
                 }
+                include_guard += "_";
             }
-            include_guard += "_";
+            if(!kp19pp){
+                os
+                    << "#ifndef " << include_guard << "\n"
+                    << "#define " << include_guard << "\n"
+                    << "\n";
+            }
             os
-                << "#ifndef " << include_guard << "\n"
-                << "#define " << include_guard << "\n"
-                << "\n"
                 << "#include <utility>" << "\n"
                 << "#include <iterator>" << "\n"
                 << "#include <cstring>" << "\n"
@@ -1401,7 +1407,59 @@ namespace paper_cutter{
                 os
                     << ind << "token_" << iter->ref_rule_name << (dummy == end ? "" : ",") << "\n";
             }
+            os << "};\n";
+
             os
+                << "template<class Iter>" << "\n"
+                << "struct iterator{" << "\n"
+                << ind << "iterator() = default;" << "\n"
+                << ind << "iterator(const iterator &other) :" << "\n"
+                << ind << ind << "begin(other.begin), end(other.end)," << "\n"
+                << ind << ind << "char_count(other.char_count), line_count(other.line_count)," << "\n"
+                << ind << ind << "value(other.value)" << "\n"
+                << ind << "{ ++end; }" << "\n"
+                << ind << "iterator(const Iter &iter) :" << "\n"
+                << ind << ind << "begin(iter), end(iter)," << "\n"
+                << ind << ind << "char_count(0), line_count(0)," << "\n"
+                << ind << ind << "value(0)" << "\n"
+                << ind << "{ ++end; }" << "\n"
+                << ind << "~iterator() = default;" << "\n"
+                << ind << "iterator &operator =(const Iter &other){" << "\n"
+                << ind << ind << "begin = other, end = other;" << "\n"
+                << ind << ind << "++end;" << "\n"
+                << ind << ind << "return *this;" << "\n"
+                << ind << "}" << "\n"
+                << ind << "iterator &operator =(const iterator &other){" << "\n"
+                << ind << ind << "begin = other.begin, end = other.end;" << "\n"
+                << ind << ind << "char_count = other.char_count, line_count = other.line_count;" << "\n"
+                << ind << ind << "value = other.value;" << "\n"
+                << ind << ind << "return *this;" << "\n"
+                << ind << "}" << "\n"
+                << ind << "iterator &operator ++(){" << "\n"
+                << ind << ind << "if(*end == '\\n'){" << "\n"
+                << ind << ind << ind << "char_count = 0;" << "\n"
+                << ind << ind << ind << "++line_count;" << "\n"
+                << ind << ind << "} else{" << "\n"
+                << ind << ind << ind << "++char_count;" << "\n"
+                << ind << ind << "}" << "\n"
+                << ind << ind << "++end;" << "\n"
+                << ind << ind << "return *this;" << "\n"
+                << ind << "}" << "\n"
+                << ind << "bool operator ==(const Iter &other) const{" << "\n"
+                << ind << ind << "Iter last = end;" << "\n"
+                << ind << ind << "--last;" << "\n"
+                << ind << ind << "return last == other;" << "\n"
+                << ind << "}" << "\n"
+                << ind << "bool operator ==(const iterator &other) const{" << "\n"
+                << ind << ind << "return end == other.end;" << "\n"
+                << ind << "}" << "\n"
+                << ind << "template<class Other>" << "\n"
+                << ind << "bool operator !=(const Other &other) const{" << "\n"
+                << ind << ind << "return !(*this == other);" << "\n"
+                << ind << "}" << "\n"
+                << ind << "Iter begin, end;" << "\n"
+                << ind << "std::size_t char_count, line_count;" << "\n"
+                << ind << "token value;" << "\n"
                 << "};" << "\n"
                 << "\n"
                 << "class lexer{" << "\n"
@@ -1413,7 +1471,7 @@ namespace paper_cutter{
             ){
                 os
                     << ind_0 << "template<class InputIter>\n"
-                    << ind_0 << "static std::pair<bool, InputIter> reg_" << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
+                    << ind_0 << "static std::pair<bool, iterator<InputIter>> reg_" << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
                     << ind_0 << ind << "InputIter iter = first;\n"
                     << ind_0 << ind << "bool match = true;\n";
                 recursive_check_cache.clear();
@@ -1428,10 +1486,10 @@ namespace paper_cutter{
                     << ind_0 << "}\n\n";
             }
             os
-                << ind_0 << "template<class InputIter, class InsertIter>" << "\n"
-                << ind_0 << "static std::pair<bool, InputIter> tokenize(InputIter first, InputIter last, InsertIter token_inserter){" << "\n"
+                << ind_0 << "template<class InputIter, class InsertFunctor>" << "\n"
+                << ind_0 << "inline static std::pair<bool, iterator<InputIter>> tokenize(InputIter first, InputIter last, const InsertFunctor &f){" << "\n"
                 << ind_0 << ind << "InputIter iter = first;" << "\n"
-                << ind_0 << ind << "std::pair<bool, InputIter> result;" << "\n"
+                << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;" << "\n"
                 << ind_0 << ind << "while(iter != last){"<< "\n";
             for(
                 std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
@@ -1443,7 +1501,7 @@ namespace paper_cutter{
                     << ind_0 << ind << ind << "if(result.first){" << "\n";
                 if(!iter->dispose_flag()){
                     os
-                        << ind_0 << ind << ind << ind << "*token_inserter = std::make_pair(token_" << iter->ref_rule_name << ", std::make_pair(iter, result.second));" << "\n";
+                        << ind_0 << ind << ind << ind << "f(token_" << iter->ref_rule_name << ", iter, result.second);" << "\n";
                 }
                 os
                     << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
@@ -1462,9 +1520,11 @@ namespace paper_cutter{
                     << "} // namespace " << namespace_ << "\n"
                     << "\n";
             }
-            os
-                << "#endif // " << include_guard << "\n"
-                << "\n";
+            if(!kp19pp){
+                os
+                    << "#endif // " << include_guard << "\n"
+                    << "\n";
+            }
         }
 
         void insert_recursive_cache(const std::string &other_name) const{

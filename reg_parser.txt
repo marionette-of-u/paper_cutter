@@ -1,4 +1,5 @@
 <token_desc>{
+    symbol_str<paper_cutter::regexp*>,
     symbol_or<paper_cutter::regexp*>,
     symbol_star<paper_cutter::regexp*>,
     symbol_plus<paper_cutter::regexp*>,
@@ -129,7 +130,8 @@
         ;
 
     str_char<paper_cutter::regexp*>
-        : [make_char] symbol_or(0)
+        : [make_char] symbol_str(0)
+        | [make_char] symbol_or(0)
         | [make_char] symbol_star(0)
         | [make_char] symbol_plus(0)
         | [make_char] symbol_question(0)

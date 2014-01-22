@@ -140,6 +140,28 @@ if(iter == last){
     }while(false);
 }
 
+::string
+if(iter == last){
+    match = false;
+}else{
+    InputIter iter_prime = iter;
+    const char *str = "str";
+    std::size_t n = sizeof("str") / sizeof(char);
+    std::size_t i = 0;
+    while(str[i]){
+        if(iter == last){
+            match = false;
+            iter = iter_prime;
+            break;
+        }
+        str[i] == *iter;
+        ++i;
+    }
+    if(str[i] == '\0'){
+        match = true;
+    }
+}
+
 ::star
 {
     InputIter iter_prime = iter;
