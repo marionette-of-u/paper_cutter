@@ -713,25 +713,16 @@ namespace paper_cutter{
                 ind_2 = ind_1->nested_clone();
             //os << ind_0 << "// str\n";
             os
-                << ind_0 << "if(iter == last){\n"
-                << ind_0 << ind << "match = false;\n"
-                << ind_0 << "}else{\n"
+                << ind_0 << "if(iter == last){ match = false; }else{\n"
                 << ind_0 << ind << "InputIter iter_prime = iter;\n"
                 << ind_0 << ind << "const char *str = \"" << make_string() << "\";\n"
                 << ind_0 << ind << "std::size_t n = sizeof(\"" << make_string() << "\") / sizeof(char);\n"
                 << ind_0 << ind << "std::size_t i = 0;\n"
                 << ind_0 << ind << "while(str[i]){\n"
-                << ind_0 << ind << ind << "if(iter == last){\n"
-                << ind_0 << ind << ind << ind << "match = false;\n"
-                << ind_0 << ind << ind << ind << "iter = iter_prime;\n"
-                << ind_0 << ind << ind << ind << "break;\n"
-                << ind_0 << ind << ind << "}\n"
-                << ind_0 << ind << ind << "str[i] == *iter;\n"
+                << ind_0 << ind << ind << "if(str[i] != *iter){ break; }\n"
                 << ind_0 << ind << ind << "++i, ++iter;\n"
                 << ind_0 << ind << "}\n"
-                << ind_0 << ind << "if(str[i] == '\\0'){\n"
-                << ind_0 << ind << ind << "match = true;\n"
-                << ind_0 << ind << "}\n"
+                << ind_0 << ind << "match = str[i] == '\\0';\n"
                 << ind_0 << "}\n";
         }
     };
@@ -1416,12 +1407,12 @@ namespace paper_cutter{
                 << ind << ind << "end(other.end)," << "\n"
                 << ind << ind << "char_count(other.char_count), line_count(other.line_count)," << "\n"
                 << ind << ind << "value(other.value)" << "\n"
-                << ind << "{ ++end; }" << "\n"
+                << ind << "{}" << "\n"
                 << ind << "iterator(const Iter &iter) :" << "\n"
                 << ind << ind << "end(iter)," << "\n"
                 << ind << ind << "char_count(0), line_count(0)," << "\n"
-                << ind << ind << "value(0)" << "\n"
-                << ind << "{ ++end; }" << "\n"
+                << ind << ind << "value(token())" << "\n"
+                << ind << "{}" << "\n"
                 << ind << "~iterator() = default;" << "\n"
                 << ind << "iterator &operator =(const Iter &other){" << "\n"
                 << ind << ind << "end = other;" << "\n"
@@ -1487,7 +1478,7 @@ namespace paper_cutter{
             os
                 << ind_0 << "template<class InputIter>\n"
                 << ind_0 << "static std::pair<token, InputIter> apply(InputIter first, InputIter last){\n"
-                << ind_0 << ind << "InputIter iter;\n"
+                << ind_0 << ind << "InputIter iter = first;\n"
                 << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;\n";
             for(
                 std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
