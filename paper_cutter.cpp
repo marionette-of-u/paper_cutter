@@ -686,16 +686,13 @@ namespace paper_cutter{
 
         std::string make_string() const{
             std::string r;
+            if(u){
+                if(u->c != '\0'){ r += u->c; }
+                r += static_cast<regexp_char_seq*>(u)->make_string();
+            }
             if(v){
-                regexp_char_seq *cast_result = dynamic_cast<regexp_char_seq*>(u);
-                if(cast_result){
-                    r = cast_result->make_string();
-                }else{
-                    r += u->u->c;
-                }
-                r += v->u->c;
-            }else{
-                r += u->c;
+                if(v->c != '\0'){ r += v->c; }
+                r += static_cast<regexp_char_seq*>(v)->make_string();
             }
             return std::move(r);
         }
@@ -722,7 +719,7 @@ namespace paper_cutter{
                 << ind_0 << ind << "InputIter iter_prime = iter;\n"
                 << ind_0 << ind << "const char *str = \"" << make_string() << "\";\n"
                 << ind_0 << ind << "std::size_t n = sizeof(\"" << make_string() << "\") / sizeof(char);\n"
-                << ind_0 << ind << "std::size_t = 0;\n"
+                << ind_0 << ind << "std::size_t i = 0;\n"
                 << ind_0 << ind << "while(str[i]){\n"
                 << ind_0 << ind << ind << "if(iter == last){\n"
                 << ind_0 << ind << ind << ind << "match = false;\n"
@@ -1416,23 +1413,23 @@ namespace paper_cutter{
                 << "struct iterator{" << "\n"
                 << ind << "iterator() = default;" << "\n"
                 << ind << "iterator(const iterator &other) :" << "\n"
-                << ind << ind << "begin(other.begin), end(other.end)," << "\n"
+                << ind << ind << "end(other.end)," << "\n"
                 << ind << ind << "char_count(other.char_count), line_count(other.line_count)," << "\n"
                 << ind << ind << "value(other.value)" << "\n"
                 << ind << "{ ++end; }" << "\n"
                 << ind << "iterator(const Iter &iter) :" << "\n"
-                << ind << ind << "begin(iter), end(iter)," << "\n"
+                << ind << ind << "end(iter)," << "\n"
                 << ind << ind << "char_count(0), line_count(0)," << "\n"
                 << ind << ind << "value(0)" << "\n"
                 << ind << "{ ++end; }" << "\n"
                 << ind << "~iterator() = default;" << "\n"
                 << ind << "iterator &operator =(const Iter &other){" << "\n"
-                << ind << ind << "begin = other, end = other;" << "\n"
+                << ind << ind << "end = other;" << "\n"
                 << ind << ind << "++end;" << "\n"
                 << ind << ind << "return *this;" << "\n"
                 << ind << "}" << "\n"
                 << ind << "iterator &operator =(const iterator &other){" << "\n"
-                << ind << ind << "begin = other.begin, end = other.end;" << "\n"
+                << ind << ind << "end = other.end;" << "\n"
                 << ind << ind << "char_count = other.char_count, line_count = other.line_count;" << "\n"
                 << ind << ind << "value = other.value;" << "\n"
                 << ind << ind << "return *this;" << "\n"
@@ -1459,7 +1456,7 @@ namespace paper_cutter{
                 << ind << "bool operator !=(const Other &other) const{" << "\n"
                 << ind << ind << "return !(*this == other);" << "\n"
                 << ind << "}" << "\n"
-                << ind << "Iter begin, end;" << "\n"
+                << ind << "Iter end;" << "\n"
                 << ind << "std::size_t char_count, line_count;" << "\n"
                 << ind << "token value;" << "\n"
                 << "};" << "\n"
@@ -1500,7 +1497,7 @@ namespace paper_cutter{
                 os
                     << ind_0 << ind << "result = reg_" << iter->ref_rule_name << "(iter, last);" << "\n"
                     << ind_0 << ind << "if(result.first){" << "\n"
-                    << ind_0 << ind << ind << "iter = result.second;" << "\n"
+                    << ind_0 << ind << ind << "iter = result.second.end;" << "\n"
                     << ind_0 << ind << ind << "return std::make_pair(token_" << iter->ref_rule_name << ", iter);\n"
                     << ind_0 << ind << "}\n";
             }
