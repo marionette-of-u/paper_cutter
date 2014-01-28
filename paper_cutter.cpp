@@ -1402,54 +1402,53 @@ namespace paper_cutter{
             os
                 << "template<class Iter>" << "\n"
                 << "struct iterator{" << "\n"
+                << ind << "using value_type = typename Iter::value_type;" << "\n"
                 << ind << "iterator() = default;" << "\n"
                 << ind << "iterator(const iterator &other) :" << "\n"
-                << ind << ind << "end(other.end)," << "\n"
-                << ind << ind << "char_count(other.char_count), line_count(other.line_count)," << "\n"
-                << ind << ind << "value(other.value)" << "\n"
-                << ind << "{}" << "\n"
+                << ind << ind << "place(other.place)," << "\n"
+                << ind << ind << "char_count(other.char_count), line_count(other.line_count)" << "\n"
+                << ind << "{}" << "\n\n"
                 << ind << "iterator(const Iter &iter) :" << "\n"
-                << ind << ind << "end(iter)," << "\n"
-                << ind << ind << "char_count(0), line_count(0)," << "\n"
-                << ind << ind << "value(token())" << "\n"
-                << ind << "{}" << "\n"
+                << ind << ind << "place(iter)," << "\n"
+                << ind << ind << "char_count(0), line_count(0)" << "\n"
+                << ind << "{}" << "\n\n"
                 << ind << "~iterator() = default;" << "\n"
                 << ind << "iterator &operator =(const Iter &other){" << "\n"
-                << ind << ind << "end = other;" << "\n"
-                << ind << ind << "++end;" << "\n"
+                << ind << ind << "place = other;" << "\n"
                 << ind << ind << "return *this;" << "\n"
-                << ind << "}" << "\n"
+                << ind << "}" << "\n\n"
                 << ind << "iterator &operator =(const iterator &other){" << "\n"
-                << ind << ind << "end = other.end;" << "\n"
+                << ind << ind << "place = other.place;" << "\n"
                 << ind << ind << "char_count = other.char_count, line_count = other.line_count;" << "\n"
-                << ind << ind << "value = other.value;" << "\n"
                 << ind << ind << "return *this;" << "\n"
-                << ind << "}" << "\n"
+                << ind << "}" << "\n\n"
                 << ind << "iterator &operator ++(){" << "\n"
-                << ind << ind << "if(*end == '\\n'){" << "\n"
+                << ind << ind << "if(*place == '\\n'){" << "\n"
                 << ind << ind << ind << "char_count = 0;" << "\n"
                 << ind << ind << ind << "++line_count;" << "\n"
                 << ind << ind << "} else{" << "\n"
                 << ind << ind << ind << "++char_count;" << "\n"
                 << ind << ind << "}" << "\n"
-                << ind << ind << "++end;" << "\n"
+                << ind << ind << "++place;" << "\n"
                 << ind << ind << "return *this;" << "\n"
-                << ind << "}" << "\n"
+                << ind << "}" << "\n\n"
+                << ind << "typename Iter::value_type &operator *() const{" << "\n"
+                << ind << ind << "return *place;\n"
+                << ind << "}" << "\n\n"
                 << ind << "bool operator ==(const Iter &other) const{" << "\n"
-                << ind << ind << "Iter last = end;" << "\n"
+                << ind << ind << "Iter last = place;" << "\n"
                 << ind << ind << "--last;" << "\n"
                 << ind << ind << "return last == other;" << "\n"
-                << ind << "}" << "\n"
+                << ind << "}" << "\n\n"
                 << ind << "bool operator ==(const iterator &other) const{" << "\n"
-                << ind << ind << "return end == other.end;" << "\n"
-                << ind << "}" << "\n"
+                << ind << ind << "return place == other.place;" << "\n"
+                << ind << "}" << "\n\n"
                 << ind << "template<class Other>" << "\n"
                 << ind << "bool operator !=(const Other &other) const{" << "\n"
                 << ind << ind << "return !(*this == other);" << "\n"
-                << ind << "}" << "\n"
-                << ind << "Iter end;" << "\n"
+                << ind << "}" << "\n\n"
+                << ind << "Iter place;" << "\n"
                 << ind << "std::size_t char_count, line_count;" << "\n"
-                << ind << "token value;" << "\n"
                 << "};" << "\n"
                 << "\n"
                 << "class lexer{" << "\n"
@@ -1461,7 +1460,7 @@ namespace paper_cutter{
             ){
                 os
                     << ind_0 << "template<class InputIter>\n"
-                    << ind_0 << "static std::pair<bool, iterator<InputIter>> reg_" << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
+                    << ind_0 << "static std::pair<bool, InputIter> reg_" << iter->ref_rule_name << "(InputIter first, InputIter last){\n"
                     << ind_0 << ind << "InputIter iter = first;\n"
                     << ind_0 << ind << "bool match = true;\n";
                 recursive_check_cache.clear();
@@ -1488,7 +1487,7 @@ namespace paper_cutter{
                 os
                     << ind_0 << ind << "result = reg_" << iter->ref_rule_name << "(iter, last);" << "\n"
                     << ind_0 << ind << "if(result.first){" << "\n"
-                    << ind_0 << ind << ind << "iter = result.second.end;" << "\n"
+                    << ind_0 << ind << ind << "iter = result.second.place;" << "\n"
                     << ind_0 << ind << ind << "return std::make_pair(token_" << iter->ref_rule_name << ", iter);\n"
                     << ind_0 << ind << "}\n";
             }
@@ -1499,23 +1498,23 @@ namespace paper_cutter{
             os
                 << ind_0 << "template<class InputIter, class InsertFunctor>" << "\n"
                 << ind_0 << "static std::pair<bool, iterator<InputIter>> tokenize(InputIter first, InputIter last, const InsertFunctor &f){" << "\n"
-                << ind_0 << ind << "InputIter iter = first;" << "\n"
+                << ind_0 << ind << "iterator<InputIter> iter = first, end = last;" << "\n"
                 << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;" << "\n"
-                << ind_0 << ind << "while(iter != last){"<< "\n";
+                << ind_0 << ind << "while(iter != end){"<< "\n";
             for(
                 std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
                 iter != end;
                 ++iter
             ){
                 os
-                    << ind_0 << ind << ind << "result = reg_"<< iter->ref_rule_name << "(iter, last);" << "\n"
+                    << ind_0 << ind << ind << "result = reg_"<< iter->ref_rule_name << "(iter, end);" << "\n"
                     << ind_0 << ind << ind << "if(result.first){" << "\n";
                 if(!iter->dispose_flag()){
                     os
                         << ind_0 << ind << ind << ind << "f(token_" << iter->ref_rule_name << ", iter, result.second);" << "\n";
                 }
                 os
-                    << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
+                    << ind_0 << ind << ind << ind << "iter = result.second.place;" << "\n"
                     << ind_0 << ind << ind << ind << "continue;\n"
                     << ind_0 << ind << ind << "}\n";
             }
