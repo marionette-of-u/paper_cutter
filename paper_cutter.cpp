@@ -1412,11 +1412,7 @@ namespace paper_cutter{
                 << ind << ind << "place(iter)," << "\n"
                 << ind << ind << "char_count(0), line_count(0)" << "\n"
                 << ind << "{}" << "\n\n"
-                << ind << "~iterator() = default;" << "\n"
-                << ind << "iterator &operator =(const Iter &other){" << "\n"
-                << ind << ind << "place = other;" << "\n"
-                << ind << ind << "return *this;" << "\n"
-                << ind << "}" << "\n\n"
+                << ind << "~iterator() = default;" << "\n\n"
                 << ind << "iterator &operator =(const iterator &other){" << "\n"
                 << ind << ind << "place = other.place;" << "\n"
                 << ind << ind << "char_count = other.char_count, line_count = other.line_count;" << "\n"
@@ -1434,11 +1430,6 @@ namespace paper_cutter{
                 << ind << "}" << "\n\n"
                 << ind << "typename Iter::value_type &operator *() const{" << "\n"
                 << ind << ind << "return *place;\n"
-                << ind << "}" << "\n\n"
-                << ind << "bool operator ==(const Iter &other) const{" << "\n"
-                << ind << ind << "Iter last = place;" << "\n"
-                << ind << ind << "--last;" << "\n"
-                << ind << ind << "return last == other;" << "\n"
                 << ind << "}" << "\n\n"
                 << ind << "bool operator ==(const iterator &other) const{" << "\n"
                 << ind << ind << "return place == other.place;" << "\n"
@@ -1476,8 +1467,8 @@ namespace paper_cutter{
             }
             os
                 << ind_0 << "template<class InputIter>\n"
-                << ind_0 << "static std::pair<token, InputIter> apply(InputIter first, InputIter last){\n"
-                << ind_0 << ind << "InputIter iter = first;\n"
+                << ind_0 << "static std::pair<token, iterator<InputIter>> apply(InputIter first, InputIter last){\n"
+                << ind_0 << ind << "iterator<InputIter> iter = first;\n"
                 << ind_0 << ind << "std::pair<bool, iterator<InputIter>> result;\n";
             for(
                 std::list<reg_data>::const_iterator iter = reg_data_list.begin(), end = reg_data_list.end(), dummy;
@@ -1487,7 +1478,7 @@ namespace paper_cutter{
                 os
                     << ind_0 << ind << "result = reg_" << iter->ref_rule_name << "(iter, last);" << "\n"
                     << ind_0 << ind << "if(result.first){" << "\n"
-                    << ind_0 << ind << ind << "iter = result.second.place;" << "\n"
+                    << ind_0 << ind << ind << "iter = result.second;" << "\n"
                     << ind_0 << ind << ind << "return std::make_pair(token_" << iter->ref_rule_name << ", iter);\n"
                     << ind_0 << ind << "}\n";
             }
@@ -1514,7 +1505,7 @@ namespace paper_cutter{
                         << ind_0 << ind << ind << ind << "f(token_" << iter->ref_rule_name << ", iter, result.second);" << "\n";
                 }
                 os
-                    << ind_0 << ind << ind << ind << "iter = result.second.place;" << "\n"
+                    << ind_0 << ind << ind << ind << "iter = result.second;" << "\n"
                     << ind_0 << ind << ind << ind << "continue;\n"
                     << ind_0 << ind << ind << "}\n";
             }
