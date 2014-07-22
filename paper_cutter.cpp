@@ -19,8 +19,6 @@
 #include <ctype.h>
 #include <cstdio>
 
-#define UTF8_ITERATOR_CHECK_FORM_IN_INC
-
 namespace paper_cutter{
     class regexp;
 }
@@ -1684,8 +1682,8 @@ namespace paper_cutter{
                     << ind << ind << ind << ind << ind << ind << "<< \" -> "" << \"\n"
                     << ind << ind << ind << ind << ind << ind << "<< static_cast<unsigned int>(c);" << "\n"
                     << ind << ind << ind << ind << ind << "throw utf8_exception(ss.str());" << "\n"
-                    << ind << ind << ind << ind << "}" << "\n"
                     << "#endif // UTF8_ITERATOR_CHECK_FORM_IN_REF" << "\n"
+                    << ind << ind << ind << ind << "}" << "\n"
                     << ind << ind << ind << ind << "str += c;" << "\n"
                     << ind << ind << ind << "}" << "\n"
                     << ind << ind << "}" << "\n"
@@ -1704,7 +1702,6 @@ namespace paper_cutter{
                     << ind << "Iter base() const{" << "\n"
                     << ind << ind << "return place;" << "\n"
                     << ind << "}" << "\n"
-                    << "};" << "\n"
                     << "\n";
             }
             os
