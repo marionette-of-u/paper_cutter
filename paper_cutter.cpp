@@ -664,9 +664,14 @@ namespace paper_cutter{
         }
 
         virtual void generate(std::ostream &os, const std::shared_ptr<const indent> &ind_0) const{
+            std::shared_ptr<const indent> ind = ind_0->clone(1);
             //os << ind_0 << "// eos\n";
             os
-                << ind_0 << "if(iter == last){ match = true; }else{ match = false; }\n";
+                << ind_0 << "if(iter == last){ match = false; }else{\n"
+                << ind_0 << ind << "InputIter iter_prime = iter;\n"
+                << ind_0 << ind << "++iter_prime;\n"
+                << ind_0 << ind << "match = iter_prime == last;\n"
+                << ind_0 << "}\n";
         }
     };
 
